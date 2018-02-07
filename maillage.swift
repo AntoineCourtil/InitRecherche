@@ -34,6 +34,11 @@ var header = "OFF\n# divers.off\n# divers\n\n"
 var listPtsByLine = [String]()
 var listPoints = ""
 
+var listTriangleByLine = [String]()
+var listTriangles = ""
+
+var nbListTriangle = 0
+
 
 if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
     do {
@@ -49,6 +54,7 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
         for pixelY in 0...(HEIGHT-1){
 
         	listPoints = ""
+        	listTriangles = ""
 
 	        for pixelX in 0...(WIDTH-1){
 
@@ -65,11 +71,15 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 //				print(dataArr[4])
 //				print(dataArr[5])
 
+
+
+				listPoints = listPoints+dataArr[0]+" "+dataArr[1]+" "+dataArr[2]+"\n"
+
 				
 				//Si le Point est valide
 				if(dataArr[5] == "1") {
 
-					listPoints = listPoints+dataArr[0]+" "+dataArr[1]+" "+dataArr[2]+"\n"
+					
 
 //					print("VALIDE")
 					
@@ -84,7 +94,7 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 							//Alors on créé un triangle
 //							print("TRIANGLE 1")
 
-							//outputText = outputText + "TRIANGLE1\n"
+							listTriangles = listTriangles+"3 "+String(getIdforXY(x:pixelX,y:pixelY))+" "+String(getIdforXY(x:pixelX+1,y:pixelY))+" "+String(getIdforXY(x:pixelX,y:pixelY+1))+"\n"
 						}
 					}
 
@@ -99,6 +109,9 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 
 							//Alors on créé un triangle
 //							print("TRIANGLE 2")
+
+							listTriangles = listTriangles+"3 "+String(getIdforXY(x:pixelX,y:pixelY))+" "+String(getIdforXY(x:pixelX-1,y:pixelY))+" "+String(getIdforXY(x:pixelX,y:pixelY-1))+"\n"
+
 						}
 					}
 
@@ -109,6 +122,9 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 
 
 			listPtsByLine.append(listPoints)
+			listTriangleByLine.append(listTriangles)
+			nbListTriangle = nbListTriangle + 1
+
 
 			//print("Colonne : ", pixelY)
 		}
@@ -120,6 +136,12 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 
 		for pixelY in 0...(HEIGHT-1){
 			outputText = outputText+listPtsByLine[pixelY]
+		}
+
+		outputText = outputText+"\n"
+
+		for i in 0...(nbListTriangle-1){
+			outputText = outputText+listTriangleByLine[i]
 		}
 
 		let outputData = Data(outputText.utf8)
