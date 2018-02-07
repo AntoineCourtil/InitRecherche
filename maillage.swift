@@ -21,9 +21,18 @@ func getIdforXY(x: Int, y: Int) -> Int {
 
 
 
+let fileName = "output.off"
+let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+print(url)
 
 
 
+
+var header = "OFF\n# divers.off\n# divers\n\n"
+
+
+var listPtsByLine = [String]()
+var listPoints = ""
 
 
 if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
@@ -37,8 +46,13 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 
 
 
-        for pixelX in 0...(WIDTH-1){
-	        for pixelY in 0...(HEIGHT-1){
+        for pixelY in 0...(HEIGHT-1){
+
+        	listPoints = ""
+
+	        for pixelX in 0...(WIDTH-1){
+
+
 
 	        	//On récupère la ligne du pixel dans le tableau
 				let dataArr = line[ getIdforXY(x:pixelX, y:pixelY) ].components(separatedBy: " ")
@@ -54,6 +68,9 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 				
 				//Si le Point est valide
 				if(dataArr[5] == "1") {
+
+					listPoints = listPoints+dataArr[0]+" "+dataArr[1]+" "+dataArr[2]+"\n"
+
 //					print("VALIDE")
 					
 					//Si les voisins de droite et d'en bas sont dans l'image
@@ -65,7 +82,9 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 						if((dataArrRIGHT[5] == "1") && (dataArrDOWN[5] == "1")){
 
 							//Alors on créé un triangle
-							print("TRIANGLE 1")
+//							print("TRIANGLE 1")
+
+							//outputText = outputText + "TRIANGLE1\n"
 						}
 					}
 
@@ -79,18 +98,36 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 						if((dataArrLEFT[5] == "1") && (dataArrUP[5] == "1")){
 
 							//Alors on créé un triangle
-							print("TRIANGLE 2")
+//							print("TRIANGLE 2")
 						}
 					}
 
 				}
 
 			}
+
+
+
+			listPtsByLine.append(listPoints)
+
+			//print("Colonne : ", pixelY)
 		}
 
 
+		//print(listPtsByLine)
 
+		var outputText = header
 
+		for pixelY in 0...(HEIGHT-1){
+			outputText = outputText+listPtsByLine[pixelY]
+		}
+
+		let outputData = Data(outputText.utf8)
+		do {
+		    try outputData.write(to: url, options: .atomic)
+		} catch {
+		    print(error)
+		}
 
 
 
