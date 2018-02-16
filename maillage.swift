@@ -21,12 +21,13 @@ func getIdforXY(x: Int, y: Int) -> Int {
 
 
 
-let fileName = "output.off"
-let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+let fileName = "output2.off"
+let url = URL(fileURLWithPath: "").appendingPathComponent(fileName)
 print(url)
 
 
-
+var cptPoints = 0
+var cptTriangle = 0
 
 var header = "OFF\n# divers.off\n# divers\n\n"
 
@@ -40,7 +41,7 @@ var listTriangles = ""
 var nbListTriangle = 0
 
 
-if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
+if let path = Bundle.main.path(forResource: "res/livres", ofType: "sdp") {
     do {
         
     	//Tout le fichier dans une string file
@@ -58,7 +59,7 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 
 	        for pixelX in 0...(WIDTH-1){
 
-
+                cptPoints = cptPoints+1
 
 	        	//On récupère la ligne du pixel dans le tableau
 				let dataArr = line[ getIdforXY(x:pixelX, y:pixelY) ].components(separatedBy: " ")
@@ -94,6 +95,8 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 							//Alors on créé un triangle
 //							print("TRIANGLE 1")
 
+                            cptTriangle = cptTriangle+1
+
 							listTriangles = listTriangles+"3 "+String(getIdforXY(x:pixelX,y:pixelY))+" "+String(getIdforXY(x:pixelX+1,y:pixelY))+" "+String(getIdforXY(x:pixelX,y:pixelY+1))+"\n"
 						}
 					}
@@ -109,6 +112,8 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 
 							//Alors on créé un triangle
 //							print("TRIANGLE 2")
+
+                            cptTriangle = cptTriangle+1
 
 							listTriangles = listTriangles+"3 "+String(getIdforXY(x:pixelX,y:pixelY))+" "+String(getIdforXY(x:pixelX-1,y:pixelY))+" "+String(getIdforXY(x:pixelX,y:pixelY-1))+"\n"
 
@@ -132,6 +137,8 @@ if let path = Bundle.main.path(forResource: "res/divers", ofType: "sdp") {
 
 		//print(listPtsByLine)
 
+		header=header+"\(cptPoints) \(cptTriangle) 0\n\n"
+		
 		var outputText = header
 
 		for pixelY in 0...(HEIGHT-1){
