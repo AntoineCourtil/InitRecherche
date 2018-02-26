@@ -21,9 +21,37 @@ func getIdforXY(x: Int, y: Int) -> Int {
 
 
 
-let fileName = "output2.off"
-let url = URL(fileURLWithPath: "").appendingPathComponent(fileName)
-print(url)
+/**
+* Read fileName
+**/
+
+var fileName = ""
+
+if CommandLine.argc < 2 {
+//    print("No arguments are passed.")
+    let firstArgument = CommandLine.arguments[0]
+    print("Usage : \(firstArgument) fileName")
+} else {
+    let arguments = CommandLine.arguments
+    var cpt = 0
+    for argument in arguments {
+        //print(argument)
+        if(cpt == 1){
+        	fileName = argument
+        }
+        cpt += 1
+    }
+}
+
+//print("fileName : \(fileName)")
+
+/**
+* Init var & buffers
+**/
+
+
+let outputFileName = "out/\(fileName).off"
+let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
 
 
 var cptPoints = 0
@@ -41,7 +69,12 @@ var listTriangles = ""
 var nbListTriangle = 0
 
 
-if let path = Bundle.main.path(forResource: "res/livres", ofType: "sdp") {
+
+/**
+* Processing
+**/
+
+if let path = Bundle.main.path(forResource: "res/\(fileName)", ofType: "sdp") {
     do {
         
     	//Tout le fichier dans une string file
@@ -135,6 +168,12 @@ if let path = Bundle.main.path(forResource: "res/livres", ofType: "sdp") {
 		}
 
 
+
+
+		/**
+		* Create resultFile in a String var
+		**/
+
 		//print(listPtsByLine)
 
 		header=header+"\(cptPoints) \(cptTriangle) 0\n\n"
@@ -151,12 +190,20 @@ if let path = Bundle.main.path(forResource: "res/livres", ofType: "sdp") {
 			outputText = outputText+listTriangleByLine[i]
 		}
 
+
+		/**
+		* Write result in .off file
+		**/
+
 		let outputData = Data(outputText.utf8)
 		do {
 		    try outputData.write(to: url, options: .atomic)
 		} catch {
 		    print(error)
 		}
+
+
+		print(url)
 
 
 
