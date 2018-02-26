@@ -52,7 +52,7 @@ if CommandLine.argc < 3 {
 }
 
 //print("fileName : \(fileName)")
-print("numberOfFiles : \(numberOfFiles)")
+//print("numberOfFiles : \(numberOfFiles)")
 
 
 
