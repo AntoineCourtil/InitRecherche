@@ -57,7 +57,7 @@ let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
 var cptPoints = 0
 var cptTriangle = 0
 
-var header = "OFF\n# divers.off\n# divers\n\n"
+var header = "OFF\n# divers.off\n# \(fileName)\n\n"
 
 
 var listPtsByLine = [String]()

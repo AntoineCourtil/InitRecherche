@@ -78,7 +78,7 @@ for nbFile in 1...numberOfFiles {
 	var cptPoints = 0
 	var cptTriangle = 0
 
-	var header = "OFF\n# divers.off\n# divers\n\n"
+	var header = "OFF\n# divers.off\n# \(fileName)\(nbFile)\n\n"
 
 
 	var listPtsByLine = [String]()
