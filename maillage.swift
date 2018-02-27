@@ -109,9 +109,11 @@ if let path = Bundle.main.path(forResource: "res/\(fileName)", ofType: "sdp") {
 
 				listPoints = listPoints+dataArr[0]+" "+dataArr[1]+" "+dataArr[2]+"\n"
 
+				let hauteur : Double = NSString(string: dataArr[2]).doubleValue
+				
 				
 				//Si le Point est valide
-				if(dataArr[5] == "1") {
+				if(dataArr[5] == "1" && hauteur>0 && hauteur<0.3) {
 
 					
 
