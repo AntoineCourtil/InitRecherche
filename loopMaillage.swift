@@ -26,12 +26,15 @@ func getIdforXY(x: Int, y: Int) -> Int {
 **/
 
 var fileName = ""
-var numberOfFiles = 1;
+var numberOfFiles = 1
 
-if CommandLine.argc < 3 {
+var outputFileisOFF = false
+
+if CommandLine.argc < 4 {
 //    print("No arguments are passed.")
     let firstArgument = CommandLine.arguments[0]
-    print("Usage : \(firstArgument) fileName numberOfFiles")
+    print("Usage : \(firstArgument) fileName numberOfFiles csv||off")
+    print("Example : \(firstArgument) loop/result 9 off")
 } else {
     let arguments = CommandLine.arguments
     var cpt = 0
@@ -45,6 +48,11 @@ if CommandLine.argc < 3 {
 
 			if(i>1){
 				numberOfFiles = i
+			}
+        }
+        if(cpt == 3){
+			if(argument=="off"){
+				outputFileisOFF = true
 			}
         }
         cpt += 1
@@ -71,8 +79,7 @@ for nbFile in 1...numberOfFiles {
 	**/
 
 
-	let outputFileName = "out/\(fileName)\(nbFile).off"
-	let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
+	
 
 
 	var cptPoints = 0
@@ -117,12 +124,16 @@ for nbFile in 1...numberOfFiles {
 		        	//On récupère la ligne du pixel dans le tableau
 					let dataArr = line[ getIdforXY(x:pixelX, y:pixelY) ].components(separatedBy: " ")
 
-
-					listPoints = listPoints+dataArr[0]+" "+dataArr[1]+" "+dataArr[2]+"\n"
+					if(outputFileisOFF){
+						listPoints = listPoints+dataArr[0]+" "+dataArr[1]+" "+dataArr[2]+"\n"
+					} else{
+						listPoints = listPoints+dataArr[0]+";"+dataArr[1]+";"+dataArr[2]+";"+dataArr[3]+";"+dataArr[4]+";"+dataArr[5]+"\n"
+					}
+					
 
 					
 					//Si le Point est valide
-					if(dataArr[5] == "1") {
+					if(dataArr[5] == "1" && outputFileisOFF) {
 
 						
 
@@ -141,7 +152,8 @@ for nbFile in 1...numberOfFiles {
 
 	                            cptTriangle = cptTriangle+1
 
-								listTriangles = listTriangles+"3 "+String(getIdforXY(x:pixelX,y:pixelY))+" "+String(getIdforXY(x:pixelX+1,y:pixelY))+" "+String(getIdforXY(x:pixelX,y:pixelY+1))+"\n"
+	                            listTriangles = listTriangles+"3 "+String(getIdforXY(x:pixelX,y:pixelY))+" "+String(getIdforXY(x:pixelX+1,y:pixelY))+" "+String(getIdforXY(x:pixelX,y:pixelY+1))+"\n"
+								
 							}
 						}
 
@@ -187,24 +199,39 @@ for nbFile in 1...numberOfFiles {
 
 			//print(listPtsByLine)
 
-			header=header+"\(cptPoints) \(cptTriangle) 0\n\n"
-			
-			var outputText = header
+			var outputText = ""
+
+			if(outputFileisOFF){
+				header=header+"\(cptPoints) \(cptTriangle) 0\n\n"
+				
+				outputText = header
+			}
 
 			for pixelY in 0...(HEIGHT-1){
 				outputText = outputText+listPtsByLine[pixelY]
 			}
 
-			outputText = outputText+"\n"
 
-			for i in 0...(nbListTriangle-1){
-				outputText = outputText+listTriangleByLine[i]
+			if(outputFileisOFF){
+				outputText = outputText+"\n"
+
+				for i in 0...(nbListTriangle-1){
+					outputText = outputText+listTriangleByLine[i]
+				}
 			}
 
 
 			/**
 			* Write result in .off file
 			**/
+
+			var outputFileName = "csv/\(fileName)\(nbFile).csv"
+
+			if(outputFileisOFF) {
+				outputFileName = "out/\(fileName)\(nbFile).off"
+			}
+
+			let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
 
 			let outputData = Data(outputText.utf8)
 			do {

@@ -88,10 +88,14 @@ func getlistPtsByLine(fileName: String, nbFile:Int) -> [String] {
 var fileName = ""
 var numberOfFiles = 1;
 
-if CommandLine.argc < 3 {
+var outputFileisSDP = false
+
+
+if CommandLine.argc < 4 {
 //    print("No arguments are passed.")
     let firstArgument = CommandLine.arguments[0]
-    print("Usage : \(firstArgument) fileName numberOfFiles")
+    print("Usage : \(firstArgument) fileName numberOfFiles csv||sdp")
+    print("Example : \(firstArgument) loop/result 9 sdp")
 } else {
     let arguments = CommandLine.arguments
     var cpt = 0
@@ -105,6 +109,11 @@ if CommandLine.argc < 3 {
 
 			if(i>1){
 				numberOfFiles = i
+			}
+        }
+        if(cpt == 3){
+			if(argument=="sdp"){
+				outputFileisSDP = true
 			}
         }
         cpt += 1
@@ -214,12 +223,23 @@ for pixelY in 0...(HEIGHT-1){
 			medianne = tabPixelZ.count / 2
 			valPixelZ = tabPixelZ[medianne]
 
-			medianneLine = "\(valPixelX) \(valPixelY) \(valPixelZ) \(pixelY) \(pixelX) 1\n"
+
+			if(outputFileisSDP){
+				medianneLine = "\(valPixelX) \(valPixelY) \(valPixelZ) \(pixelY) \(pixelX) 1\n"
 			//medianneLine = "\(tabPixelX[0]) \(tabPixelY[0]) \(tabPixelZ[0]) \(pixelY) \(pixelX) 1\n"
+			} else{
+				medianneLine = "\(valPixelX);\(valPixelY);\(valPixelZ);\(pixelY);\(pixelX);1\n"
+			//medianneLine = "\(tabPixelX[0]);\(tabPixelY[0]);\(tabPixelZ[0]);\(pixelY);(pixelX);1\n"
+
+			}
 
 		} else{
 
-			medianneLine = "0 0 0 \(pixelY) \(pixelX) 0\n"
+			if(outputFileisSDP){
+				medianneLine = "0 0 0 \(pixelY) \(pixelX) 0\n"
+			} else {
+				medianneLine = "0;0;0;\(pixelY);\(pixelX);0\n"				
+			}
 
 		}
 
@@ -253,7 +273,12 @@ for pixelY in 0...(HEIGHT-1){
 
 //Ecriture nouveau fichier medianne.sdp
 
-let outputFileName = "res/\(fileName)_median\(numberOfFiles).sdp"
+var outputFileName = "csv/\(fileName)_median\(numberOfFiles).csv"
+
+if(outputFileisSDP) {
+	outputFileName = "res/\(fileName)_median\(numberOfFiles).sdp"
+}
+
 let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
 
 
