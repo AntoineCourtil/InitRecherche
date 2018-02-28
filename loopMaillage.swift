@@ -36,7 +36,7 @@ if CommandLine.argc < 3 {
     let arguments = CommandLine.arguments
     var cpt = 0
     for argument in arguments {
-        print(argument)
+        //print(argument)
         if(cpt == 1){
         	fileName = argument
         }

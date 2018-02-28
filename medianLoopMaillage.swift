@@ -120,6 +120,7 @@ var listPtsByFile = [[String]]()
 var listPtsByLine = [String]()
 var listPoints = ""
 
+var pourcentage = -10
 
 
 /**
@@ -131,12 +132,15 @@ for nbFile in 1...numberOfFiles {
 	//Lecture des fichiers .off stockés en tableau de lignes
 
 	listPtsByFile.append( getlistPtsByLine(fileName: fileName, nbFile:nbFile) )	
+	print("\(fileName)\(nbFile) captured")
 
 	//print(listPtsByFile.count)
 
 }
 
 //print(listPtsByFile[0][0].count)
+
+print("\n Calculating..")
 
 
 for pixelY in 0...(HEIGHT-1){
@@ -224,6 +228,11 @@ for pixelY in 0...(HEIGHT-1){
 		listPoints = listPoints+medianneLine
 
 
+	}
+
+	if(pixelY%((HEIGHT-1)/10) == 0){
+		pourcentage += 10
+		print("\( pourcentage )%")
 	}
 
 	listPtsByLine.append(listPoints)

@@ -68,7 +68,7 @@ var listTriangles = ""
 
 var nbListTriangle = 0
 
-
+var pourcentage = -10
 
 /**
 * Processing
@@ -159,7 +159,10 @@ if let path = Bundle.main.path(forResource: "res/\(fileName)", ofType: "sdp") {
 
 			}
 
-
+			if(pixelY%((HEIGHT-1)/10) == 0){
+				pourcentage += 10
+				print("\( pourcentage )%")
+			}
 
 			listPtsByLine.append(listPoints)
 			listTriangleByLine.append(listTriangles)
