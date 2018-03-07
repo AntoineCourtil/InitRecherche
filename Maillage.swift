@@ -17,6 +17,143 @@ class Maillage {
 		return (x + (y*WIDTH) )
 	}
 
+ /**
+ * Analyse un fichier SDP de nuage de points
+ * et récupère un tableau de tableau de coordonnées
+ * composé des tableaux de chaque ligne du fichier
+ *
+ * prend seulement en compte les pixels valides
+ *
+ */
+	func parseSdp(stringFile: String) -> [[Coordinate]] {
+		var coordinates = [Coordinate]()
+		var coordinatesByLine = [[Coordinate]]()
+		//Chaque ligne dans un tableau line
+		let line = file.components(separatedBy: .newlines)
+		for pixelY in 0...(HEIGHT-1) {
+			var listPoints = ""
+			for pixelX in 0...(WIDTH-1) {
+				cptPoints = cptPoints+1
+				//On récupère la ligne du pixel dans le tableau
+				var dataArr = line[ getIdforXY(x:pixelX, y:pixelY) ].components(separatedBy: " ")
+				if(dataArr[5] == "1") {
+					coordinates.append(new Coordinate(dataArr[0], dataArr[1], dataArr[2], dataArr[3], dataArr[4]))
+				}
+			}
+			coordinatesByLine.append(coordinates)
+		}
+		return coordinatesByLine;
+	}
+
+ /**
+ * Récupère la liste des coordonnées
+ * pour chaque fichier
+ * @type {[type]}
+ */
+	func getlistPtsByFile(fileName: String, nbFile:Int) {
+		var listPtsByFile= [[[Coordinate]]]()
+		for nbFile in 1...numberOfFiles {
+			if let path = Bundle.main.path(forResource: "res/\(fileName)\(nbFile)", ofType: "sdp") {
+				do {
+						//Tout le fichier dans une string file
+		        let file = try String(contentsOfFile: path, encoding: .utf8)
+						listPtsByFile.append(parseSdp(file))
+				} catch {
+					print(error)
+				}
+			}
+			print("\(fileName)\(nbFile) captured")
+		}
+		return listPtsByFile
+	}
+
+ /**
+ * Exporte un tableau de coordonnées ordonnées par ligne coordinates
+ * dans un fichier de nom fileName et d'extension type
+ *
+ */
+	func exportCoordinates(fileName:String, coordinates:[[Coordinate]], type:String) {
+		var listPtsByLine = [String]()
+		var listPoints = ""
+		var header = "OFF\n# \(fileName) off\n# \(fileName)\(nbFile)\n\n"
+		for currentLine in 0...(HEIGHT-1) {
+			for currentColumn in 0...(WIDTH-1) {
+				var coordinate = coordinates[currentColumn][currentLine]
+				if(type == "off") {
+					listPoints+= "\(coordinate.X) \(coordinate.Y) \(coordinate.Z) \(coordinate.hauteur) \(coordinate.largeur) 1"
+				} else {
+					listPoints+= "\(coordinate.X);\(coordinate.Y);\(coordinate.Z);\(coordinate.hauteur);\(coordinate.largeur);1"
+				}
+			}
+		}
+	}
+
+  /**
+   * calcule un nuage de point
+   * médian par rapport à une liste de fichiers
+   *
+   * (permet de mesurer la précision sur des captures
+   * statiques d'un même objet)
+   *
+   */
+	func calculerMedianne(fileName:String, nbFile:Int) {
+		var listPtsByFile = self.getlistPtsByFile(fileName:fileName, nbFile:nbFile)
+		var medianneCoordinatesFile = [[Coordinate]]()
+		for currentLine in 0...(HEIGHT-1) {
+			var medianneLine = [Coordinate]()
+			var lineByFile = [[Coordinate]]()
+			for nbFile in 0...numberOfFiles-1 {
+				var line = listPtsByFile[nbFile][currentLine]
+				lineByFile.append(line)
+			}
+
+			for currentColumn in 0...(WIDTH-1) {
+				//Init var du pixel
+				var tabPixelX = [Double]()
+				var valPixelX = UNDEFINED
+				var tabPixelY = [Double]()
+				var valPixelY = UNDEFINED
+				var tabPixelZ = [Double]()
+				var valPixelZ = UNDEFINED
+				var medianne = 0
+				var mediannePointCoordinate = UNDEFINED
+
+				// lecture pixel par pixel par fichier
+				for nbFile in 0...numberOfFiles-1 {
+					var currentFilePixel = lineByFile[nbFile][currentColumn]
+					tabPixelX.append(currentFilePixel.X)
+					tabPixelY.append(currentFilePixel.Y)
+					tabPixelZ.append(currentFilePixel.Z)
+				}
+
+				//Traitement valeur medianne
+				if(tabPixelX.count > 0 && tabPixelY.count>0 && tabPixelZ.count>0) {
+					tabPixelX.sort()
+					tabPixelY.sort()
+					tabPixelZ.sort()
+					medianne= tabPixelX.count / 2
+					valPixelX = tabPixelX[medianne]
+					medianne = tabPixelY.count / 2
+					valPixelY = tabPixelY[medianne]
+					medianne = tabPixelZ.count / 2
+					valPixelY = tabPixelZ[medianne]
+
+					mediannePointCoordinate = new Coordinate(valPixelX, valPixelY, valPixelZ, currentLine, currentColumn))
+
+				} else {
+					mediannePointCoordinate = new Coordinate(0,0,0,currentLine, currentColumn)
+				}
+				medianneLine.append(mediannePointCoordinate)
+			}
+
+			if(pixelY%((HEIGHT-1)/10) == 0){
+				pourcentage += 10
+				print("\( pourcentage )%")
+			}
+			medianneCoordinatesFile.append(medianneLine)
+		}
+	}
+
 	/*
 	* récupère un fichier SDP et effectue
 	* un maillage en format OFF
@@ -89,15 +226,21 @@ class Maillage {
 					}
 				}
 			}
-
 			if(pixelY%((HEIGHT-1)/10) == 0){
 				pourcentage += 10
-				print("\( pourcentage )%")
+				if(pourcentage != 100) {
+					print("\( pourcentage )%\r", terminator:"")
+					fflush(stdout)
+				} else {
+					print("\( pourcentage )%\r\n")
+				}
+
 			}
 			listPtsByLine.append(listPoints)
 			listTriangleByLine.append(listTriangles)
 			nbListTriangle = nbListTriangle + 1
 		}
+
 
 		var outputText = ""
 		if(typeExport=="off") {
@@ -120,7 +263,7 @@ class Maillage {
 
 	/*
 	* Convertis une capture depuis Camera True-Depth
-	* sous format SDP vers le format OFF
+	* sous format SDP vers le format précisé (type)
 	* et effectue un maillage triangle
 	*
 	*/
@@ -140,24 +283,29 @@ class Maillage {
 				} catch {
 					print(error)
 				}
-				print(url)
+				//print(url)
 			} catch {
 				print(error)
 				print("res/\(fileName) n'est pas un fichier SDP.")
 			}
 		}
 	}
-
+	/**
+	 * Convertis les fichiers commençant par la valeur de
+	 * fileBaseName (de 1 jusqu'à numberOfFiles) dans le type voulu
+	 * avec un maillage triangle
+	 *
+	 * @type {[type]}
+	 */
 	func loopSdpMaillageToType(fileBaseName: String, numberOfFiles: Int, type: String) {
 			if(!fileBaseName.isEmpty && numberOfFiles>0 && (type=="off" || type=="csv")) {
 				for nbFile in 1...numberOfFiles {
 					if let path = Bundle.main.path(forResource: "res/\(fileName)\(nbFile)", ofType: "sdp") {
 							do {
-								var outputFileName = "csv/\(fileName)\(nbFile).csv"
-								if(type == "off") {
-									outputFileName = "out2/\(fileName)\(nbFile).off"
-								}
-								print("Generating [\(fileName)\(nbFile)]")
+								var dir = "csv"
+								if(type == "off") { dir = "out"}
+								var outputFileName = "\(dir)/\(fileName)\(nbFile).\(type)"
+								print("Generating [\(outputFileName)]")
 								let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
 								let file = try String(contentsOfFile: path, encoding: .utf8)
 								let maillage = self.maillage(stringFile:file, fileName:"res/\(fileName)\(nbFile)", typeExport:type)
@@ -165,9 +313,8 @@ class Maillage {
 								do {
 								    try outputData.write(to: url, options: .atomic)
 								} catch {
-								    print(error)
+								    print("error: \(error)")
 								}
-								print(url)
 							} catch {
 								print(error)
 								print("res/\(fileName) n'est pas un fichier SDP.")

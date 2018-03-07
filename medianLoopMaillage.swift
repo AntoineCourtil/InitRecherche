@@ -28,7 +28,7 @@ func getlistPtsByLine(fileName: String, nbFile:Int) -> [String] {
 
 	if let path = Bundle.main.path(forResource: "res/\(fileName)\(nbFile)", ofType: "sdp") {
 	    do {
-	        
+
 	    	//Tout le fichier dans une string file
 	        let file = try String(contentsOfFile: path, encoding: .utf8)
 
@@ -140,7 +140,7 @@ for nbFile in 1...numberOfFiles {
 
 	//Lecture des fichiers .off stockés en tableau de lignes
 
-	listPtsByFile.append( getlistPtsByLine(fileName: fileName, nbFile:nbFile) )	
+	listPtsByFile.append( getlistPtsByLine(fileName: fileName, nbFile:nbFile) )
 	print("\(fileName)\(nbFile) captured")
 
 	//print(listPtsByFile.count)
@@ -172,13 +172,13 @@ for pixelY in 0...(HEIGHT-1){
 	for pixelX in 0...(WIDTH-1){
 
 		//Init var du pixel
-		var tabPixelX = [Double]() 
+		var tabPixelX = [Double]()
 		var valPixelX = UNDEFINED
 
-		var tabPixelY = [Double]() 
+		var tabPixelY = [Double]()
 		var valPixelY = UNDEFINED
 
-		var tabPixelZ = [Double]() 
+		var tabPixelZ = [Double]()
 		var valPixelZ = UNDEFINED
 
 		var medianne = 0
@@ -191,7 +191,7 @@ for pixelY in 0...(HEIGHT-1){
 
 			let pixel = lineByFile[nbFile][pixelX].components(separatedBy: " ")
 
-			
+
 
 			//Si le pixel est valide, alors on le prend en compte
 			if(pixel[3] == "1"){
@@ -238,7 +238,7 @@ for pixelY in 0...(HEIGHT-1){
 			if(outputFileisSDP){
 				medianneLine = "0 0 0 \(pixelY) \(pixelX) 0\n"
 			} else {
-				medianneLine = "0;0;0;\(pixelY);\(pixelX);0\n"				
+				medianneLine = "0;0;0;\(pixelY);\(pixelX);0\n"
 			}
 
 		}
@@ -249,17 +249,12 @@ for pixelY in 0...(HEIGHT-1){
 
 
 	}
-
 	if(pixelY%((HEIGHT-1)/10) == 0){
 		pourcentage += 10
 		print("\( pourcentage )%")
 	}
-
 	listPtsByLine.append(listPoints)
-
 }
-
-
 //Calcul outputText en une seul var String
 var outputText = ""
 
