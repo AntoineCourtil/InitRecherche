@@ -1,0 +1,133 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "Coordinate"
+provides-nominal:
+- "13InitRecherche10CoordinateC"
+provides-member:
+- ["13InitRecherche10CoordinateC", ""]
+depends-top-level:
+- "AssignmentPrecedence"
+- "Coordinate"
+- "Double"
+- "Int"
+- !private "NSString"
+- "String"
+depends-member:
+- !private ["s13BinaryIntegerP", "init"]
+- !private ["s7CVarArgP", "init"]
+- !private ["s10ComparableP", "init"]
+- ["13InitRecherche10CoordinateC", "Double"]
+- ["13InitRecherche10CoordinateC", "Int"]
+- !private ["13InitRecherche10CoordinateC", "NSString"]
+- ["13InitRecherche10CoordinateC", "String"]
+- ["13InitRecherche10CoordinateC", "X"]
+- ["13InitRecherche10CoordinateC", "Y"]
+- ["13InitRecherche10CoordinateC", "Z"]
+- ["13InitRecherche10CoordinateC", "deinit"]
+- ["13InitRecherche10CoordinateC", "hauteur"]
+- ["13InitRecherche10CoordinateC", "init"]
+- ["13InitRecherche10CoordinateC", "largeur"]
+- !private ["s28CustomDebugStringConvertibleP", "doubleValue"]
+- !private ["s28CustomDebugStringConvertibleP", "init"]
+- !private ["s29CustomPlaygroundQuickLookableP", "init"]
+- !private ["s17CustomReflectableP", "init"]
+- !private ["s23CustomStringConvertibleP", "doubleValue"]
+- !private ["s23CustomStringConvertibleP", "init"]
+- !private ["s9DecodableP", "init"]
+- !private ["s9EncodableP", "init"]
+- !private ["s9EquatableP", "doubleValue"]
+- !private ["s9EquatableP", "init"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "doubleValue"]
+- !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
+- !private ["s27ExpressibleByIntegerLiteralP", "init"]
+- !private ["s26ExpressibleByStringLiteralP", "doubleValue"]
+- !private ["s26ExpressibleByStringLiteralP", "init"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "doubleValue"]
+- !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
+- !private ["s17FixedWidthIntegerP", "init"]
+- !private ["s8HashableP", "doubleValue"]
+- !private ["s8HashableP", "init"]
+- !private ["Si", "init"]
+- !private ["s25LosslessStringConvertibleP", "init"]
+- !private ["s10MirrorPathP", "init"]
+- !private ["10Foundation8NSCodingP", "doubleValue"]
+- !private ["10Foundation8NSCodingP", "init"]
+- !private ["10Foundation9NSCopyingP", "doubleValue"]
+- !private ["10Foundation9NSCopyingP", "init"]
+- !private ["10Foundation16NSMutableCopyingP", "doubleValue"]
+- !private ["10Foundation16NSMutableCopyingP", "init"]
+- !private ["10Foundation8NSObjectC", "doubleValue"]
+- !private ["10Foundation8NSObjectC", "init"]
+- !private ["10Foundation16NSObjectProtocolP", "doubleValue"]
+- !private ["10Foundation16NSObjectProtocolP", "init"]
+- !private ["10Foundation14NSSecureCodingP", "doubleValue"]
+- !private ["10Foundation14NSSecureCodingP", "init"]
+- !private ["10Foundation8NSStringC", "doubleValue"]
+- !private ["10Foundation8NSStringC", "init"]
+- !private ["s7NumericP", "init"]
+- !private ["s13SignedIntegerP", "init"]
+- !private ["s13SignedNumericP", "init"]
+- !private ["s10StrideableP", "init"]
+- !private ["s18_BitwiseOperationsP", "init"]
+- !private ["10Foundation13_CFBridgeableP", "doubleValue"]
+- !private ["10Foundation13_CFBridgeableP", "init"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "init"]
+- !private ["10Foundation17_ObjectBridgeableP", "init"]
+- !private ["10Foundation21_ObjectTypeBridgeableP", "init"]
+- !private ["s11_StrideableP", "init"]
+- !private ["10Foundation17_StructBridgeableP", "doubleValue"]
+- !private ["10Foundation17_StructBridgeableP", "init"]
+- !private ["10Foundation21_StructTypeBridgeableP", "doubleValue"]
+- !private ["10Foundation21_StructTypeBridgeableP", "init"]
+- !private ["10Foundation16_SwiftBridgeableP", "doubleValue"]
+- !private ["10Foundation16_SwiftBridgeableP", "init"]
+depends-nominal:
+- !private "s13BinaryIntegerP"
+- !private "s7CVarArgP"
+- !private "s10ComparableP"
+- "13InitRecherche10CoordinateC"
+- !private "s28CustomDebugStringConvertibleP"
+- !private "s29CustomPlaygroundQuickLookableP"
+- !private "s17CustomReflectableP"
+- !private "s23CustomStringConvertibleP"
+- !private "s9DecodableP"
+- !private "s9EncodableP"
+- !private "s9EquatableP"
+- !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s27ExpressibleByIntegerLiteralP"
+- !private "s26ExpressibleByStringLiteralP"
+- !private "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "s17FixedWidthIntegerP"
+- !private "s8HashableP"
+- !private "Si"
+- !private "s25LosslessStringConvertibleP"
+- !private "s10MirrorPathP"
+- !private "10Foundation8NSCodingP"
+- !private "10Foundation9NSCopyingP"
+- !private "10Foundation16NSMutableCopyingP"
+- !private "10Foundation8NSObjectC"
+- !private "10Foundation16NSObjectProtocolP"
+- !private "10Foundation14NSSecureCodingP"
+- !private "10Foundation8NSStringC"
+- !private "s7NumericP"
+- !private "s13SignedIntegerP"
+- !private "s13SignedNumericP"
+- !private "s10StrideableP"
+- !private "s18_BitwiseOperationsP"
+- !private "10Foundation13_CFBridgeableP"
+- !private "s35_ExpressibleByBuiltinIntegerLiteralP"
+- !private "10Foundation17_ObjectBridgeableP"
+- !private "10Foundation21_ObjectTypeBridgeableP"
+- !private "s11_StrideableP"
+- !private "10Foundation17_StructBridgeableP"
+- !private "10Foundation21_StructTypeBridgeableP"
+- !private "10Foundation16_SwiftBridgeableP"
+depends-dynamic-lookup:
+depends-external:
+- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
+interface-hash: "6e5dc0e75f0a473a68716a218f5597c1"
