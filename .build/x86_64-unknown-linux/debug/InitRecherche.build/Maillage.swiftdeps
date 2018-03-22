@@ -43,9 +43,6 @@ depends-top-level:
 - !private "||"
 - !private "~="
 depends-member:
-- !private ["Sa", "X"]
-- !private ["Sa", "Y"]
-- !private ["Sa", "Z"]
 - !private ["Sa", "append"]
 - !private ["Sa", "count"]
 - !private ["Sa", "init"]
@@ -71,6 +68,7 @@ depends-member:
 - !private ["Sb", "_getBuiltinLogicValue"]
 - !private ["10Foundation6BundleC", "main"]
 - !private ["10Foundation6BundleC", "path"]
+- !private ["s7CVarArgP", "_getBuiltinLogicValue"]
 - !private ["10Foundation12CharacterSetV", "newlines"]
 - !private ["s10CollectionP", "X"]
 - !private ["s10CollectionP", "Y"]
@@ -151,9 +149,6 @@ depends-member:
 - !private ["s23CustomStringConvertibleP", "write"]
 - !private ["10Foundation4DataV", "init"]
 - !private ["10Foundation4DataV", "write"]
-- !private ["s9DecodableP", "X"]
-- !private ["s9DecodableP", "Y"]
-- !private ["s9DecodableP", "Z"]
 - !private ["s9DecodableP", "_getBuiltinLogicValue"]
 - !private ["s9DecodableP", "append"]
 - !private ["s9DecodableP", "appendingPathComponent"]
@@ -166,9 +161,6 @@ depends-member:
 - !private ["s9DecodableP", "subscript"]
 - !private ["s9DecodableP", "utf8"]
 - !private ["s9DecodableP", "write"]
-- !private ["s9EncodableP", "X"]
-- !private ["s9EncodableP", "Y"]
-- !private ["s9EncodableP", "Z"]
 - !private ["s9EncodableP", "_getBuiltinLogicValue"]
 - !private ["s9EncodableP", "append"]
 - !private ["s9EncodableP", "appendingPathComponent"]
@@ -182,16 +174,23 @@ depends-member:
 - !private ["s9EncodableP", "utf8"]
 - !private ["s9EncodableP", "write"]
 - !private ["SS10FoundationE8EncodingV", "utf8"]
+- !private ["s9EquatableP", "X"]
+- !private ["s9EquatableP", "Y"]
+- !private ["s9EquatableP", "Z"]
 - !private ["s9EquatableP", "_getBuiltinLogicValue"]
+- !private ["s9EquatableP", "append"]
 - !private ["s9EquatableP", "appendingPathComponent"]
 - !private ["s9EquatableP", "atomic"]
 - !private ["s9EquatableP", "components"]
+- !private ["s9EquatableP", "count"]
 - !private ["s9EquatableP", "doubleValue"]
 - !private ["s9EquatableP", "init"]
 - !private ["s9EquatableP", "isEmpty"]
 - !private ["s9EquatableP", "main"]
 - !private ["s9EquatableP", "newlines"]
 - !private ["s9EquatableP", "path"]
+- !private ["s9EquatableP", "sort"]
+- !private ["s9EquatableP", "subscript"]
 - !private ["s9EquatableP", "utf8"]
 - !private ["s9EquatableP", "write"]
 - !private ["s25ExpressibleByArrayLiteralP", "X"]
@@ -367,21 +366,6 @@ depends-member:
 - !private ["s14_ArrayProtocolP", "init"]
 - !private ["s14_ArrayProtocolP", "sort"]
 - !private ["s14_ArrayProtocolP", "subscript"]
-- !private ["s23_BidirectionalIndexableP", "X"]
-- !private ["s23_BidirectionalIndexableP", "Y"]
-- !private ["s23_BidirectionalIndexableP", "Z"]
-- !private ["s23_BidirectionalIndexableP", "append"]
-- !private ["s23_BidirectionalIndexableP", "components"]
-- !private ["s23_BidirectionalIndexableP", "count"]
-- !private ["s23_BidirectionalIndexableP", "init"]
-- !private ["s23_BidirectionalIndexableP", "isEmpty"]
-- !private ["s23_BidirectionalIndexableP", "sort"]
-- !private ["s23_BidirectionalIndexableP", "subscript"]
-- !private ["s23_BidirectionalIndexableP", "utf8"]
-- !private ["s23_BidirectionalIndexableP", "write"]
-- !private ["10Foundation13_CFBridgeableP", "X"]
-- !private ["10Foundation13_CFBridgeableP", "Y"]
-- !private ["10Foundation13_CFBridgeableP", "Z"]
 - !private ["10Foundation13_CFBridgeableP", "_getBuiltinLogicValue"]
 - !private ["10Foundation13_CFBridgeableP", "append"]
 - !private ["10Foundation13_CFBridgeableP", "appendingPathComponent"]
@@ -427,44 +411,7 @@ depends-member:
 - !private ["s33_ExpressibleByStringInterpolationP", "init"]
 - !private ["s33_ExpressibleByStringInterpolationP", "isEmpty"]
 - !private ["s33_ExpressibleByStringInterpolationP", "utf8"]
-- !private ["s10_IndexableP", "X"]
-- !private ["s10_IndexableP", "Y"]
-- !private ["s10_IndexableP", "Z"]
-- !private ["s10_IndexableP", "append"]
-- !private ["s10_IndexableP", "components"]
-- !private ["s10_IndexableP", "count"]
-- !private ["s10_IndexableP", "init"]
-- !private ["s10_IndexableP", "isEmpty"]
-- !private ["s10_IndexableP", "sort"]
-- !private ["s10_IndexableP", "subscript"]
-- !private ["s10_IndexableP", "utf8"]
-- !private ["s10_IndexableP", "write"]
-- !private ["s14_IndexableBaseP", "X"]
-- !private ["s14_IndexableBaseP", "Y"]
-- !private ["s14_IndexableBaseP", "Z"]
-- !private ["s14_IndexableBaseP", "append"]
-- !private ["s14_IndexableBaseP", "components"]
-- !private ["s14_IndexableBaseP", "count"]
-- !private ["s14_IndexableBaseP", "init"]
-- !private ["s14_IndexableBaseP", "isEmpty"]
-- !private ["s14_IndexableBaseP", "sort"]
-- !private ["s14_IndexableBaseP", "subscript"]
-- !private ["s14_IndexableBaseP", "utf8"]
-- !private ["s14_IndexableBaseP", "write"]
-- !private ["s17_MutableIndexableP", "X"]
-- !private ["s17_MutableIndexableP", "Y"]
-- !private ["s17_MutableIndexableP", "Z"]
-- !private ["s17_MutableIndexableP", "append"]
-- !private ["s17_MutableIndexableP", "components"]
-- !private ["s17_MutableIndexableP", "count"]
-- !private ["s17_MutableIndexableP", "init"]
-- !private ["s17_MutableIndexableP", "sort"]
-- !private ["s17_MutableIndexableP", "subscript"]
-- !private ["s17_MutableIndexableP", "write"]
 - !private ["10Foundation18_MutablePairBoxingP", "newlines"]
-- !private ["10Foundation13_NSBridgeableP", "X"]
-- !private ["10Foundation13_NSBridgeableP", "Y"]
-- !private ["10Foundation13_NSBridgeableP", "Z"]
 - !private ["10Foundation13_NSBridgeableP", "append"]
 - !private ["10Foundation13_NSBridgeableP", "appendingPathComponent"]
 - !private ["10Foundation13_NSBridgeableP", "components"]
@@ -476,9 +423,6 @@ depends-member:
 - !private ["10Foundation13_NSBridgeableP", "subscript"]
 - !private ["10Foundation13_NSBridgeableP", "utf8"]
 - !private ["10Foundation13_NSBridgeableP", "write"]
-- !private ["10Foundation17_ObjectBridgeableP", "X"]
-- !private ["10Foundation17_ObjectBridgeableP", "Y"]
-- !private ["10Foundation17_ObjectBridgeableP", "Z"]
 - !private ["10Foundation17_ObjectBridgeableP", "_getBuiltinLogicValue"]
 - !private ["10Foundation17_ObjectBridgeableP", "append"]
 - !private ["10Foundation17_ObjectBridgeableP", "appendingPathComponent"]
@@ -491,9 +435,6 @@ depends-member:
 - !private ["10Foundation17_ObjectBridgeableP", "subscript"]
 - !private ["10Foundation17_ObjectBridgeableP", "utf8"]
 - !private ["10Foundation17_ObjectBridgeableP", "write"]
-- !private ["10Foundation21_ObjectTypeBridgeableP", "X"]
-- !private ["10Foundation21_ObjectTypeBridgeableP", "Y"]
-- !private ["10Foundation21_ObjectTypeBridgeableP", "Z"]
 - !private ["10Foundation21_ObjectTypeBridgeableP", "_getBuiltinLogicValue"]
 - !private ["10Foundation21_ObjectTypeBridgeableP", "append"]
 - !private ["10Foundation21_ObjectTypeBridgeableP", "appendingPathComponent"]
@@ -506,28 +447,6 @@ depends-member:
 - !private ["10Foundation21_ObjectTypeBridgeableP", "subscript"]
 - !private ["10Foundation21_ObjectTypeBridgeableP", "utf8"]
 - !private ["10Foundation21_ObjectTypeBridgeableP", "write"]
-- !private ["s22_RandomAccessIndexableP", "X"]
-- !private ["s22_RandomAccessIndexableP", "Y"]
-- !private ["s22_RandomAccessIndexableP", "Z"]
-- !private ["s22_RandomAccessIndexableP", "append"]
-- !private ["s22_RandomAccessIndexableP", "components"]
-- !private ["s22_RandomAccessIndexableP", "count"]
-- !private ["s22_RandomAccessIndexableP", "init"]
-- !private ["s22_RandomAccessIndexableP", "sort"]
-- !private ["s22_RandomAccessIndexableP", "subscript"]
-- !private ["s22_RandomAccessIndexableP", "write"]
-- !private ["s26_RangeReplaceableIndexableP", "X"]
-- !private ["s26_RangeReplaceableIndexableP", "Y"]
-- !private ["s26_RangeReplaceableIndexableP", "Z"]
-- !private ["s26_RangeReplaceableIndexableP", "append"]
-- !private ["s26_RangeReplaceableIndexableP", "components"]
-- !private ["s26_RangeReplaceableIndexableP", "count"]
-- !private ["s26_RangeReplaceableIndexableP", "init"]
-- !private ["s26_RangeReplaceableIndexableP", "isEmpty"]
-- !private ["s26_RangeReplaceableIndexableP", "sort"]
-- !private ["s26_RangeReplaceableIndexableP", "subscript"]
-- !private ["s26_RangeReplaceableIndexableP", "utf8"]
-- !private ["s26_RangeReplaceableIndexableP", "write"]
 - !private ["10Foundation17_StructBridgeableP", "doubleValue"]
 - !private ["10Foundation17_StructBridgeableP", "init"]
 - !private ["10Foundation21_StructTypeBridgeableP", "doubleValue"]
@@ -544,6 +463,7 @@ depends-nominal:
 - !private "s23BidirectionalCollectionP"
 - !private "Sb"
 - !private "10Foundation6BundleC"
+- !private "s7CVarArgP"
 - !private "10Foundation12CharacterSetV"
 - !private "s10CollectionP"
 - !private "s10ComparableP"
@@ -588,7 +508,6 @@ depends-nominal:
 - !private "10Foundation3URLV"
 - !private "10Foundation6NSDataC14WritingOptionsV"
 - !private "s14_ArrayProtocolP"
-- !private "s23_BidirectionalIndexableP"
 - !private "10Foundation13_CFBridgeableP"
 - !private "s24_DestructorSafeContainerP"
 - !private "s35_ExpressibleByBuiltinBooleanLiteralP"
@@ -598,25 +517,20 @@ depends-nominal:
 - !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
 - !private "s34_ExpressibleByFileReferenceLiteralP"
 - !private "s33_ExpressibleByStringInterpolationP"
-- !private "s10_IndexableP"
-- !private "s14_IndexableBaseP"
-- !private "s17_MutableIndexableP"
 - !private "10Foundation18_MutablePairBoxingP"
 - !private "10Foundation13_NSBridgeableP"
 - !private "10Foundation17_ObjectBridgeableP"
 - !private "10Foundation21_ObjectTypeBridgeableP"
-- !private "s22_RandomAccessIndexableP"
-- !private "s26_RangeReplaceableIndexableP"
 - !private "10Foundation17_StructBridgeableP"
 - !private "10Foundation21_StructTypeBridgeableP"
 - !private "10Foundation16_SwiftBridgeableP"
 - !private "s16_SwiftStringViewP"
 depends-dynamic-lookup:
 depends-external:
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "e17f4753a8aef25749ecac67f25f0da6"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/glibc.modulemap"
+interface-hash: "ac2f1380228075c7aa877fc9aff4522f"

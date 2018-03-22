@@ -7,6 +7,7 @@ provides-member:
 - ["13InitRecherche10CoordinateC", ""]
 depends-top-level:
 - "AssignmentPrecedence"
+- "Bool"
 - "Coordinate"
 - "Double"
 - "Int"
@@ -16,6 +17,7 @@ depends-member:
 - !private ["s13BinaryIntegerP", "init"]
 - !private ["s7CVarArgP", "init"]
 - !private ["s10ComparableP", "init"]
+- ["13InitRecherche10CoordinateC", "Bool"]
 - ["13InitRecherche10CoordinateC", "Double"]
 - ["13InitRecherche10CoordinateC", "Int"]
 - !private ["13InitRecherche10CoordinateC", "NSString"]
@@ -26,6 +28,7 @@ depends-member:
 - ["13InitRecherche10CoordinateC", "deinit"]
 - ["13InitRecherche10CoordinateC", "hauteur"]
 - ["13InitRecherche10CoordinateC", "init"]
+- ["13InitRecherche10CoordinateC", "isValid"]
 - ["13InitRecherche10CoordinateC", "largeur"]
 - !private ["s28CustomDebugStringConvertibleP", "doubleValue"]
 - !private ["s28CustomDebugStringConvertibleP", "init"]
@@ -130,4 +133,4 @@ depends-external:
 - "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "6e5dc0e75f0a473a68716a218f5597c1"
+interface-hash: "ff08695f8a0aaeeff83e15ef5657ccda"

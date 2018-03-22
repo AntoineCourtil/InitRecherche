@@ -1,2 +1,5 @@
 maillage
 loopMaillage
+.build/
+.idea/
+cmake-build-debug/

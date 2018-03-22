@@ -77,7 +77,6 @@ depends-member:
 - !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "init"]
 - !private ["10Foundation17_ObjectBridgeableP", "init"]
 - !private ["10Foundation21_ObjectTypeBridgeableP", "init"]
-- !private ["s11_StrideableP", "init"]
 - !private ["10Foundation17_StructBridgeableP", "doubleValue"]
 - !private ["10Foundation17_StructBridgeableP", "init"]
 - !private ["10Foundation21_StructTypeBridgeableP", "doubleValue"]
@@ -121,16 +120,15 @@ depends-nominal:
 - !private "s35_ExpressibleByBuiltinIntegerLiteralP"
 - !private "10Foundation17_ObjectBridgeableP"
 - !private "10Foundation21_ObjectTypeBridgeableP"
-- !private "s11_StrideableP"
 - !private "10Foundation17_StructBridgeableP"
 - !private "10Foundation21_StructTypeBridgeableP"
 - !private "10Foundation16_SwiftBridgeableP"
 depends-dynamic-lookup:
 depends-external:
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "ff08695f8a0aaeeff83e15ef5657ccda"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/glibc.modulemap"
+interface-hash: "0fe8c0b67df8dcf3518996d3fe3b355e"

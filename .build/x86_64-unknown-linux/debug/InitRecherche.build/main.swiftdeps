@@ -42,6 +42,7 @@ depends-member:
 - ["s23BidirectionalCollectionP", "subscript"]
 - ["s13BinaryIntegerP", "init"]
 - ["Sb", "_getBuiltinLogicValue"]
+- ["s7CVarArgP", "_getBuiltinLogicValue"]
 - ["s7CVarArgP", "init"]
 - ["s10CollectionP", "init"]
 - ["s10CollectionP", "subscript"]
@@ -66,6 +67,7 @@ depends-member:
 - ["s9EncodableP", "subscript"]
 - ["s9EquatableP", "_getBuiltinLogicValue"]
 - ["s9EquatableP", "init"]
+- ["s9EquatableP", "subscript"]
 - ["s25ExpressibleByArrayLiteralP", "subscript"]
 - ["s27ExpressibleByBooleanLiteralP", "_getBuiltinLogicValue"]
 - ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
@@ -99,8 +101,6 @@ depends-member:
 - ["s16TextOutputStreamP", "init"]
 - ["s20TextOutputStreamableP", "init"]
 - ["s14_ArrayProtocolP", "subscript"]
-- ["s23_BidirectionalIndexableP", "init"]
-- ["s23_BidirectionalIndexableP", "subscript"]
 - ["s18_BitwiseOperationsP", "init"]
 - ["10Foundation13_CFBridgeableP", "_getBuiltinLogicValue"]
 - ["10Foundation13_CFBridgeableP", "init"]
@@ -113,11 +113,6 @@ depends-member:
 - ["s39_ExpressibleByBuiltinUTF16StringLiteralP", "init"]
 - ["s41_ExpressibleByBuiltinUnicodeScalarLiteralP", "init"]
 - ["s33_ExpressibleByStringInterpolationP", "init"]
-- ["s10_IndexableP", "init"]
-- ["s10_IndexableP", "subscript"]
-- ["s14_IndexableBaseP", "init"]
-- ["s14_IndexableBaseP", "subscript"]
-- ["s17_MutableIndexableP", "subscript"]
 - ["10Foundation13_NSBridgeableP", "init"]
 - ["10Foundation13_NSBridgeableP", "subscript"]
 - ["10Foundation17_ObjectBridgeableP", "_getBuiltinLogicValue"]
@@ -126,10 +121,6 @@ depends-member:
 - ["10Foundation21_ObjectTypeBridgeableP", "_getBuiltinLogicValue"]
 - ["10Foundation21_ObjectTypeBridgeableP", "init"]
 - ["10Foundation21_ObjectTypeBridgeableP", "subscript"]
-- ["s22_RandomAccessIndexableP", "subscript"]
-- ["s26_RangeReplaceableIndexableP", "init"]
-- ["s26_RangeReplaceableIndexableP", "subscript"]
-- ["s11_StrideableP", "init"]
 - ["s16_SwiftStringViewP", "init"]
 depends-nominal:
 - "Sa"
@@ -172,7 +163,6 @@ depends-nominal:
 - "s16TextOutputStreamP"
 - "s20TextOutputStreamableP"
 - "s14_ArrayProtocolP"
-- "s23_BidirectionalIndexableP"
 - "s18_BitwiseOperationsP"
 - "10Foundation13_CFBridgeableP"
 - "s24_DestructorSafeContainerP"
@@ -183,22 +173,16 @@ depends-nominal:
 - "s39_ExpressibleByBuiltinUTF16StringLiteralP"
 - "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
 - "s33_ExpressibleByStringInterpolationP"
-- "s10_IndexableP"
-- "s14_IndexableBaseP"
-- "s17_MutableIndexableP"
 - "10Foundation13_NSBridgeableP"
 - "10Foundation17_ObjectBridgeableP"
 - "10Foundation21_ObjectTypeBridgeableP"
-- "s22_RandomAccessIndexableP"
-- "s26_RangeReplaceableIndexableP"
-- "s11_StrideableP"
 - "s16_SwiftStringViewP"
 depends-dynamic-lookup:
 depends-external:
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
-- "/home/xnr/.swiftenv/versions/4.0.3-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "286d6acf85e959fccf75f8e4ae706427"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/glibc.modulemap"
+interface-hash: "fd9c60a7abdb2e8f05532be09b0f654d"
