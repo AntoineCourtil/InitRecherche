@@ -5,6 +5,7 @@ class Maillage {
 
 	var WIDTH : Int = 640
 	var HEIGHT : Int = 360
+	var MAX_DISTANCE : Double = 0.01
 
 	/*
 	* return l'id de la ligne du pixel en x y
@@ -237,7 +238,7 @@ func calculerPourcentageDifferenceMedian(fileName:String, medianFileName:String,
 							nbCoordinateConsidered+=1
 							tauxZ = abs(abs(median[ligne][colonne].Z - targetFile[ligne][colonne].Z) / median[ligne][colonne].Z)
 						}
-						if(nbCoordinateConsidered  != 0) {
+						if(nbCoordinateConsidered != 0) {
 							let tauxMoyen = (tauxX + tauxY + tauxZ) / nbCoordinateConsidered
 							sommeTauxLigne+=tauxMoyen
 						}
@@ -316,8 +317,8 @@ func loopCalculerPourcentageDifferenceMedian(fileBaseName:String, medianFileName
 
 				// Si le Point est valide
 				// on supprime le bruit en ne prenant pas en compte les pixels
-				// de hauteur 0 ou > 0.3
-				if(dataArr[5] == "1" && hauteur>0 && hauteur<0.3 && typeExport=="off") {
+				// de hauteur 0 ou > 0.3 && hauteur>0 && hauteur<0.3
+				if(dataArr[5] == "1" && typeExport=="off") {
 
 					// Si les voisins de droite et d'en bas sont dans l'image
 					if( ((pixelX+1) < self.WIDTH) && ((pixelY+1) < self.HEIGHT) ) {
@@ -326,9 +327,17 @@ func loopCalculerPourcentageDifferenceMedian(fileBaseName:String, medianFileName
 
 						////Si les voisins de droite et d'en bas sont valides
 						if((dataArrRIGHT[5] == "1") && (dataArrDOWN[5] == "1")){
+							var rZ, dZ, diffDroite, diffBas: Double
+							rZ = Double(dataArrRIGHT[2])!
+							dZ = Double(dataArrDOWN[2])!
+							diffDroite = abs(hauteur - rZ)
+							diffBas = abs(hauteur - dZ)
+							if(diffDroite < MAX_DISTANCE && diffBas < MAX_DISTANCE ) {
+								cptTriangle = cptTriangle+1
+								listTriangles = listTriangles+"3 "+String(self.getIdforXY(x:pixelX,y:pixelY))+" "+String(self.getIdforXY(x:pixelX+1,y:pixelY))+" "+String(self.getIdforXY(x:pixelX,y:pixelY+1))+"\n"
+							}
+							//print("droite : \(diffDroite) | bas : \(diffBas)")
 							//Alors on créé un triangle
-							cptTriangle = cptTriangle+1
-							listTriangles = listTriangles+"3 "+String(self.getIdforXY(x:pixelX,y:pixelY))+" "+String(self.getIdforXY(x:pixelX+1,y:pixelY))+" "+String(self.getIdforXY(x:pixelX,y:pixelY+1))+"\n"
 						}
 					}
 
@@ -339,10 +348,17 @@ func loopCalculerPourcentageDifferenceMedian(fileBaseName:String, medianFileName
 
 						////Si les voisins de droite et d'en bas sont valides
 						if((dataArrLEFT[5] == "1") && (dataArrUP[5] == "1")){
+							var lZ, uZ, diffGauche, diffHaut: Double
+							lZ = Double(dataArrLEFT[2])!
+							uZ = Double(dataArrUP[2])!
+							diffGauche = abs(hauteur - lZ)
+							diffHaut = abs(hauteur - uZ)
+							if(diffGauche < MAX_DISTANCE && diffHaut < MAX_DISTANCE ) {
+								//Alors on créé un triangle
+								cptTriangle = cptTriangle+1
+								listTriangles = listTriangles+"3 "+String(self.getIdforXY(x:pixelX,y:pixelY))+" "+String(self.getIdforXY(x:pixelX-1,y:pixelY))+" "+String(self.getIdforXY(x:pixelX,y:pixelY-1))+"\n"
+							}
 
-							//Alors on créé un triangle
-							cptTriangle = cptTriangle+1
-							listTriangles = listTriangles+"3 "+String(self.getIdforXY(x:pixelX,y:pixelY))+" "+String(self.getIdforXY(x:pixelX-1,y:pixelY))+" "+String(self.getIdforXY(x:pixelX,y:pixelY-1))+"\n"
 						}
 					}
 				}
@@ -389,7 +405,10 @@ func loopCalculerPourcentageDifferenceMedian(fileBaseName:String, medianFileName
 	*
 	*/
 	func sdpMaillageExport(fileName : String, type: String) {
-		if let path = Bundle.main.path(forResource: "res/\(fileName)", ofType: "sdp") {
+
+		let fileManager = FileManager()
+		let path = fileManager.currentDirectoryPath
+		if let path = Bundle.main.path(forResource: "../../../res/\(fileName)", ofType: "sdp") {
 			do {
 				let outputFileName = "out/\(fileName).\(type)"
 				let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
@@ -421,15 +440,15 @@ func loopCalculerPourcentageDifferenceMedian(fileBaseName:String, medianFileName
 	func loopSdpMaillageToType(fileBaseName: String, numberOfFiles: Int, type: String) {
 			if(!fileBaseName.isEmpty && numberOfFiles>0 && (type=="off" || type=="csv")) {
 				for nbFile in 1...numberOfFiles {
-					if let path = Bundle.main.path(forResource: "res/\(fileName)\(nbFile)", ofType: "sdp") {
+					if let path = Bundle.main.path(forResource: "../../../res/\(fileName)\(nbFile)", ofType: "sdp") {
 							do {
 								var dir = "csv"
 								if(type == "off") { dir = "out"}
-								let outputFileName = "\(dir)/\(fileName)\(nbFile).\(type)"
+								let outputFileName = "../../../\(dir)/\(fileName)\(nbFile).\(type)"
 								print("Generating [\(outputFileName)]")
 								let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
 								let file = try String(contentsOfFile: path, encoding: .utf8)
-								let maillage = self.maillage(stringFile:file, fileName:"res/\(fileName)\(nbFile)", typeExport:type)
+								let maillage = self.maillage(stringFile:file, fileName:"../../../res/\(fileName)\(nbFile)", typeExport:type)
 								let outputData = Data(maillage.utf8)
 								do {
 								    try outputData.write(to: url, options: .atomic)

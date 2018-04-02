@@ -18,7 +18,6 @@ if CommandLine.argc < 2 {
 } else {
 	let arguments = CommandLine.arguments
 	for argument in arguments {
-		//print(argument)
 		if(cpt == 1) {
 			if(argument=="loop") {
 				loop = true
@@ -34,7 +33,7 @@ if CommandLine.argc < 2 {
 			if(loop || median || taux) {
 				fileName = argument
 			} else {
-					number = Int(argument)!
+				type = argument
 			}
 		}
 		if(cpt == 3) {
