@@ -314,7 +314,9 @@ func loopCalculerPourcentageDifferenceMedian(fileBaseName:String, medianFileName
 					listPoints = listPoints+dataArr[0]+" "+dataArr[1]+" "+dataArr[2]+"\n"
 				}
 				let hauteur : Double = NSString(string: dataArr[2]).doubleValue
-
+				var cX, cY : Double
+				cX = Double(dataArr[0])!
+				cY = Double(dataArr[1])!
 				// Si le Point est valide
 				// on supprime le bruit en ne prenant pas en compte les pixels
 				// de hauteur 0 ou > 0.3 && hauteur>0 && hauteur<0.3
@@ -335,6 +337,26 @@ func loopCalculerPourcentageDifferenceMedian(fileBaseName:String, medianFileName
 							if(diffDroite < MAX_DISTANCE && diffBas < MAX_DISTANCE ) {
 								cptTriangle = cptTriangle+1
 								listTriangles = listTriangles+"3 "+String(self.getIdforXY(x:pixelX,y:pixelY))+" "+String(self.getIdforXY(x:pixelX+1,y:pixelY))+" "+String(self.getIdforXY(x:pixelX,y:pixelY+1))+"\n"
+
+								// calcul de la normale
+								var rX, rY, dX, dY, nX, nY, nZ, norme : Double
+								rX = Double(dataArrRIGHT[0])!
+								rY = Double(dataArrRIGHT[1])!
+								dX = Double(dataArrDOWN[0])!
+								dY = Double(dataArrDOWN[1])!
+
+								nX = (rY - cY)*(dZ-hauteur) - (rZ-hauteur)*(dY-cY)
+								nY = (rZ - hauteur)*(dX-cX) - (rX-cX)*(dZ-hauteur)
+								nZ = (rX-cX)*(dY-cY) - (rY-cY)*(dX-cX)
+								norme = sqrt((nX*nX)+(nY*nY)+(nZ*nZ))
+
+								// normale :
+								nX = nX / norme
+								nY = nY / norme
+								nZ = nZ / norme
+
+
+								//T0D0: affichage normale + moyenne des normales pour chaque sommet
 							}
 							//print("droite : \(diffDroite) | bas : \(diffBas)")
 							//Alors on créé un triangle
@@ -357,6 +379,22 @@ func loopCalculerPourcentageDifferenceMedian(fileBaseName:String, medianFileName
 								//Alors on créé un triangle
 								cptTriangle = cptTriangle+1
 								listTriangles = listTriangles+"3 "+String(self.getIdforXY(x:pixelX,y:pixelY))+" "+String(self.getIdforXY(x:pixelX-1,y:pixelY))+" "+String(self.getIdforXY(x:pixelX,y:pixelY-1))+"\n"
+
+								// calcul de la normale
+								var lX, lY, uX, uY, nX, nY, nZ, norme : Double
+								lX = Double(dataArrLEFT[0])!
+								lY = Double(dataArrLEFT[1])!
+								uX = Double(dataArrUP[0])!
+								uY = Double(dataArrUP[1])!
+								nX = (lY - cY)*(uZ-hauteur) - (lZ-hauteur)*(uY-cY)
+								nY = (lZ - hauteur)*(uX-cX) - (lX-cX)*(uZ-hauteur)
+								nZ = (lX-cX)*(uY-cY) - (lY-cY)*(uX-cX)
+								norme = sqrt((nX*nX)+(nY*nY)+(nZ*nZ))
+
+								// normale :
+								nX = nX / norme
+								nY = nY / norme
+								nZ = nZ / norme
 							}
 
 						}
