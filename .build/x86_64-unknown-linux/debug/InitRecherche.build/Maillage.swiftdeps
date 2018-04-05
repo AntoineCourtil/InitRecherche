@@ -21,11 +21,13 @@ depends-top-level:
 - !private ">"
 - !private ">="
 - "AssignmentPrecedence"
+- "Bool"
 - !private "BooleanLiteralType"
 - !private "Bundle"
 - "Coordinate"
 - !private "Data"
-- !private "Double"
+- "Double"
+- !private "FileManager"
 - "FloatLiteralType"
 - "Int"
 - "IntegerLiteralType"
@@ -39,6 +41,7 @@ depends-top-level:
 - !private "fflush"
 - !private "fileName"
 - !private "print"
+- !private "sqrt"
 - !private "stdout"
 - !private "||"
 - !private "~="
@@ -65,10 +68,12 @@ depends-member:
 - !private ["s23BidirectionalCollectionP", "subscript"]
 - !private ["s23BidirectionalCollectionP", "utf8"]
 - !private ["s23BidirectionalCollectionP", "write"]
+- !private ["s19BinaryFloatingPointP", "init"]
 - !private ["Sb", "_getBuiltinLogicValue"]
 - !private ["10Foundation6BundleC", "main"]
 - !private ["10Foundation6BundleC", "path"]
 - !private ["s7CVarArgP", "_getBuiltinLogicValue"]
+- !private ["s7CVarArgP", "init"]
 - !private ["10Foundation12CharacterSetV", "newlines"]
 - !private ["s10CollectionP", "X"]
 - !private ["s10CollectionP", "Y"]
@@ -100,6 +105,7 @@ depends-member:
 - !private ["s28CustomDebugStringConvertibleP", "appendingPathComponent"]
 - !private ["s28CustomDebugStringConvertibleP", "components"]
 - !private ["s28CustomDebugStringConvertibleP", "count"]
+- !private ["s28CustomDebugStringConvertibleP", "currentDirectoryPath"]
 - !private ["s28CustomDebugStringConvertibleP", "doubleValue"]
 - !private ["s28CustomDebugStringConvertibleP", "init"]
 - !private ["s28CustomDebugStringConvertibleP", "isEmpty"]
@@ -137,6 +143,7 @@ depends-member:
 - !private ["s23CustomStringConvertibleP", "appendingPathComponent"]
 - !private ["s23CustomStringConvertibleP", "components"]
 - !private ["s23CustomStringConvertibleP", "count"]
+- !private ["s23CustomStringConvertibleP", "currentDirectoryPath"]
 - !private ["s23CustomStringConvertibleP", "doubleValue"]
 - !private ["s23CustomStringConvertibleP", "init"]
 - !private ["s23CustomStringConvertibleP", "isEmpty"]
@@ -161,6 +168,7 @@ depends-member:
 - !private ["s9DecodableP", "subscript"]
 - !private ["s9DecodableP", "utf8"]
 - !private ["s9DecodableP", "write"]
+- !private ["Sd", "init"]
 - !private ["s9EncodableP", "_getBuiltinLogicValue"]
 - !private ["s9EncodableP", "append"]
 - !private ["s9EncodableP", "appendingPathComponent"]
@@ -183,6 +191,7 @@ depends-member:
 - !private ["s9EquatableP", "atomic"]
 - !private ["s9EquatableP", "components"]
 - !private ["s9EquatableP", "count"]
+- !private ["s9EquatableP", "currentDirectoryPath"]
 - !private ["s9EquatableP", "doubleValue"]
 - !private ["s9EquatableP", "init"]
 - !private ["s9EquatableP", "isEmpty"]
@@ -210,6 +219,8 @@ depends-member:
 - !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "init"]
 - !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "isEmpty"]
 - !private ["s43ExpressibleByExtendedGraphemeClusterLiteralP", "utf8"]
+- !private ["s25ExpressibleByFloatLiteralP", "init"]
+- !private ["s27ExpressibleByIntegerLiteralP", "init"]
 - !private ["s26ExpressibleByStringLiteralP", "components"]
 - !private ["s26ExpressibleByStringLiteralP", "doubleValue"]
 - !private ["s26ExpressibleByStringLiteralP", "init"]
@@ -220,9 +231,13 @@ depends-member:
 - !private ["s33ExpressibleByUnicodeScalarLiteralP", "init"]
 - !private ["s33ExpressibleByUnicodeScalarLiteralP", "isEmpty"]
 - !private ["s33ExpressibleByUnicodeScalarLiteralP", "utf8"]
+- !private ["10Foundation11FileManagerC", "currentDirectoryPath"]
+- !private ["10Foundation11FileManagerC", "init"]
+- !private ["s13FloatingPointP", "init"]
 - !private ["s8HashableP", "_getBuiltinLogicValue"]
 - !private ["s8HashableP", "appendingPathComponent"]
 - !private ["s8HashableP", "components"]
+- !private ["s8HashableP", "currentDirectoryPath"]
 - !private ["s8HashableP", "doubleValue"]
 - !private ["s8HashableP", "init"]
 - !private ["s8HashableP", "isEmpty"]
@@ -236,12 +251,15 @@ depends-member:
 - !private ["s25LosslessStringConvertibleP", "init"]
 - !private ["s25LosslessStringConvertibleP", "isEmpty"]
 - !private ["s25LosslessStringConvertibleP", "utf8"]
+- ["13InitRecherche8MaillageC", "Bool"]
 - !private ["13InitRecherche8MaillageC", "Bundle"]
 - ["13InitRecherche8MaillageC", "Coordinate"]
 - !private ["13InitRecherche8MaillageC", "Data"]
-- !private ["13InitRecherche8MaillageC", "Double"]
+- ["13InitRecherche8MaillageC", "Double"]
+- !private ["13InitRecherche8MaillageC", "FileManager"]
 - ["13InitRecherche8MaillageC", "HEIGHT"]
 - ["13InitRecherche8MaillageC", "Int"]
+- ["13InitRecherche8MaillageC", "MAX_DISTANCE"]
 - !private ["13InitRecherche8MaillageC", "NSString"]
 - ["13InitRecherche8MaillageC", "String"]
 - !private ["13InitRecherche8MaillageC", "URL"]
@@ -262,6 +280,7 @@ depends-member:
 - ["13InitRecherche8MaillageC", "parseSdp"]
 - !private ["13InitRecherche8MaillageC", "print"]
 - ["13InitRecherche8MaillageC", "sdpMaillageExport"]
+- !private ["13InitRecherche8MaillageC", "sqrt"]
 - !private ["13InitRecherche8MaillageC", "stdout"]
 - !private ["s10MirrorPathP", "components"]
 - !private ["s10MirrorPathP", "init"]
@@ -283,10 +302,12 @@ depends-member:
 - !private ["10Foundation9NSCopyingP", "init"]
 - !private ["10Foundation16NSMutableCopyingP", "doubleValue"]
 - !private ["10Foundation16NSMutableCopyingP", "init"]
+- !private ["10Foundation8NSObjectC", "currentDirectoryPath"]
 - !private ["10Foundation8NSObjectC", "doubleValue"]
 - !private ["10Foundation8NSObjectC", "init"]
 - !private ["10Foundation8NSObjectC", "main"]
 - !private ["10Foundation8NSObjectC", "path"]
+- !private ["10Foundation16NSObjectProtocolP", "currentDirectoryPath"]
 - !private ["10Foundation16NSObjectProtocolP", "doubleValue"]
 - !private ["10Foundation16NSObjectProtocolP", "init"]
 - !private ["10Foundation16NSObjectProtocolP", "main"]
@@ -295,6 +316,7 @@ depends-member:
 - !private ["10Foundation14NSSecureCodingP", "init"]
 - !private ["10Foundation8NSStringC", "doubleValue"]
 - !private ["10Foundation8NSStringC", "init"]
+- !private ["s7NumericP", "init"]
 - !private ["s9OptionSetP", "atomic"]
 - !private ["s22RandomAccessCollectionP", "X"]
 - !private ["s22RandomAccessCollectionP", "Y"]
@@ -338,6 +360,8 @@ depends-member:
 - !private ["s8SequenceP", "write"]
 - !private ["s10SetAlgebraP", "atomic"]
 - !private ["s10SetAlgebraP", "newlines"]
+- !private ["s13SignedNumericP", "init"]
+- !private ["s10StrideableP", "init"]
 - !private ["SS", "components"]
 - !private ["SS", "init"]
 - !private ["SS", "isEmpty"]
@@ -379,6 +403,8 @@ depends-member:
 - !private ["10Foundation13_CFBridgeableP", "subscript"]
 - !private ["10Foundation13_CFBridgeableP", "utf8"]
 - !private ["10Foundation13_CFBridgeableP", "write"]
+- !private ["s15_CVarArgAlignedP", "init"]
+- !private ["s22_CVarArgPassedAsDoubleP", "init"]
 - !private ["s24_DestructorSafeContainerP", "X"]
 - !private ["s24_DestructorSafeContainerP", "Y"]
 - !private ["s24_DestructorSafeContainerP", "Z"]
@@ -393,6 +419,8 @@ depends-member:
 - !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "init"]
 - !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "isEmpty"]
 - !private ["s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP", "utf8"]
+- !private ["s33_ExpressibleByBuiltinFloatLiteralP", "init"]
+- !private ["s35_ExpressibleByBuiltinIntegerLiteralP", "init"]
 - !private ["s34_ExpressibleByBuiltinStringLiteralP", "components"]
 - !private ["s34_ExpressibleByBuiltinStringLiteralP", "init"]
 - !private ["s34_ExpressibleByBuiltinStringLiteralP", "isEmpty"]
@@ -461,6 +489,7 @@ depends-nominal:
 - !private "Sa"
 - !private "s10ArraySliceV"
 - !private "s23BidirectionalCollectionP"
+- !private "s19BinaryFloatingPointP"
 - !private "Sb"
 - !private "10Foundation6BundleC"
 - !private "s7CVarArgP"
@@ -474,14 +503,19 @@ depends-nominal:
 - !private "s23CustomStringConvertibleP"
 - !private "10Foundation4DataV"
 - !private "s9DecodableP"
+- !private "Sd"
 - !private "s9EncodableP"
 - !private "SS10FoundationE8EncodingV"
 - !private "s9EquatableP"
 - !private "s25ExpressibleByArrayLiteralP"
 - !private "s27ExpressibleByBooleanLiteralP"
 - !private "s43ExpressibleByExtendedGraphemeClusterLiteralP"
+- !private "s25ExpressibleByFloatLiteralP"
+- !private "s27ExpressibleByIntegerLiteralP"
 - !private "s26ExpressibleByStringLiteralP"
 - !private "s33ExpressibleByUnicodeScalarLiteralP"
+- !private "10Foundation11FileManagerC"
+- !private "s13FloatingPointP"
 - !private "s8HashableP"
 - !private "s25LosslessStringConvertibleP"
 - "13InitRecherche8MaillageC"
@@ -494,6 +528,7 @@ depends-nominal:
 - !private "10Foundation16NSObjectProtocolP"
 - !private "10Foundation14NSSecureCodingP"
 - !private "10Foundation8NSStringC"
+- !private "s7NumericP"
 - !private "s9OptionSetP"
 - !private "s22RandomAccessCollectionP"
 - !private "s26RangeReplaceableCollectionP"
@@ -501,6 +536,8 @@ depends-nominal:
 - !private "10Foundation20ReferenceConvertibleP"
 - !private "s8SequenceP"
 - !private "s10SetAlgebraP"
+- !private "s13SignedNumericP"
+- !private "s10StrideableP"
 - !private "SS"
 - !private "s14StringProtocolP"
 - !private "s16TextOutputStreamP"
@@ -509,9 +546,13 @@ depends-nominal:
 - !private "10Foundation6NSDataC14WritingOptionsV"
 - !private "s14_ArrayProtocolP"
 - !private "10Foundation13_CFBridgeableP"
+- !private "s15_CVarArgAlignedP"
+- !private "s22_CVarArgPassedAsDoubleP"
 - !private "s24_DestructorSafeContainerP"
 - !private "s35_ExpressibleByBuiltinBooleanLiteralP"
 - !private "s51_ExpressibleByBuiltinExtendedGraphemeClusterLiteralP"
+- !private "s33_ExpressibleByBuiltinFloatLiteralP"
+- !private "s35_ExpressibleByBuiltinIntegerLiteralP"
 - !private "s34_ExpressibleByBuiltinStringLiteralP"
 - !private "s39_ExpressibleByBuiltinUTF16StringLiteralP"
 - !private "s41_ExpressibleByBuiltinUnicodeScalarLiteralP"
@@ -533,4 +574,4 @@ depends-external:
 - "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
 - "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
 - "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "ac2f1380228075c7aa877fc9aff4522f"
+interface-hash: "79d99f8318bda422a6f429719c912573"
