@@ -27,14 +27,18 @@ class Maillage {
     *
     */
     func parseSdp(stringFile: String) -> [[Coordinate]] {
-        var coordinates = [Coordinate]()
         var coordinatesByLine = [[Coordinate]]()
         //Chaque ligne dans un tableau line
         let line = stringFile.components(separatedBy: .newlines)
         for pixelY in 0...(HEIGHT - 1) {
+            var coordinates = [Coordinate]()
             for pixelX in 0...(WIDTH - 1) {
+
                 //On récupère la ligne du pixel dans le tableau
                 var dataArr = line[getIdforXY(x: pixelX, y: pixelY)].components(separatedBy: " ")
+
+//                print("\(dataArr[3]) \(dataArr[4]) | \(pixelY) \(pixelX)")
+
                 if (dataArr[5] == "1") {
                     coordinates.append(Coordinate(x: dataArr[0], y: dataArr[1], z: dataArr[2], hauteur: dataArr[3], largeur: dataArr[4], isValid: true))
                 } else {
@@ -139,6 +143,9 @@ class Maillage {
         for currentLine in 0...(HEIGHT - 1) {
             var medianneLine = [Coordinate]()
             var lineByFile = [[Coordinate]]()
+
+//            print(currentLine)
+
             for inbFile in 0...nbFile - 1 {
                 let line = listPtsByFile[inbFile][currentLine]
                 lineByFile.append(line)
@@ -159,10 +166,19 @@ class Maillage {
                 // lecture pixel par pixel par fichier
                 for inbFile in 0...nbFile - 1 {
                     let currentFilePixel = lineByFile[inbFile][currentColumn]
-                    tabPixelX.append(currentFilePixel.X)
-                    tabPixelY.append(currentFilePixel.Y)
-                    tabPixelZ.append(currentFilePixel.Z)
+
+//                    print("\(currentFilePixel.hauteur) \(currentFilePixel.largeur) | \(currentLine) \(currentColumn)")
+
+                    if(currentFilePixel.isValid) {
+
+                        tabPixelX.append(currentFilePixel.X)
+                        tabPixelY.append(currentFilePixel.Y)
+                        tabPixelZ.append(currentFilePixel.Z)
+
+                    }
                 }
+
+
 
                 //Traitement valeur medianne
                 if (tabPixelX.count > 0 && tabPixelY.count > 0 && tabPixelZ.count > 0) {
@@ -178,7 +194,7 @@ class Maillage {
 
                     mediannePointCoordinate = Coordinate(x: valPixelX!, y: valPixelY!, z: valPixelZ!, hauteur: currentLine, largeur: currentColumn, isValid: true)
                 } else {
-                    mediannePointCoordinate = Coordinate(x: 0, y: 0, z: 0, hauteur: currentLine, largeur: currentColumn, isValid: true)
+                    mediannePointCoordinate = Coordinate(x: 0, y: 0, z: 0, hauteur: currentLine, largeur: currentColumn, isValid: false)
                 }
                 medianneLine.append(mediannePointCoordinate!)
             }
