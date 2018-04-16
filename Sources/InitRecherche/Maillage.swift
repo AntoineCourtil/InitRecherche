@@ -58,7 +58,7 @@ class Maillage {
     func getlistPtsByFile(fileName: String, nbFile: Int) -> [[[Coordinate]]] {
         var listPtsByFile = [[[Coordinate]]]()
         for inbFile in 1...nbFile {
-            if let path = Bundle.main.path(forResource: "../../../res/\(fileName)\(inbFile)", ofType: "sdp") {
+            if let path = Bundle.main.path(forResource: "../../../ressource/\(fileName)\(inbFile)", ofType: "sdp") {
                 do {
                     //Tout le fichier dans une string file
                     let file = try String(contentsOfFile: path, encoding: .utf8)
@@ -104,11 +104,11 @@ class Maillage {
         var outputFileName = "csv/\(fileName)_median.\(type)"
 
         if (type == "sdp") {
-            outputFileName = "res/\(fileName)_median.\(type)"
+            outputFileName = "ressource/\(fileName)_median.\(type)"
         }
         var outputText = ""
         if (type == "off") {
-            outputFileName = "out/\(fileName)_median.\(type)"
+            outputFileName = "result/\(fileName)_median.\(type)"
             header += "\(cptPoints) 0 0\n\n"
             outputText = header
         }
@@ -217,10 +217,10 @@ class Maillage {
  * @type {[type]}
  */
     func calculerPourcentageDifferenceMedian(fileName: String, medianFileName: String, typeMedian: String) {
-        if let path = Bundle.main.path(forResource: "../../../res/\(fileName)", ofType: "sdp") {
+        if let path = Bundle.main.path(forResource: "../../../ressource/\(fileName)", ofType: "sdp") {
             do {
                 let file = try String(contentsOfFile: path, encoding: .utf8)
-                if let pathMedian = Bundle.main.path(forResource: "../../../res/\(medianFileName)", ofType: typeMedian) {
+                if let pathMedian = Bundle.main.path(forResource: "../../../ressource/\(medianFileName)", ofType: typeMedian) {
                     do {
                         let fileMedian = try String(contentsOfFile: pathMedian, encoding: .utf8)
                         print("Récupèration informations fichier visé...")
@@ -265,18 +265,18 @@ class Maillage {
                         taux = (sommeTaux / cptLignes) * 100
                         print("Le fichier présente une différence de \(taux)% avec le fichier médian.")
                     } catch {
-                        print("Ressource res/\(medianFileName).\(typeMedian) introuvable")
+                        print("Ressource ressource/\(medianFileName).\(typeMedian) introuvable")
                         print(error)
                     }
                 } else {
-                    print("Ressource res/\(medianFileName).\(typeMedian) introuvable")
+                    print("Ressource ressource/\(medianFileName).\(typeMedian) introuvable")
                 }
             } catch {
-                print("Ressource res/\(fileName).sdp introuvable")
+                print("Ressource ressource/\(fileName).sdp introuvable")
                 print(error)
             }
         } else {
-            print("Ressource res/\(fileName).sdp introuvable")
+            print("Ressource ressource/\(fileName).sdp introuvable")
         }
     }
 
@@ -547,9 +547,9 @@ class Maillage {
 
         let fileManager = FileManager()
         let path = fileManager.currentDirectoryPath
-        if let path = Bundle.main.path(forResource: "../../../res/\(fileName)", ofType: "sdp") {
+        if let path = Bundle.main.path(forResource: "../../../ressource/\(fileName)", ofType: "sdp") {
             do {
-                let outputFileName = "out/\(fileName).\(type)"
+                let outputFileName = "result/\(fileName).\(type)"
                 let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
                 let file = try String(contentsOfFile: path, encoding: .utf8)
                 let maillage = self.maillage(stringFile: file, fileName: fileName, typeExport: type, byNormale: byNormale)
@@ -565,7 +565,7 @@ class Maillage {
                 //print(url)
             } catch {
                 print(error)
-                print("res/\(fileName) n'est pas un fichier SDP.")
+                print("ressource/\(fileName) n'est pas un fichier SDP.")
             }
         }
     }
@@ -581,7 +581,7 @@ class Maillage {
 
         if (!fileBaseName.isEmpty && numberOfFiles > 0 && (type == "off" || type == "csv")) {
             for nbFile in 1...numberOfFiles {
-                if let path = Bundle.main.path(forResource: "../../../res/\(fileName)\(nbFile)", ofType: "sdp") {
+                if let path = Bundle.main.path(forResource: "../../../ressource/\(fileName)\(nbFile)", ofType: "sdp") {
                     do {
                         var dir = "csv"
                         if (type == "off") {
@@ -591,7 +591,7 @@ class Maillage {
                         print("Generating [\(outputFileName)]")
                         let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
                         let file = try String(contentsOfFile: path, encoding: .utf8)
-                        let maillage = self.maillage(stringFile: file, fileName: "../../../res/\(fileName)\(nbFile)", typeExport: type, byNormale: byNormale)
+                        let maillage = self.maillage(stringFile: file, fileName: "../../../ressource/\(fileName)\(nbFile)", typeExport: type, byNormale: byNormale)
                         let outputData = Data(maillage.utf8)
                         do {
                             try outputData.write(to: url, options: .atomic)
@@ -601,7 +601,7 @@ class Maillage {
 
                     } catch {
                         print(error)
-                        print("res/\(fileName) n'est pas un fichier SDP.")
+                        print("ressource/\(fileName) n'est pas un fichier SDP.")
                     }
                 }
             }
