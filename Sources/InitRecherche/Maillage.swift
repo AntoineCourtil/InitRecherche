@@ -169,7 +169,7 @@ class Maillage {
 
 //                    print("\(currentFilePixel.hauteur) \(currentFilePixel.largeur) | \(currentLine) \(currentColumn)")
 
-                    if(currentFilePixel.isValid) {
+                    if (currentFilePixel.isValid) {
 
                         tabPixelX.append(currentFilePixel.X)
                         tabPixelY.append(currentFilePixel.Y)
@@ -177,7 +177,6 @@ class Maillage {
 
                     }
                 }
-
 
 
                 //Traitement valeur medianne
@@ -342,7 +341,9 @@ class Maillage {
                 default:
                     listPoints = listPoints + dataArr[0] + " " + dataArr[1] + " " + dataArr[2] + "\n"
                 }
-                let hauteur: Double = NSString(string: dataArr[2]).doubleValue
+                let hauteurX: Double = NSString(string: dataArr[0]).doubleValue
+                let hauteurY: Double = NSString(string: dataArr[1]).doubleValue
+                let hauteurZ: Double = NSString(string: dataArr[2]).doubleValue
                 var cX, cY: Double
                 cX = Double(dataArr[0])!
                 cY = Double(dataArr[1])!
@@ -358,12 +359,37 @@ class Maillage {
 
                         ////Si les voisins de droite et d'en bas sont valides
                         if ((dataArrRIGHT[5] == "1") && (dataArrDOWN[5] == "1")) {
-                            var rZ, dZ, diffDroite, diffBas: Double
+
+
+                            // Check difference de hauteurX
+//                            var rX, dX, diffDroiteX, diffBasX: Double
+//
+//                            rX = Double(dataArrRIGHT[0])!
+//                            dX = Double(dataArrDOWN[0])!
+//                            diffDroiteX = abs(hauteurX - rX)
+//                            diffBasX = abs(hauteurX - dX)
+//
+//
+//                            // Check difference de hauteurY
+//                            var rY, dY, diffDroiteY, diffBasY: Double
+//
+//                            rY = Double(dataArrRIGHT[0])!
+//                            dY = Double(dataArrDOWN[0])!
+//                            diffDroiteY = abs(hauteurY - rY)
+//                            diffBasY = abs(hauteurY - dY)
+
+
+                            // Check difference de hauteurZ
+                            var rZ, dZ, diffDroiteZ, diffBasZ: Double
+
                             rZ = Double(dataArrRIGHT[2])!
                             dZ = Double(dataArrDOWN[2])!
-                            diffDroite = abs(hauteur - rZ)
-                            diffBas = abs(hauteur - dZ)
-                            if (diffDroite < MAX_DISTANCE && diffBas < MAX_DISTANCE) {
+                            diffDroiteZ = abs(hauteurZ - rZ)
+                            diffBasZ = abs(hauteurZ - dZ)
+
+
+//                            if (diffDroiteX < MAX_DISTANCE && diffBasX < MAX_DISTANCE && diffDroiteY < MAX_DISTANCE && diffBasY < MAX_DISTANCE && diffDroiteZ < MAX_DISTANCE && diffBasZ < MAX_DISTANCE) {
+                            if (diffDroiteZ < MAX_DISTANCE && diffBasZ < MAX_DISTANCE) {
                                 cptTriangle = cptTriangle + 1
 
                                 if (byNormale) {
@@ -382,8 +408,8 @@ class Maillage {
                                 dX = Double(dataArrDOWN[0])!
                                 dY = Double(dataArrDOWN[1])!
 
-                                nX = (rY - cY) * (dZ - hauteur) - (rZ - hauteur) * (dY - cY)
-                                nY = (rZ - hauteur) * (dX - cX) - (rX - cX) * (dZ - hauteur)
+                                nX = (rY - cY) * (dZ - hauteurZ) - (rZ - hauteurZ) * (dY - cY)
+                                nY = (rZ - hauteurZ) * (dX - cX) - (rX - cX) * (dZ - hauteurZ)
                                 nZ = (rX - cX) * (dY - cY) - (rY - cY) * (dX - cX)
                                 norme = sqrt((nX * nX) + (nY * nY) + (nZ * nZ))
 
@@ -414,12 +440,38 @@ class Maillage {
 
                         ////Si les voisins de droite et d'en bas sont valides
                         if ((dataArrLEFT[5] == "1") && (dataArrUP[5] == "1")) {
-                            var lZ, uZ, diffGauche, diffHaut: Double
+
+
+                            // Check difference de hauteurX
+//                            var lX, uX, diffGaucheX, diffHautX: Double
+//
+//                            lX = Double(dataArrLEFT[0])!
+//                            uX = Double(dataArrUP[0])!
+//                            diffGaucheX = abs(hauteurX - lX)
+//                            diffHautX = abs(hauteurX - uX)
+//
+//
+//                            // Check difference de hauteurY
+//                            var lY, uY, diffGaucheY, diffHautY: Double
+//
+//                            lY = Double(dataArrLEFT[0])!
+//                            uY = Double(dataArrUP[0])!
+//                            diffGaucheY = abs(hauteurY - lY)
+//                            diffHautY = abs(hauteurY - uY)
+
+
+                            // Check difference de hauteurZ
+                            var lZ, uZ, diffGaucheZ, diffHautZ: Double
+
                             lZ = Double(dataArrLEFT[2])!
                             uZ = Double(dataArrUP[2])!
-                            diffGauche = abs(hauteur - lZ)
-                            diffHaut = abs(hauteur - uZ)
-                            if (diffGauche < MAX_DISTANCE && diffHaut < MAX_DISTANCE) {
+                            diffGaucheZ = abs(hauteurZ - lZ)
+                            diffHautZ = abs(hauteurZ - uZ)
+
+
+                            if (diffGaucheZ < MAX_DISTANCE && diffHautZ < MAX_DISTANCE) {
+//                            if (diffGaucheX < MAX_DISTANCE && diffHautX < MAX_DISTANCE && diffGaucheY < MAX_DISTANCE && diffHautY < MAX_DISTANCE && diffGaucheZ < MAX_DISTANCE && diffHautZ < MAX_DISTANCE) {
+
                                 //Alors on créé un triangle
                                 cptTriangle = cptTriangle + 1
 
@@ -438,8 +490,8 @@ class Maillage {
                                 lY = Double(dataArrLEFT[1])!
                                 uX = Double(dataArrUP[0])!
                                 uY = Double(dataArrUP[1])!
-                                nX = (lY - cY) * (uZ - hauteur) - (lZ - hauteur) * (uY - cY)
-                                nY = (lZ - hauteur) * (uX - cX) - (lX - cX) * (uZ - hauteur)
+                                nX = (lY - cY) * (uZ - hauteurZ) - (lZ - hauteurZ) * (uY - cY)
+                                nY = (lZ - hauteurZ) * (uX - cX) - (lX - cX) * (uZ - hauteurZ)
                                 nZ = (lX - cX) * (uY - cY) - (lY - cY) * (uX - cX)
                                 norme = sqrt((nX * nX) + (nY * nY) + (nZ * nZ))
 
@@ -481,7 +533,6 @@ class Maillage {
         if (byNormale) {
 
 
-
             outputText = "#" + fileName + "OBJ File\n#\ng " + fileName + "\n\n\n"
 
 
@@ -503,7 +554,7 @@ class Maillage {
                         arrayNormal[pixelX][pixelY][2] = arrayNormal[pixelX][pixelY][2] / arrayNormal[pixelX][pixelY][3]  //Nz
 
                         outputText += "vn \(arrayNormal[pixelX][pixelY][0])  \(arrayNormal[pixelX][pixelY][1]) \(arrayNormal[pixelX][pixelY][2]) \n"
-                    } else{
+                    } else {
                         outputText += "vn 90 90 90 \n"
                     }
 

@@ -43,13 +43,12 @@ if CommandLine.argc < 2 {
                 number = Int(argument)!
             } else if (taux) {
                 medianFileName = argument
-            } else if (simple){
+            } else if (simple) {
                 if (argument == "true") {
                     byNormale = true
                     type = "obj"
                 }
-            }
-            else {
+            } else {
                 type = argument
             }
         }

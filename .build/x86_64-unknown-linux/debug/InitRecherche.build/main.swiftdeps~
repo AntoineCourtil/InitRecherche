@@ -189,4 +189,4 @@ depends-external:
 - "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
 - "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
 - "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "0c51f47ef159d1d0e458e7b35bd54102"
+interface-hash: "847798e85197df6e5ecb9dba0662817b"
