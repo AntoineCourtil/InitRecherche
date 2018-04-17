@@ -530,7 +530,7 @@ class Maillage {
 
         var outputText = ""
 
-        if (byNormale) {
+        if (typeExport == "obj") {
 
 
             outputText = "#" + fileName + "OBJ File\n#\ng " + fileName + "\n\n\n"
@@ -566,6 +566,52 @@ class Maillage {
                 outputText = outputText + listTriangleByLine[i]
             }
 
+
+        } else if (typeExport == "pgm") {
+
+            outputText = "P2 \n#\(fileName) \n \(WIDTH) \(HEIGHT) \n255\n"
+            var scalar, min, max, miseAEchelle: Double
+
+            min = DBL_MAX
+            max = -DBL_MAX
+
+            // Recherche du min et max pour mettre les valeurs entre 0 et 255
+            for pixelY in 0...(self.HEIGHT - 1) {
+                for pixelX in 0...(self.WIDTH - 1) {
+
+                    if (arrayNormal[pixelX][pixelY][4] == 1) {
+
+                        scalar = arrayNormal[pixelX][pixelY][0] * 1 + arrayNormal[pixelX][pixelY][1] * 1 + arrayNormal[pixelX][pixelY][2] * 1
+
+                        if(scalar > max) {
+                            max = scalar
+                        }
+                        if(scalar < min) {
+                            min = scalar
+                        }
+                    }
+                }
+            }
+
+            miseAEchelle = 256 / (abs(min) * max)
+
+            for pixelY in 0...(self.HEIGHT - 1) {
+                for pixelX in 0...(self.WIDTH - 1) {
+                    //if isValid
+                    if (arrayNormal[pixelX][pixelY][4] == 1) {
+
+                        //vector light = (1,1,1)
+                        scalar = arrayNormal[pixelX][pixelY][0] * 1 + arrayNormal[pixelX][pixelY][1] * 1 + arrayNormal[pixelX][pixelY][2] * 1
+
+                        //valeur entre 0 et 255 :
+                        scalar = scalar * miseAEchelle + 128
+
+                    } else {
+                        scalar = 0
+                    }
+                    outputText += "\(Int(scalar)) "
+                }
+            }
 
         } else {
             if (typeExport == "off") {
@@ -604,6 +650,7 @@ class Maillage {
                 let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
                 let file = try String(contentsOfFile: path, encoding: .utf8)
                 let maillage = self.maillage(stringFile: file, fileName: fileName, typeExport: type, byNormale: byNormale)
+                print(url)
                 /*
                 * Write result in .type file
                 */

@@ -12,9 +12,9 @@ let maillageObjet = Maillage()
 if CommandLine.argc < 2 {
     //    print("No arguments are passed.")
     let firstArgument = CommandLine.arguments[0]
-    print("Usage : \(firstArgument) fileName (csv||off) byNormale")
+    print("Usage : \(firstArgument) fileName (csv||off||pgm) byNormale")
     print("Usage : \(firstArgument) loop fileName numberOfFiles (csv||off) byNormale")
-    print("Usage : \(firstArgument) median fileName numberOfFiles (csv||off||sdp) byNormale")
+    print("Usage : \(firstArgument) median fileName numberOfFiles (csv||sdp) byNormale")
     print("Usage : \(firstArgument) taux fileName medianFileName numberOfFiles byNormale")
 } else {
     let arguments = CommandLine.arguments
@@ -46,7 +46,6 @@ if CommandLine.argc < 2 {
             } else if (simple) {
                 if (argument == "true") {
                     byNormale = true
-                    type = "obj"
                 }
             } else {
                 type = argument
