@@ -569,7 +569,7 @@ class Maillage {
 
         } else if (typeExport == "pgm") {
 
-            outputText = "P2 \n#\(fileName) \n \(WIDTH) \(HEIGHT) \n255\n"
+            outputText = "P2 \n#\(fileName) \n \(HEIGHT) \(WIDTH) \n255\n"
             var scalar, min, max, miseAEchelle: Double
 
             min = DBL_MAX
@@ -583,10 +583,10 @@ class Maillage {
 
                         scalar = arrayNormal[pixelX][pixelY][0] * 1 + arrayNormal[pixelX][pixelY][1] * 1 + arrayNormal[pixelX][pixelY][2] * 1
 
-                        if(scalar > max) {
+                        if (scalar > max) {
                             max = scalar
                         }
-                        if(scalar < min) {
+                        if (scalar < min) {
                             min = scalar
                         }
                     }
@@ -595,8 +595,8 @@ class Maillage {
 
             miseAEchelle = 256 / (abs(min) * max)
 
-            for pixelY in 0...(self.HEIGHT - 1) {
-                for pixelX in 0...(self.WIDTH - 1) {
+            for pixelX in 0...(self.WIDTH - 1) {
+                for pixelY in 0...(self.HEIGHT - 1) {
                     //if isValid
                     if (arrayNormal[pixelX][pixelY][4] == 1) {
 
@@ -634,75 +634,75 @@ class Maillage {
         return outputText
     }
 
-    /*
-    * Convertis une capture depuis Camera True-Depth
-    * sous format SDP vers le format précisé (type)
-    * et effectue un maillage triangle
-    *
-    */
-    func sdpMaillageExport(fileName: String, type: String, byNormale: Bool) {
+        /*
+        * Convertis une capture depuis Camera True-Depth
+        * sous format SDP vers le format précisé (type)
+        * et effectue un maillage triangle
+        *
+        */
+        func sdpMaillageExport(fileName:String, type:String, byNormale:Bool) {
 
         let fileManager = FileManager()
         let path = fileManager.currentDirectoryPath
-        if let path = Bundle.main.path(forResource: "../../../ressource/\(fileName)", ofType: "sdp") {
-            do {
-                let outputFileName = "result/\(fileName).\(type)"
-                let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
-                let file = try String(contentsOfFile: path, encoding: .utf8)
-                let maillage = self.maillage(stringFile: file, fileName: fileName, typeExport: type, byNormale: byNormale)
-                print(url)
-                /*
-                * Write result in .type file
-                */
-                let outputData = Data(maillage.utf8)
-                do {
-                    try outputData.write(to: url, options: .atomic)
-                } catch {
-                    print(error)
-                }
-                //print(url)
-            } catch {
-                print(error)
-                print("ressource/\(fileName) n'est pas un fichier SDP.")
-            }
+        if let path = Bundle.main.path(forResource:"../../../ressource/\(fileName)", ofType:"sdp") {
+        do {
+        let outputFileName = "result/\(fileName).\(type)"
+        let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
+        let file = try String(contentsOfFile:path, encoding:.utf8)
+        let maillage = self.maillage(stringFile:file, fileName:fileName, typeExport:type, byNormale:byNormale)
+        print(url)
+        /*
+        * Write result in .type file
+        */
+        let outputData = Data(maillage.utf8)
+        do {
+        try outputData.write(to:url, options:.atomic)
+        } catch {
+        print(error)
         }
-    }
+        //print(url)
+        } catch {
+        print(error)
+        print("ressource/\(fileName) n'est pas un fichier SDP.")
+        }
+        }
+        }
 
-    /**
-     * Convertis les fichiers commençant par la valeur de
-     * fileBaseName (de 1 jusqu'à numberOfFiles) dans le type voulu
-     * avec un maillage triangle
-     *
-     * @type {[type]}
-     */
-    func loopSdpMaillageToType(fileBaseName: String, numberOfFiles: Int, type: String, byNormale: Bool) {
+        /**
+         * Convertis les fichiers commençant par la valeur de
+         * fileBaseName (de 1 jusqu'à numberOfFiles) dans le type voulu
+         * avec un maillage triangle
+         *
+         * @type {[type]}
+         */
+        func loopSdpMaillageToType(fileBaseName:String, numberOfFiles:Int, type:String, byNormale:Bool) {
 
         if (!fileBaseName.isEmpty && numberOfFiles > 0 && (type == "off" || type == "csv")) {
-            for nbFile in 1...numberOfFiles {
-                if let path = Bundle.main.path(forResource: "../../../ressource/\(fileName)\(nbFile)", ofType: "sdp") {
-                    do {
-                        var dir = "csv"
-                        if (type == "off") {
-                            dir = "out"
-                        }
-                        let outputFileName = "../../../\(dir)/\(fileName)\(nbFile).\(type)"
-                        print("Generating [\(outputFileName)]")
-                        let url = URL(fileURLWithPath: "").appendingPathComponent(outputFileName)
-                        let file = try String(contentsOfFile: path, encoding: .utf8)
-                        let maillage = self.maillage(stringFile: file, fileName: "../../../ressource/\(fileName)\(nbFile)", typeExport: type, byNormale: byNormale)
-                        let outputData = Data(maillage.utf8)
-                        do {
-                            try outputData.write(to: url, options: .atomic)
-                        } catch {
-                            print("error: \(error)")
-                        }
+        for nbFile in 1...numberOfFiles {
+        if let path = Bundle.main.path(forResource:"../../../ressource/\(fileName)\(nbFile)", ofType:"sdp") {
+        do {
+        var dir = "csv"
+        if (type == "off") {
+        dir = "out"
+        }
+        let outputFileName = "../../../\(dir)/\(fileName)\(nbFile).\(type)"
+        print("Generating [\(outputFileName)]")
+        let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
+        let file = try String(contentsOfFile:path, encoding:.utf8)
+        let maillage = self.maillage(stringFile:file, fileName:"../../../ressource/\(fileName)\(nbFile)", typeExport:type, byNormale:byNormale)
+        let outputData = Data(maillage.utf8)
+        do {
+        try outputData.write(to:url, options:.atomic)
+        } catch {
+        print("error: \(error)")
+        }
 
-                    } catch {
-                        print(error)
-                        print("ressource/\(fileName) n'est pas un fichier SDP.")
-                    }
-                }
-            }
+        } catch {
+        print(error)
+        print("ressource/\(fileName) n'est pas un fichier SDP.")
+        }
+        }
+        }
         }
     }
-}
+    }
