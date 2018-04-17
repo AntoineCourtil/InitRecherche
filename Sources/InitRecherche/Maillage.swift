@@ -394,9 +394,9 @@ class Maillage {
 
                                 if (byNormale) {
                                     listTriangles = listTriangles + "f "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" /*+ String(self.getIdforXY(x: pixelX, y: pixelY))*/ + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX + 1, y: pixelY) + 1) + "//" /*+ String(self.getIdforXY(x: pixelX + 1, y: pixelY))*/ + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY + 1) + 1) + "// " /*+ String(self.getIdforXY(x: pixelX, y: pixelY + 1))*/ + "\n"
+                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + " "
+                                    listTriangles += String(self.getIdforXY(x: pixelX + 1, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX + 1, y: pixelY) + 1) + " "
+                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY + 1) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY + 1) + 1) + "\n"
                                 } else {
                                     listTriangles = listTriangles + "3 " + String(self.getIdforXY(x: pixelX, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX + 1, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX, y: pixelY + 1)) + "\n"
                                 }
@@ -477,9 +477,9 @@ class Maillage {
 
                                 if (byNormale) {
                                     listTriangles = listTriangles + "f "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" /*+ String(self.getIdforXY(x: pixelX, y: pixelY))*/ + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX - 1, y: pixelY) + 1) + "//" /*+ String(self.getIdforXY(x: pixelX - 1, y: pixelY))*/ + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY - 1) + 1) + "// " /*+ String(self.getIdforXY(x: pixelX, y: pixelY - 1))*/ + "\n"
+                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + " "
+                                    listTriangles += String(self.getIdforXY(x: pixelX - 1, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX - 1, y: pixelY) + 1) + " "
+                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY - 1) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY - 1) + 1) + "\n"
                                 } else {
                                     listTriangles = listTriangles + "3 " + String(self.getIdforXY(x: pixelX, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX - 1, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX, y: pixelY - 1)) + "\n"
                                 }
