@@ -567,10 +567,9 @@ class Maillage {
             }
 
 
-        } else if (typeExport == "pgm") {
+        } else if (typeExport == "pgm" || typeExport == "ppm") {
 
-            outputText = "P2 \n#\(fileName) \n \(HEIGHT) \(WIDTH) \n255\n"
-            var scalar, min, max, miseAEchelle: Double
+            var scalar, min, max, miseAEchelle, R, G, B: Double
 
             min = DBL_MAX
             max = -DBL_MAX
@@ -593,6 +592,18 @@ class Maillage {
                 }
             }
 
+
+
+
+            if(typeExport == "pgm") {
+                outputText = "P2 \n#\(fileName) \n \(HEIGHT) \(WIDTH) \n255\n"
+            } else{
+                outputText = "P3 \n#\(fileName) \n \(HEIGHT) \(WIDTH) \n255\n"
+            }
+
+
+
+
             miseAEchelle = 256 / (abs(min) * max)
 
             for pixelX in 0...(self.WIDTH - 1) {
@@ -601,15 +612,33 @@ class Maillage {
                     if (arrayNormal[pixelX][pixelY][4] == 1) {
 
                         //vector light = (1,1,1)
-                        scalar = arrayNormal[pixelX][pixelY][0] * 1 + arrayNormal[pixelX][pixelY][1] * 1 + arrayNormal[pixelX][pixelY][2] * 1
+
+                        R = arrayNormal[pixelX][pixelY][0]
+                        G = arrayNormal[pixelX][pixelY][1]
+                        B = arrayNormal[pixelX][pixelY][2]
+
+                        scalar = R * 1 + G * 1 + B * 1
 
                         //valeur entre 0 et 255 :
                         scalar = scalar * miseAEchelle + 128
+                        R = R * miseAEchelle + 128
+                        G = G * miseAEchelle + 128
+                        B = B * miseAEchelle + 128
 
                     } else {
                         scalar = 0
+                        R = 0
+                        G = 0
+                        B = 0
                     }
-                    outputText += "\(Int(scalar)) "
+
+                    if(typeExport == "pgm") {
+                        outputText += "\(Int(scalar)) "
+                    } else{
+                        outputText += "\(Int(R)) \(Int(G)) \(Int(B)) "
+                    }
+
+
                 }
             }
 
