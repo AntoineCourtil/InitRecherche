@@ -394,9 +394,9 @@ class Maillage {
 
                                 if (byNormale) {
                                     listTriangles = listTriangles + "f "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY)) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY)) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX + 1, y: pixelY)) + "//" + String(self.getIdforXY(x: pixelX + 1, y: pixelY)) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY + 1)) + "// " + String(self.getIdforXY(x: pixelX, y: pixelY + 1)) + "\n"
+                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" /*+ String(self.getIdforXY(x: pixelX, y: pixelY))*/ + " "
+                                    listTriangles += String(self.getIdforXY(x: pixelX + 1, y: pixelY) + 1) + "//" /*+ String(self.getIdforXY(x: pixelX + 1, y: pixelY))*/ + " "
+                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY + 1) + 1) + "// " /*+ String(self.getIdforXY(x: pixelX, y: pixelY + 1))*/ + "\n"
                                 } else {
                                     listTriangles = listTriangles + "3 " + String(self.getIdforXY(x: pixelX, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX + 1, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX, y: pixelY + 1)) + "\n"
                                 }
@@ -477,9 +477,9 @@ class Maillage {
 
                                 if (byNormale) {
                                     listTriangles = listTriangles + "f "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY)) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY)) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX - 1, y: pixelY)) + "//" + String(self.getIdforXY(x: pixelX - 1, y: pixelY)) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY - 1)) + "// " + String(self.getIdforXY(x: pixelX, y: pixelY - 1)) + "\n"
+                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" /*+ String(self.getIdforXY(x: pixelX, y: pixelY))*/ + " "
+                                    listTriangles += String(self.getIdforXY(x: pixelX - 1, y: pixelY) + 1) + "//" /*+ String(self.getIdforXY(x: pixelX - 1, y: pixelY))*/ + " "
+                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY - 1) + 1) + "// " /*+ String(self.getIdforXY(x: pixelX, y: pixelY - 1))*/ + "\n"
                                 } else {
                                     listTriangles = listTriangles + "3 " + String(self.getIdforXY(x: pixelX, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX - 1, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX, y: pixelY - 1)) + "\n"
                                 }
@@ -555,7 +555,7 @@ class Maillage {
 
                         outputText += "vn \(arrayNormal[pixelX][pixelY][0])  \(arrayNormal[pixelX][pixelY][1]) \(arrayNormal[pixelX][pixelY][2]) \n"
                     } else {
-                        outputText += "vn 90 90 90 \n"
+//                        outputText += "vn 90 90 90 \n"
                     }
 
                 }
