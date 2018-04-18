@@ -329,7 +329,58 @@ class Maillage {
 
                 // On récupère la ligne du pixel dans le tableau
                 // On récupère les données du pixel (X Y Z HAUTEUR LARGEUR isValid)
-                let dataArr = line[self.getIdforXY(x: pixelX, y: pixelY)].components(separatedBy: " ")
+                var dataArr = line[self.getIdforXY(x: pixelX, y: pixelY)].components(separatedBy: " ")
+
+                let GRILLE = 10
+                var sommeX : Double = 0
+                var sommeY : Double = 0
+                var sommeZ: Double = 0
+                var nbPixel : Double = 0
+                var c : [String]
+
+                for i in 1...(GRILLE/2) {
+                  if(pixelX + i < self.WIDTH) {
+                    for j in 1...(GRILLE/2) {
+                      if(pixelY + j < self.HEIGHT) {
+                        c = line[self.getIdforXY(x: pixelX+i, y: pixelY+j)].components(separatedBy: " ")
+                        nbPixel = nbPixel + 1
+                        sommeX = sommeX + Double(c[0])!
+                        sommeY = sommeY + Double(c[1])!
+                        sommeZ = sommeZ + Double(c[2])!
+                      }
+                      if(pixelY - j >= 0) {
+                        c = line[self.getIdforXY(x: pixelX+i, y: pixelY-j)].components(separatedBy: " ")
+                        nbPixel = nbPixel + 1
+                        sommeX = sommeX + Double(c[0])!
+                        sommeY = sommeY + Double(c[1])!
+                        sommeZ = sommeZ + Double(c[2])!
+                      }
+                    }
+                  }
+                  if(pixelX - i >= 0) {
+                    for j in 1...(GRILLE/2) {
+                      if(pixelY + j < self.HEIGHT) {
+                        c = line[self.getIdforXY(x: pixelX-i, y: pixelY+j)].components(separatedBy: " ")
+                        nbPixel = nbPixel + 1
+                        sommeX = sommeX + Double(c[0])!
+                        sommeY = sommeY + Double(c[1])!
+                        sommeZ = sommeZ + Double(c[2])!
+                      }
+                      if(pixelY - j >= 0) {
+                        c = line[self.getIdforXY(x: pixelX-i, y: pixelY-j)].components(separatedBy: " ")
+                        nbPixel = nbPixel + 1
+                        sommeX = sommeX + Double(c[0])!
+                        sommeY = sommeY + Double(c[1])!
+                        sommeZ = sommeZ + Double(c[2])!
+                      }
+                    }
+                  }
+                }
+
+                dataArr[0] = String(sommeX / nbPixel)
+                dataArr[1] = String(sommeY / nbPixel)
+                dataArr[2] = String(sommeZ / nbPixel)
+
                 // ajouts des coordonnées en x y z
                 switch (typeExport) {
                 case "off":
@@ -347,15 +398,22 @@ class Maillage {
                 var cX, cY: Double
                 cX = Double(dataArr[0])!
                 cY = Double(dataArr[1])!
+
+              /**
+              * VARIABLE DE FILTRE (prend en compte 1 pixel sur FILTRE dans le tracé d'un triangle)
+              * @type {Number}
+              */
+              let FILTRE = 5
+
                 // Si le Point est valide
                 // on supprime le bruit en ne prenant pas en compte les pixels
                 // de hauteur 0 ou > 0.3 && hauteur>0 && hauteur<0.3
                 if (dataArr[5] == "1" && typeExport != "csv") {
 
                     // Si les voisins de droite et d'en bas sont dans l'image
-                    if (((pixelX + 1) < self.WIDTH) && ((pixelY + 1) < self.HEIGHT)) {
-                        let dataArrRIGHT = line[self.getIdforXY(x: (pixelX + 1), y: pixelY)].components(separatedBy: " ")
-                        let dataArrDOWN = line[self.getIdforXY(x: pixelX, y: (pixelY + 1))].components(separatedBy: " ")
+                    if (((pixelX + FILTRE) < self.WIDTH) && ((pixelY + FILTRE) < self.HEIGHT)) {
+                        let dataArrRIGHT = line[self.getIdforXY(x: (pixelX + FILTRE), y: pixelY)].components(separatedBy: " ")
+                        let dataArrDOWN = line[self.getIdforXY(x: pixelX, y: (pixelY + FILTRE))].components(separatedBy: " ")
 
                         ////Si les voisins de droite et d'en bas sont valides
                         if ((dataArrRIGHT[5] == "1") && (dataArrDOWN[5] == "1")) {
@@ -395,10 +453,10 @@ class Maillage {
                                 if (byNormale) {
                                     listTriangles = listTriangles + "f "
                                     listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX + 1, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX + 1, y: pixelY) + 1) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY + 1) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY + 1) + 1) + "\n"
+                                    listTriangles += String(self.getIdforXY(x: pixelX + FILTRE, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX + FILTRE, y: pixelY) + 1) + " "
+                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY + FILTRE) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY + FILTRE) + 1) + "\n"
                                 } else {
-                                    listTriangles = listTriangles + "3 " + String(self.getIdforXY(x: pixelX, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX + 1, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX, y: pixelY + 1)) + "\n"
+                                    listTriangles = listTriangles + "3 " + String(self.getIdforXY(x: pixelX, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX + FILTRE, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX, y: pixelY + FILTRE)) + "\n"
                                 }
 
                                 // calcul de la normale
@@ -434,9 +492,9 @@ class Maillage {
                     }
 
                     //Si les voisins de gauche et d'en haut sont dans l'image
-                    if (((pixelX - 1) >= 0) && ((pixelY - 1) >= 0)) {
-                        let dataArrLEFT = line[self.getIdforXY(x: (pixelX - 1), y: pixelY)].components(separatedBy: " ")
-                        let dataArrUP = line[self.getIdforXY(x: pixelX, y: (pixelY - 1))].components(separatedBy: " ")
+                    if (((pixelX - FILTRE) >= 0) && ((pixelY - FILTRE) >= 0)) {
+                        let dataArrLEFT = line[self.getIdforXY(x: (pixelX - FILTRE), y: pixelY)].components(separatedBy: " ")
+                        let dataArrUP = line[self.getIdforXY(x: pixelX, y: (pixelY - FILTRE))].components(separatedBy: " ")
 
                         ////Si les voisins de droite et d'en bas sont valides
                         if ((dataArrLEFT[5] == "1") && (dataArrUP[5] == "1")) {
@@ -478,10 +536,10 @@ class Maillage {
                                 if (byNormale) {
                                     listTriangles = listTriangles + "f "
                                     listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX - 1, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX - 1, y: pixelY) + 1) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY - 1) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY - 1) + 1) + "\n"
+                                    listTriangles += String(self.getIdforXY(x: pixelX - FILTRE, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX - FILTRE, y: pixelY) + 1) + " "
+                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY - FILTRE) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY - FILTRE) + 1) + "\n"
                                 } else {
-                                    listTriangles = listTriangles + "3 " + String(self.getIdforXY(x: pixelX, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX - 1, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX, y: pixelY - 1)) + "\n"
+                                    listTriangles = listTriangles + "3 " + String(self.getIdforXY(x: pixelX, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX - FILTRE, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX, y: pixelY - FILTRE)) + "\n"
                                 }
 
                                 // calcul de la normale
