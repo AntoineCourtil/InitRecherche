@@ -1,23 +1,23 @@
 {
   "": {
-    "swift-dependencies": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/master.swiftdeps"
+    "swift-dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/master.swiftdeps"
   },
-  "/home/antoine/CLionProjects/InitRecherche/Sources/InitRecherche/Coordinate.swift": {
-    "dependencies": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Coordinate.d",
-    "object": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Coordinate.swift.o",
-    "swiftmodule": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Coordinate~partial.swiftmodule",
-    "swift-dependencies": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Coordinate.swiftdeps"
+  "/home/xnr/Bureau/depot/InitRecherche/Sources/InitRecherche/Coordinate.swift": {
+    "dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Coordinate.d",
+    "object": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Coordinate.swift.o",
+    "swiftmodule": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Coordinate~partial.swiftmodule",
+    "swift-dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Coordinate.swiftdeps"
   },
-  "/home/antoine/CLionProjects/InitRecherche/Sources/InitRecherche/Maillage.swift": {
-    "dependencies": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Maillage.d",
-    "object": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Maillage.swift.o",
-    "swiftmodule": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Maillage~partial.swiftmodule",
-    "swift-dependencies": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Maillage.swiftdeps"
+  "/home/xnr/Bureau/depot/InitRecherche/Sources/InitRecherche/Maillage.swift": {
+    "dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Maillage.d",
+    "object": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Maillage.swift.o",
+    "swiftmodule": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Maillage~partial.swiftmodule",
+    "swift-dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Maillage.swiftdeps"
   },
-  "/home/antoine/CLionProjects/InitRecherche/Sources/InitRecherche/main.swift": {
-    "dependencies": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/main.d",
-    "object": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/main.swift.o",
-    "swiftmodule": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/main~partial.swiftmodule",
-    "swift-dependencies": "/home/antoine/CLionProjects/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/main.swiftdeps"
+  "/home/xnr/Bureau/depot/InitRecherche/Sources/InitRecherche/main.swift": {
+    "dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/main.d",
+    "object": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/main.swift.o",
+    "swiftmodule": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/main~partial.swiftmodule",
+    "swift-dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/main.swiftdeps"
   }
 }

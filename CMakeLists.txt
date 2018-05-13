@@ -1,7 +1,8 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.10)
 project(InitRecherche)
 
-add_custom_target(InitRecherche ALL
-        COMMAND /usr/bin/swift build
+add_custom_target(InitRecherche
+        COMMAND /home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/bin/swift build
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        SOURCES Sources/main.swift)
+        SOURCES Sources/InitRecherche/Coordinate.swift Sources/InitRecherche/Maillage.swift Sources/InitRecherche/main.swift Tests/InitRechercheTests/InitRechercheTests.swift Tests/LinuxMain.swift Package.swift)
+

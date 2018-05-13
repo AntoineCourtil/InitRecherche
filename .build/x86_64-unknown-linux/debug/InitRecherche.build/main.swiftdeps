@@ -42,6 +42,7 @@ depends-top-level:
 - "||"
 depends-member:
 - ["Sa", "subscript"]
+- ["s13ArrayProtocolP", "subscript"]
 - ["s23BidirectionalCollectionP", "init"]
 - ["s23BidirectionalCollectionP", "subscript"]
 - ["s13BinaryIntegerP", "init"]
@@ -81,6 +82,7 @@ depends-member:
 - ["s17FixedWidthIntegerP", "init"]
 - ["s8HashableP", "_getBuiltinLogicValue"]
 - ["s8HashableP", "init"]
+- ["s8HashableP", "subscript"]
 - ["Si", "init"]
 - ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
 - ["s25LosslessStringConvertibleP", "init"]
@@ -104,7 +106,6 @@ depends-member:
 - ["s14StringProtocolP", "init"]
 - ["s16TextOutputStreamP", "init"]
 - ["s20TextOutputStreamableP", "init"]
-- ["s14_ArrayProtocolP", "subscript"]
 - ["s18_BitwiseOperationsP", "init"]
 - ["10Foundation13_CFBridgeableP", "_getBuiltinLogicValue"]
 - ["10Foundation13_CFBridgeableP", "init"]
@@ -128,6 +129,7 @@ depends-member:
 - ["s16_SwiftStringViewP", "init"]
 depends-nominal:
 - "Sa"
+- "s13ArrayProtocolP"
 - "s23BidirectionalCollectionP"
 - "s13BinaryIntegerP"
 - "Sb"
@@ -166,7 +168,6 @@ depends-nominal:
 - "s14StringProtocolP"
 - "s16TextOutputStreamP"
 - "s20TextOutputStreamableP"
-- "s14_ArrayProtocolP"
 - "s18_BitwiseOperationsP"
 - "10Foundation13_CFBridgeableP"
 - "s24_DestructorSafeContainerP"
@@ -183,10 +184,10 @@ depends-nominal:
 - "s16_SwiftStringViewP"
 depends-dynamic-lookup:
 depends-external:
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/glibc.modulemap"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
 interface-hash: "ec1db195b46524fd220057e6f71a2f1e"

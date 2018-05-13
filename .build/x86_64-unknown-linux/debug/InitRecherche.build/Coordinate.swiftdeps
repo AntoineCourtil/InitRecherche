@@ -25,7 +25,6 @@ depends-member:
 - ["13InitRecherche10CoordinateC", "X"]
 - ["13InitRecherche10CoordinateC", "Y"]
 - ["13InitRecherche10CoordinateC", "Z"]
-- ["13InitRecherche10CoordinateC", "deinit"]
 - ["13InitRecherche10CoordinateC", "hauteur"]
 - ["13InitRecherche10CoordinateC", "init"]
 - ["13InitRecherche10CoordinateC", "isValid"]
@@ -125,10 +124,10 @@ depends-nominal:
 - !private "10Foundation16_SwiftBridgeableP"
 depends-dynamic-lookup:
 depends-external:
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
-- "/home/antoine/.local/share/umake/swift/swift-lang/usr/lib/swift/linux/x86_64/glibc.modulemap"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Glibc.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Dispatch.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Foundation.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
+- "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
 interface-hash: "0fe8c0b67df8dcf3518996d3fe3b355e"

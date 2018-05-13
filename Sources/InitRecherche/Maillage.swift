@@ -30,13 +30,19 @@ class Maillage {
         var coordinatesByLine = [[Coordinate]]()
         //Chaque ligne dans un tableau line
         let line = stringFile.components(separatedBy: .newlines)
+
         for pixelY in 0...(HEIGHT - 1) {
             var coordinates = [Coordinate]()
             for pixelX in 0...(WIDTH - 1) {
-
                 //On récupère la ligne du pixel dans le tableau
-                var dataArr = line[getIdforXY(x: pixelX, y: pixelY)].components(separatedBy: " ")
-
+                var cLine = line[getIdforXY(x: pixelX, y: pixelY)].trimmingCharacters(in: .whitespaces)
+                var dataArr = cLine.components(separatedBy: " ")
+                if(dataArr[0] == "") {
+                    continue
+                }
+                if(dataArr[0].contains("#")) {
+                    continue
+                }
 //                print("\(dataArr[3]) \(dataArr[4]) | \(pixelY) \(pixelX)")
 
                 if (dataArr[5] == "1") {
@@ -86,7 +92,6 @@ class Maillage {
             var listPoints = ""
             for currentColumn in 0...(WIDTH - 1) {
                 let coordinate = coordinates[currentLine][currentColumn]
-                //print("ok2")
                 var valid = 1
                 if (!coordinate.isValid) {
                     valid = 0
@@ -101,7 +106,7 @@ class Maillage {
             listPtsByLine.append(listPoints)
         }
 
-        var outputFileName = "csv/\(fileName)_median.\(type)"
+        var outputFileName = "ressource/\(fileName)_median.\(type)"
 
         if (type == "sdp") {
             outputFileName = "ressource/\(fileName)_median.\(type)"
@@ -117,7 +122,7 @@ class Maillage {
             outputText += listPtsByLine[line]
         }
         print("Writing to \(outputFileName)...")
-        let url = URL(fileURLWithPath: outputFileName)
+        let url = URL(fileURLWithPath: "../../../\(outputFileName)")
         // on exporte
         let outputData = Data(outputText.utf8)
         do {
@@ -166,7 +171,6 @@ class Maillage {
                 // lecture pixel par pixel par fichier
                 for inbFile in 0...nbFile - 1 {
                     let currentFilePixel = lineByFile[inbFile][currentColumn]
-
 //                    print("\(currentFilePixel.hauteur) \(currentFilePixel.largeur) | \(currentLine) \(currentColumn)")
 
                     if (currentFilePixel.isValid) {
@@ -177,7 +181,6 @@ class Maillage {
 
                     }
                 }
-
 
                 //Traitement valeur medianne
                 if (tabPixelX.count > 0 && tabPixelY.count > 0 && tabPixelZ.count > 0) {
@@ -339,42 +342,42 @@ class Maillage {
                 var c : [String]
 
                 for i in 1...(GRILLE/2) {
-                  if(pixelX + i < self.WIDTH) {
-                    for j in 1...(GRILLE/2) {
-                      if(pixelY + j < self.HEIGHT) {
-                        c = line[self.getIdforXY(x: pixelX+i, y: pixelY+j)].components(separatedBy: " ")
-                        nbPixel = nbPixel + 1
-                        sommeX = sommeX + Double(c[0])!
-                        sommeY = sommeY + Double(c[1])!
-                        sommeZ = sommeZ + Double(c[2])!
-                      }
-                      if(pixelY - j >= 0) {
-                        c = line[self.getIdforXY(x: pixelX+i, y: pixelY-j)].components(separatedBy: " ")
-                        nbPixel = nbPixel + 1
-                        sommeX = sommeX + Double(c[0])!
-                        sommeY = sommeY + Double(c[1])!
-                        sommeZ = sommeZ + Double(c[2])!
-                      }
+                    if(pixelX + i < self.WIDTH) {
+                        for j in 1...(GRILLE/2) {
+                            if(pixelY + j < self.HEIGHT) {
+                                c = line[self.getIdforXY(x: pixelX+i, y: pixelY+j)].components(separatedBy: " ")
+                                nbPixel = nbPixel + 1
+                                sommeX = sommeX + Double(c[0])!
+                                sommeY = sommeY + Double(c[1])!
+                                sommeZ = sommeZ + Double(c[2])!
+                            }
+                            if(pixelY - j >= 0) {
+                                c = line[self.getIdforXY(x: pixelX+i, y: pixelY-j)].components(separatedBy: " ")
+                                nbPixel = nbPixel + 1
+                                sommeX = sommeX + Double(c[0])!
+                                sommeY = sommeY + Double(c[1])!
+                                sommeZ = sommeZ + Double(c[2])!
+                            }
+                        }
                     }
-                  }
-                  if(pixelX - i >= 0) {
-                    for j in 1...(GRILLE/2) {
-                      if(pixelY + j < self.HEIGHT) {
-                        c = line[self.getIdforXY(x: pixelX-i, y: pixelY+j)].components(separatedBy: " ")
-                        nbPixel = nbPixel + 1
-                        sommeX = sommeX + Double(c[0])!
-                        sommeY = sommeY + Double(c[1])!
-                        sommeZ = sommeZ + Double(c[2])!
-                      }
-                      if(pixelY - j >= 0) {
-                        c = line[self.getIdforXY(x: pixelX-i, y: pixelY-j)].components(separatedBy: " ")
-                        nbPixel = nbPixel + 1
-                        sommeX = sommeX + Double(c[0])!
-                        sommeY = sommeY + Double(c[1])!
-                        sommeZ = sommeZ + Double(c[2])!
-                      }
+                    if(pixelX - i >= 0) {
+                        for j in 1...(GRILLE/2) {
+                            if(pixelY + j < self.HEIGHT) {
+                                c = line[self.getIdforXY(x: pixelX-i, y: pixelY+j)].components(separatedBy: " ")
+                                nbPixel = nbPixel + 1
+                                sommeX = sommeX + Double(c[0])!
+                                sommeY = sommeY + Double(c[1])!
+                                sommeZ = sommeZ + Double(c[2])!
+                            }
+                            if(pixelY - j >= 0) {
+                                c = line[self.getIdforXY(x: pixelX-i, y: pixelY-j)].components(separatedBy: " ")
+                                nbPixel = nbPixel + 1
+                                sommeX = sommeX + Double(c[0])!
+                                sommeY = sommeY + Double(c[1])!
+                                sommeZ = sommeZ + Double(c[2])!
+                            }
+                        }
                     }
-                  }
                 }
 
                 dataArr[0] = String(sommeX / nbPixel)
@@ -399,11 +402,11 @@ class Maillage {
                 cX = Double(dataArr[0])!
                 cY = Double(dataArr[1])!
 
-              /**
-              * VARIABLE DE FILTRE (prend en compte 1 pixel sur FILTRE dans le tracé d'un triangle)
-              * @type {Number}
-              */
-              let FILTRE = 5
+                /**
+                * VARIABLE DE FILTRE (prend en compte 1 pixel sur FILTRE dans le tracé d'un triangle)
+                * @type {Number}
+                */
+                let FILTRE = 5
 
                 // Si le Point est valide
                 // on supprime le bruit en ne prenant pas en compte les pixels
@@ -721,75 +724,75 @@ class Maillage {
         return outputText
     }
 
-        /*
-        * Convertis une capture depuis Camera True-Depth
-        * sous format SDP vers le format précisé (type)
-        * et effectue un maillage triangle
-        *
-        */
-        func sdpMaillageExport(fileName:String, type:String, byNormale:Bool) {
+    /*
+    * Convertis une capture depuis Camera True-Depth
+    * sous format SDP vers le format précisé (type)
+    * et effectue un maillage triangle
+    *
+    */
+    func sdpMaillageExport(fileName:String, type:String, byNormale:Bool) {
 
         let fileManager = FileManager()
         let path = fileManager.currentDirectoryPath
         if let path = Bundle.main.path(forResource:"../../../ressource/\(fileName)", ofType:"sdp") {
-        do {
-        let outputFileName = "result/\(fileName).\(type)"
-        let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
-        let file = try String(contentsOfFile:path, encoding:.utf8)
-        let maillage = self.maillage(stringFile:file, fileName:fileName, typeExport:type, byNormale:byNormale)
-        print(url)
-        /*
-        * Write result in .type file
-        */
-        let outputData = Data(maillage.utf8)
-        do {
-        try outputData.write(to:url, options:.atomic)
-        } catch {
-        print(error)
+            do {
+                let outputFileName = "result/\(fileName).\(type)"
+                let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
+                let file = try String(contentsOfFile:path, encoding:.utf8)
+                let maillage = self.maillage(stringFile:file, fileName:fileName, typeExport:type, byNormale:byNormale)
+                print(url)
+                /*
+                * Write result in .type file
+                */
+                let outputData = Data(maillage.utf8)
+                do {
+                    try outputData.write(to:url, options:.atomic)
+                } catch {
+                    print(error)
+                }
+                //print(url)
+            } catch {
+                print(error)
+                print("ressource/\(fileName) n'est pas un fichier SDP.")
+            }
         }
-        //print(url)
-        } catch {
-        print(error)
-        print("ressource/\(fileName) n'est pas un fichier SDP.")
-        }
-        }
-        }
+    }
 
-        /**
-         * Convertis les fichiers commençant par la valeur de
-         * fileBaseName (de 1 jusqu'à numberOfFiles) dans le type voulu
-         * avec un maillage triangle
-         *
-         * @type {[type]}
-         */
-        func loopSdpMaillageToType(fileBaseName:String, numberOfFiles:Int, type:String, byNormale:Bool) {
+    /**
+     * Convertis les fichiers commençant par la valeur de
+     * fileBaseName (de 1 jusqu'à numberOfFiles) dans le type voulu
+     * avec un maillage triangle
+     *
+     * @type {[type]}
+     */
+    func loopSdpMaillageToType(fileBaseName:String, numberOfFiles:Int, type:String, byNormale:Bool) {
 
         if (!fileBaseName.isEmpty && numberOfFiles > 0 && (type == "off" || type == "csv")) {
-        for nbFile in 1...numberOfFiles {
-        if let path = Bundle.main.path(forResource:"../../../ressource/\(fileName)\(nbFile)", ofType:"sdp") {
-        do {
-        var dir = "csv"
-        if (type == "off") {
-        dir = "out"
-        }
-        let outputFileName = "../../../\(dir)/\(fileName)\(nbFile).\(type)"
-        print("Generating [\(outputFileName)]")
-        let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
-        let file = try String(contentsOfFile:path, encoding:.utf8)
-        let maillage = self.maillage(stringFile:file, fileName:"../../../ressource/\(fileName)\(nbFile)", typeExport:type, byNormale:byNormale)
-        let outputData = Data(maillage.utf8)
-        do {
-        try outputData.write(to:url, options:.atomic)
-        } catch {
-        print("error: \(error)")
-        }
+            for nbFile in 1...numberOfFiles {
+                if let path = Bundle.main.path(forResource:"../../../ressource/\(fileName)\(nbFile)", ofType:"sdp") {
+                    do {
+                        var dir = "csv"
+                        if (type == "off") {
+                            dir = "out"
+                        }
+                        let outputFileName = "../../../\(dir)/\(fileName)\(nbFile).\(type)"
+                        print("Generating [\(outputFileName)]")
+                        let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
+                        let file = try String(contentsOfFile:path, encoding:.utf8)
+                        let maillage = self.maillage(stringFile:file, fileName:"../../../ressource/\(fileName)\(nbFile)", typeExport:type, byNormale:byNormale)
+                        let outputData = Data(maillage.utf8)
+                        do {
+                            try outputData.write(to:url, options:.atomic)
+                        } catch {
+                            print("error: \(error)")
+                        }
 
-        } catch {
-        print(error)
-        print("ressource/\(fileName) n'est pas un fichier SDP.")
-        }
-        }
-        }
+                    } catch {
+                        print(error)
+                        print("ressource/\(fileName) n'est pas un fichier SDP.")
+                    }
+                }
+            }
         }
     }
-    }
+}
