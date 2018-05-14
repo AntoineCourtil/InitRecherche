@@ -36,8 +36,10 @@ depends-top-level:
 - !private "NSString"
 - "String"
 - !private "StringLiteralType"
+- !private "Triangle"
 - !private "URL"
 - !private "UnicodeScalarType"
+- !private "Vector3D"
 - !private "abs"
 - !private "fflush"
 - !private "fileName"
@@ -322,9 +324,12 @@ depends-member:
 - ["13InitRecherche8MaillageC", "HEIGHT"]
 - ["13InitRecherche8MaillageC", "Int"]
 - ["13InitRecherche8MaillageC", "MAX_DISTANCE"]
+- !private ["13InitRecherche8MaillageC", "Maillage"]
 - !private ["13InitRecherche8MaillageC", "NSString"]
 - ["13InitRecherche8MaillageC", "String"]
+- !private ["13InitRecherche8MaillageC", "Triangle"]
 - !private ["13InitRecherche8MaillageC", "URL"]
+- !private ["13InitRecherche8MaillageC", "Vector3D"]
 - ["13InitRecherche8MaillageC", "WIDTH"]
 - !private ["13InitRecherche8MaillageC", "abs"]
 - ["13InitRecherche8MaillageC", "calculerMedianne"]
@@ -458,8 +463,10 @@ depends-member:
 - !private ["s20TextOutputStreamableP", "isEmpty"]
 - !private ["s20TextOutputStreamableP", "trimmingCharacters"]
 - !private ["s20TextOutputStreamableP", "utf8"]
+- !private ["13InitRecherche8TriangleC", "init"]
 - !private ["10Foundation3URLV", "appendingPathComponent"]
 - !private ["10Foundation3URLV", "init"]
+- !private ["13InitRecherche8Vector3DV", "init"]
 - !private ["10Foundation6NSDataC14WritingOptionsV", "atomic"]
 - !private ["s18_BitwiseOperationsP", "init"]
 - !private ["10Foundation13_CFBridgeableP", "_getBuiltinLogicValue"]
@@ -645,7 +652,9 @@ depends-nominal:
 - !private "s14StringProtocolP"
 - !private "s16TextOutputStreamP"
 - !private "s20TextOutputStreamableP"
+- !private "13InitRecherche8TriangleC"
 - !private "10Foundation3URLV"
+- !private "13InitRecherche8Vector3DV"
 - !private "10Foundation6NSDataC14WritingOptionsV"
 - !private "s18_BitwiseOperationsP"
 - !private "10Foundation13_CFBridgeableP"
@@ -677,4 +686,4 @@ depends-external:
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "79d99f8318bda422a6f429719c912573"
+interface-hash: "13e4a4e2f49037581eebde2051171f00"

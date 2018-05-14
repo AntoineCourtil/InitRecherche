@@ -14,6 +14,24 @@
     "swiftmodule": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Maillage~partial.swiftmodule",
     "swift-dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Maillage.swiftdeps"
   },
+  "/home/xnr/Bureau/depot/InitRecherche/Sources/InitRecherche/MaillageObject.swift": {
+    "dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/MaillageObject.d",
+    "object": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/MaillageObject.swift.o",
+    "swiftmodule": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/MaillageObject~partial.swiftmodule",
+    "swift-dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/MaillageObject.swiftdeps"
+  },
+  "/home/xnr/Bureau/depot/InitRecherche/Sources/InitRecherche/Triangle.swift": {
+    "dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Triangle.d",
+    "object": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Triangle.swift.o",
+    "swiftmodule": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Triangle~partial.swiftmodule",
+    "swift-dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Triangle.swiftdeps"
+  },
+  "/home/xnr/Bureau/depot/InitRecherche/Sources/InitRecherche/Vector3D.swift": {
+    "dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Vector3D.d",
+    "object": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Vector3D.swift.o",
+    "swiftmodule": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Vector3D~partial.swiftmodule",
+    "swift-dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/Vector3D.swiftdeps"
+  },
   "/home/xnr/Bureau/depot/InitRecherche/Sources/InitRecherche/main.swift": {
     "dependencies": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/main.d",
     "object": "/home/xnr/Bureau/depot/InitRecherche/.build/x86_64-unknown-linux/debug/InitRecherche.build/main.swift.o",

@@ -3,9 +3,9 @@ import Glibc
 
 class Maillage {
 
-    var WIDTH: Int = 640
-    var HEIGHT: Int = 360
-    var MAX_DISTANCE: Double = 0.01
+    static var WIDTH: Int = 640
+    static var HEIGHT: Int = 360
+    static var MAX_DISTANCE: Double = 0.01
 
     /*
     * return l'id de la ligne du pixel en x y
@@ -14,8 +14,8 @@ class Maillage {
     * il faut acceder à la ligne 640+1 pour avoir le premier
     * point de la deuxième ligne.
     */
-    func getIdforXY(x: Int, y: Int) -> Int {
-        return (x + (y * WIDTH))
+    static func getIdforXY(x: Int, y: Int) -> Int {
+        return (x + (y * Maillage.WIDTH))
     }
 
     /**
@@ -31,11 +31,11 @@ class Maillage {
         //Chaque ligne dans un tableau line
         let line = stringFile.components(separatedBy: .newlines)
 
-        for pixelY in 0...(HEIGHT - 1) {
+        for pixelY in 0...(Maillage.HEIGHT - 1) {
             var coordinates = [Coordinate]()
-            for pixelX in 0...(WIDTH - 1) {
+            for pixelX in 0...(Maillage.WIDTH - 1) {
                 //On récupère la ligne du pixel dans le tableau
-                var cLine = line[getIdforXY(x: pixelX, y: pixelY)].trimmingCharacters(in: .whitespaces)
+                var cLine = line[Maillage.getIdforXY(x: pixelX, y: pixelY)].trimmingCharacters(in: .whitespaces)
                 var dataArr = cLine.components(separatedBy: " ")
                 if(dataArr[0] == "") {
                     continue
@@ -88,9 +88,9 @@ class Maillage {
         var listPtsByLine = [String]()
         var cptPoints = 0
         var header = "OFF\n# \(fileName) off\n# median \(fileName)\n\n"
-        for currentLine in 0...(HEIGHT - 1) {
+        for currentLine in 0...(Maillage.HEIGHT - 1) {
             var listPoints = ""
-            for currentColumn in 0...(WIDTH - 1) {
+            for currentColumn in 0...(Maillage.WIDTH - 1) {
                 let coordinate = coordinates[currentLine][currentColumn]
                 var valid = 1
                 if (!coordinate.isValid) {
@@ -118,7 +118,7 @@ class Maillage {
             outputText = header
         }
         // on ajoute les points au fichier
-        for line in 0...(HEIGHT - 1) {
+        for line in 0...(Maillage.HEIGHT - 1) {
             outputText += listPtsByLine[line]
         }
         print("Writing to \(outputFileName)...")
@@ -145,7 +145,7 @@ class Maillage {
         var medianneCoordinatesFile = [[Coordinate]]()
         var pourcentage = -10
         print("Calculating...")
-        for currentLine in 0...(HEIGHT - 1) {
+        for currentLine in 0...(Maillage.HEIGHT - 1) {
             var medianneLine = [Coordinate]()
             var lineByFile = [[Coordinate]]()
 
@@ -156,7 +156,7 @@ class Maillage {
                 lineByFile.append(line)
             }
 
-            for currentColumn in 0...(WIDTH - 1) {
+            for currentColumn in 0...(Maillage.WIDTH - 1) {
                 //Init var du pixel
                 var tabPixelX = [Double]()
                 var valPixelX: Double? = nil
@@ -200,7 +200,7 @@ class Maillage {
                 }
                 medianneLine.append(mediannePointCoordinate!)
             }
-            if (currentLine % ((HEIGHT - 1) / 10) == 0) {
+            if (currentLine % ((Maillage.HEIGHT - 1) / 10) == 0) {
                 pourcentage += 10
                 print("\(pourcentage)%")
             }
@@ -238,10 +238,10 @@ class Maillage {
                         var tauxY: Double = 0
                         var tauxZ: Double = 0
 
-                        for ligne in 0...HEIGHT - 1 {
+                        for ligne in 0...Maillage.HEIGHT - 1 {
                             cptPointsLigne = 0
                             sommeTauxLigne = 0
-                            for colonne in 0...WIDTH - 1 {
+                            for colonne in 0...Maillage.WIDTH - 1 {
                                 cptPointsLigne += 1
                                 var nbCoordinateConsidered: Double = 0
                                 if (median[ligne][colonne].X != 0) {
@@ -295,13 +295,13 @@ class Maillage {
         }
     }
 
+
     /*
     * récupère un fichier SDP et effectue
     * un maillage en format OFF
     * @type {[type]}
     **/
     func maillage(stringFile: String, fileName: String, typeExport: String, byNormale: Bool) -> String {
-
         var cptPoints = 0
         var cptTriangle = 0
 
@@ -310,11 +310,12 @@ class Maillage {
 
         //arrayNormal [abs] [ord] [Nx/Ny/Nz/nbNormals/isValid]
 //        var arrayNormal = [[[Double]]]()
-//        var arrayNormal = [[Double]](repeating: [Double](repeating: 0, count: self.HEIGHT), count: self.WIDTH)
-        var arrayNormal = [[[Double]]](repeating: [[Double]](repeating: [Double](repeating: 0, count: 5), count: self.HEIGHT), count: self.WIDTH)
+//        var arrayNormal = [[Double]](repeating: [Double](repeating: 0, count: self.Maillage.HEIGHT), count: Maillage.WIDTH)
+        var arrayNormal = [[[Double]]](repeating: [[Double]](repeating: [Double](repeating: 0, count: 5), count: Maillage.HEIGHT), count: Maillage.WIDTH)
 
         var listTriangleByLine = [String]()
         var listTriangles = ""
+        var listTriangleObj = [Triangle]()
         var nbListTriangle = 0
 
         var pourcentage = -10
@@ -324,35 +325,33 @@ class Maillage {
         //Chaque ligne dans un tableau line
         let line = stringFile.components(separatedBy: .newlines)
 
-        for pixelY in 0...(self.HEIGHT - 1) {
+        for pixelY in 0...(Maillage.HEIGHT - 1) {
             listPoints = ""
             listTriangles = ""
-            for pixelX in 0...(self.WIDTH - 1) {
-                cptPoints = cptPoints + 1
+            for pixelX in 0...(Maillage.WIDTH - 1) {
 
+                cptPoints = cptPoints + 1
                 // On récupère la ligne du pixel dans le tableau
                 // On récupère les données du pixel (X Y Z HAUTEUR LARGEUR isValid)
-                var dataArr = line[self.getIdforXY(x: pixelX, y: pixelY)].components(separatedBy: " ")
-
+                var dataArr = line[Maillage.getIdforXY(x: pixelX, y: pixelY)].components(separatedBy: " ")
                 let GRILLE = 10
                 var sommeX : Double = 0
                 var sommeY : Double = 0
                 var sommeZ: Double = 0
                 var nbPixel : Double = 0
                 var c : [String]
-
                 for i in 1...(GRILLE/2) {
-                    if(pixelX + i < self.WIDTH) {
+                    if(pixelX + i < Maillage.WIDTH) {
                         for j in 1...(GRILLE/2) {
-                            if(pixelY + j < self.HEIGHT) {
-                                c = line[self.getIdforXY(x: pixelX+i, y: pixelY+j)].components(separatedBy: " ")
+                            if(pixelY + j < Maillage.HEIGHT) {
+                                c = line[Maillage.getIdforXY(x: pixelX+i, y: pixelY+j)].components(separatedBy: " ")
                                 nbPixel = nbPixel + 1
                                 sommeX = sommeX + Double(c[0])!
                                 sommeY = sommeY + Double(c[1])!
                                 sommeZ = sommeZ + Double(c[2])!
                             }
                             if(pixelY - j >= 0) {
-                                c = line[self.getIdforXY(x: pixelX+i, y: pixelY-j)].components(separatedBy: " ")
+                                c = line[Maillage.getIdforXY(x: pixelX+i, y: pixelY-j)].components(separatedBy: " ")
                                 nbPixel = nbPixel + 1
                                 sommeX = sommeX + Double(c[0])!
                                 sommeY = sommeY + Double(c[1])!
@@ -362,15 +361,15 @@ class Maillage {
                     }
                     if(pixelX - i >= 0) {
                         for j in 1...(GRILLE/2) {
-                            if(pixelY + j < self.HEIGHT) {
-                                c = line[self.getIdforXY(x: pixelX-i, y: pixelY+j)].components(separatedBy: " ")
+                            if(pixelY + j < Maillage.HEIGHT) {
+                                c = line[Maillage.getIdforXY(x: pixelX-i, y: pixelY+j)].components(separatedBy: " ")
                                 nbPixel = nbPixel + 1
                                 sommeX = sommeX + Double(c[0])!
                                 sommeY = sommeY + Double(c[1])!
                                 sommeZ = sommeZ + Double(c[2])!
                             }
                             if(pixelY - j >= 0) {
-                                c = line[self.getIdforXY(x: pixelX-i, y: pixelY-j)].components(separatedBy: " ")
+                                c = line[Maillage.getIdforXY(x: pixelX-i, y: pixelY-j)].components(separatedBy: " ")
                                 nbPixel = nbPixel + 1
                                 sommeX = sommeX + Double(c[0])!
                                 sommeY = sommeY + Double(c[1])!
@@ -379,7 +378,6 @@ class Maillage {
                         }
                     }
                 }
-
                 dataArr[0] = String(sommeX / nbPixel)
                 dataArr[1] = String(sommeY / nbPixel)
                 dataArr[2] = String(sommeZ / nbPixel)
@@ -398,10 +396,10 @@ class Maillage {
                 let hauteurX: Double = NSString(string: dataArr[0]).doubleValue
                 let hauteurY: Double = NSString(string: dataArr[1]).doubleValue
                 let hauteurZ: Double = NSString(string: dataArr[2]).doubleValue
-                var cX, cY: Double
+                var cX, cY, cZ: Double
                 cX = Double(dataArr[0])!
                 cY = Double(dataArr[1])!
-
+                cZ = Double(dataArr[2])!
                 /**
                 * VARIABLE DE FILTRE (prend en compte 1 pixel sur FILTRE dans le tracé d'un triangle)
                 * @type {Number}
@@ -414,9 +412,9 @@ class Maillage {
                 if (dataArr[5] == "1" && typeExport != "csv") {
 
                     // Si les voisins de droite et d'en bas sont dans l'image
-                    if (((pixelX + FILTRE) < self.WIDTH) && ((pixelY + FILTRE) < self.HEIGHT)) {
-                        let dataArrRIGHT = line[self.getIdforXY(x: (pixelX + FILTRE), y: pixelY)].components(separatedBy: " ")
-                        let dataArrDOWN = line[self.getIdforXY(x: pixelX, y: (pixelY + FILTRE))].components(separatedBy: " ")
+                    if (((pixelX + FILTRE) < Maillage.WIDTH) && ((pixelY + FILTRE) < Maillage.HEIGHT)) {
+                        let dataArrRIGHT = line[Maillage.getIdforXY(x: (pixelX + FILTRE), y: pixelY)].components(separatedBy: " ")
+                        let dataArrDOWN = line[Maillage.getIdforXY(x: pixelX, y: (pixelY + FILTRE))].components(separatedBy: " ")
 
                         ////Si les voisins de droite et d'en bas sont valides
                         if ((dataArrRIGHT[5] == "1") && (dataArrDOWN[5] == "1")) {
@@ -449,17 +447,17 @@ class Maillage {
                             diffBasZ = abs(hauteurZ - dZ)
 
 
-//                            if (diffDroiteX < MAX_DISTANCE && diffBasX < MAX_DISTANCE && diffDroiteY < MAX_DISTANCE && diffBasY < MAX_DISTANCE && diffDroiteZ < MAX_DISTANCE && diffBasZ < MAX_DISTANCE) {
-                            if (diffDroiteZ < MAX_DISTANCE && diffBasZ < MAX_DISTANCE) {
+//                            if (diffDroiteX < Maillage.MAX_DISTANCE && diffBasX < Maillage.MAX_DISTANCE && diffDroiteY < Maillage.MAX_DISTANCE && diffBasY < Maillage.MAX_DISTANCE && diffDroiteZ < Maillage.MAX_DISTANCE && diffBasZ < Maillage.MAX_DISTANCE) {
+                            if (diffDroiteZ < Maillage.MAX_DISTANCE && diffBasZ < Maillage.MAX_DISTANCE) {
                                 cptTriangle = cptTriangle + 1
 
                                 if (byNormale) {
                                     listTriangles = listTriangles + "f "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX + FILTRE, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX + FILTRE, y: pixelY) + 1) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY + FILTRE) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY + FILTRE) + 1) + "\n"
+                                    listTriangles += String(Maillage.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" + String(Maillage.getIdforXY(x: pixelX, y: pixelY) + 1) + " "
+                                    listTriangles += String(Maillage.getIdforXY(x: pixelX + FILTRE, y: pixelY) + 1) + "//" + String(Maillage.getIdforXY(x: pixelX + FILTRE, y: pixelY) + 1) + " "
+                                    listTriangles += String(Maillage.getIdforXY(x: pixelX, y: pixelY + FILTRE) + 1) + "//" + String(Maillage.getIdforXY(x: pixelX, y: pixelY + FILTRE) + 1) + "\n"
                                 } else {
-                                    listTriangles = listTriangles + "3 " + String(self.getIdforXY(x: pixelX, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX + FILTRE, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX, y: pixelY + FILTRE)) + "\n"
+                                    listTriangles = listTriangles + "3 " + String(Maillage.getIdforXY(x: pixelX, y: pixelY)) + " " + String(Maillage.getIdforXY(x: pixelX + FILTRE, y: pixelY)) + " " + String(Maillage.getIdforXY(x: pixelX, y: pixelY + FILTRE)) + "\n"
                                 }
 
                                 // calcul de la normale
@@ -469,15 +467,16 @@ class Maillage {
                                 dX = Double(dataArrDOWN[0])!
                                 dY = Double(dataArrDOWN[1])!
 
+                                var triangle = Triangle(sommetA:Vector3D(x:cX, y:cY, z:cZ, id:Maillage.getIdforXY(x: pixelX, y: pixelY)), sommetB:Vector3D(x:dX, y:dY, z:dZ, id:Maillage.getIdforXY(x: pixelX, y: pixelY + FILTRE)), sommetC:Vector3D(x:rX, y:rY, z:rZ, id:Maillage.getIdforXY(x: pixelX + FILTRE, y: pixelY)))
                                 nX = (rY - cY) * (dZ - hauteurZ) - (rZ - hauteurZ) * (dY - cY)
                                 nY = (rZ - hauteurZ) * (dX - cX) - (rX - cX) * (dZ - hauteurZ)
                                 nZ = (rX - cX) * (dY - cY) - (rY - cY) * (dX - cX)
                                 norme = sqrt((nX * nX) + (nY * nY) + (nZ * nZ))
-
                                 // normale :
                                 nX = nX / norme
                                 nY = nY / norme
                                 nZ = nZ / norme
+
 
                                 //save in array
                                 arrayNormal[pixelX][pixelY][0] += nX
@@ -496,8 +495,8 @@ class Maillage {
 
                     //Si les voisins de gauche et d'en haut sont dans l'image
                     if (((pixelX - FILTRE) >= 0) && ((pixelY - FILTRE) >= 0)) {
-                        let dataArrLEFT = line[self.getIdforXY(x: (pixelX - FILTRE), y: pixelY)].components(separatedBy: " ")
-                        let dataArrUP = line[self.getIdforXY(x: pixelX, y: (pixelY - FILTRE))].components(separatedBy: " ")
+                        let dataArrLEFT = line[Maillage.getIdforXY(x: (pixelX - FILTRE), y: pixelY)].components(separatedBy: " ")
+                        let dataArrUP = line[Maillage.getIdforXY(x: pixelX, y: (pixelY - FILTRE))].components(separatedBy: " ")
 
                         ////Si les voisins de droite et d'en bas sont valides
                         if ((dataArrLEFT[5] == "1") && (dataArrUP[5] == "1")) {
@@ -530,19 +529,19 @@ class Maillage {
                             diffHautZ = abs(hauteurZ - uZ)
 
 
-                            if (diffGaucheZ < MAX_DISTANCE && diffHautZ < MAX_DISTANCE) {
-//                            if (diffGaucheX < MAX_DISTANCE && diffHautX < MAX_DISTANCE && diffGaucheY < MAX_DISTANCE && diffHautY < MAX_DISTANCE && diffGaucheZ < MAX_DISTANCE && diffHautZ < MAX_DISTANCE) {
+                            if (diffGaucheZ < Maillage.MAX_DISTANCE && diffHautZ < Maillage.MAX_DISTANCE) {
+//                            if (diffGaucheX < Maillage.MAX_DISTANCE && diffHautX < Maillage.MAX_DISTANCE && diffGaucheY < Maillage.MAX_DISTANCE && diffHautY < Maillage.MAX_DISTANCE && diffGaucheZ < Maillage.MAX_DISTANCE && diffHautZ < Maillage.MAX_DISTANCE) {
 
                                 //Alors on créé un triangle
                                 cptTriangle = cptTriangle + 1
 
                                 if (byNormale) {
                                     listTriangles = listTriangles + "f "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY) + 1) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX - FILTRE, y: pixelY) + 1) + "//" + String(self.getIdforXY(x: pixelX - FILTRE, y: pixelY) + 1) + " "
-                                    listTriangles += String(self.getIdforXY(x: pixelX, y: pixelY - FILTRE) + 1) + "//" + String(self.getIdforXY(x: pixelX, y: pixelY - FILTRE) + 1) + "\n"
+                                    listTriangles += String(Maillage.getIdforXY(x: pixelX, y: pixelY) + 1) + "//" + String(Maillage.getIdforXY(x: pixelX, y: pixelY) + 1) + " "
+                                    listTriangles += String(Maillage.getIdforXY(x: pixelX - FILTRE, y: pixelY) + 1) + "//" + String(Maillage.getIdforXY(x: pixelX - FILTRE, y: pixelY) + 1) + " "
+                                    listTriangles += String(Maillage.getIdforXY(x: pixelX, y: pixelY - FILTRE) + 1) + "//" + String(Maillage.getIdforXY(x: pixelX, y: pixelY - FILTRE) + 1) + "\n"
                                 } else {
-                                    listTriangles = listTriangles + "3 " + String(self.getIdforXY(x: pixelX, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX - FILTRE, y: pixelY)) + " " + String(self.getIdforXY(x: pixelX, y: pixelY - FILTRE)) + "\n"
+                                    listTriangles = listTriangles + "3 " + String(Maillage.getIdforXY(x: pixelX, y: pixelY)) + " " + String(Maillage.getIdforXY(x: pixelX - FILTRE, y: pixelY)) + " " + String(Maillage.getIdforXY(x: pixelX, y: pixelY - FILTRE)) + "\n"
                                 }
 
                                 // calcul de la normale
@@ -573,7 +572,7 @@ class Maillage {
                     }
                 }
             }
-            if (pixelY % ((HEIGHT - 1) / 10) == 0) {
+            if (pixelY % ((Maillage.HEIGHT - 1) / 10) == 0) {
                 pourcentage += 10
                 if (pourcentage != 100) {
                     print("\(pourcentage)%\r", terminator: "")
@@ -597,14 +596,14 @@ class Maillage {
             outputText = "#" + fileName + "OBJ File\n#\ng " + fileName + "\n\n\n"
 
 
-            for pixelY in 0...(self.HEIGHT - 1) {
+            for pixelY in 0...(Maillage.HEIGHT - 1) {
                 outputText = outputText + listPtsByLine[pixelY]
             }
 
             //calcul de la moyenne de la normale par points
 
-            for pixelY in 0...(self.HEIGHT - 1) {
-                for pixelX in 0...(self.WIDTH - 1) {
+            for pixelY in 0...(Maillage.HEIGHT - 1) {
+                for pixelX in 0...(Maillage.WIDTH - 1) {
 
                     var ligneNormale = ""
 
@@ -636,8 +635,8 @@ class Maillage {
             max = -DBL_MAX
 
             // Recherche du min et max pour mettre les valeurs entre 0 et 255
-            for pixelY in 0...(self.HEIGHT - 1) {
-                for pixelX in 0...(self.WIDTH - 1) {
+            for pixelY in 0...(Maillage.HEIGHT - 1) {
+                for pixelX in 0...(Maillage.WIDTH - 1) {
 
                     if (arrayNormal[pixelX][pixelY][4] == 1) {
 
@@ -657,9 +656,9 @@ class Maillage {
 
 
             if(typeExport == "pgm") {
-                outputText = "P2 \n#\(fileName) \n \(HEIGHT) \(WIDTH) \n255\n"
+                outputText = "P2 \n#\(fileName) \n \(Maillage.HEIGHT) \(Maillage.WIDTH) \n255\n"
             } else{
-                outputText = "P3 \n#\(fileName) \n \(HEIGHT) \(WIDTH) \n255\n"
+                outputText = "P3 \n#\(fileName) \n \(Maillage.HEIGHT) \(Maillage.WIDTH) \n255\n"
             }
 
 
@@ -667,8 +666,8 @@ class Maillage {
 
             miseAEchelle = 256 / (abs(min) * max)
 
-            for pixelX in 0...(self.WIDTH - 1) {
-                for pixelY in 0...(self.HEIGHT - 1) {
+            for pixelX in 0...(Maillage.WIDTH - 1) {
+                for pixelY in 0...(Maillage.HEIGHT - 1) {
                     //if isValid
                     if (arrayNormal[pixelX][pixelY][4] == 1) {
 
@@ -710,7 +709,7 @@ class Maillage {
             }
 
 
-            for pixelY in 0...(self.HEIGHT - 1) {
+            for pixelY in 0...(Maillage.HEIGHT - 1) {
                 outputText = outputText + listPtsByLine[pixelY]
             }
 

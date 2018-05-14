@@ -1,7 +1,3 @@
-//
-// Created by xnr on 14/05/18.
-//
-
 import Foundation
 
 class Triangle {
@@ -10,9 +6,10 @@ class Triangle {
     var normale : Vector3D
 
     init(sommetA : Vector3D, sommetB : Vector3D, sommetC : Vector3D) {
-        sommets[0] = sommetA
-        sommets[1] = sommetB
-        sommets[2] = sommetC
-        normale = (sommetA*sommetB)^(sommetA*sommetC)
+        self.sommets = [Vector3D]()
+        self.sommets.append(sommetA)
+        self.sommets.append(sommetB)
+        self.sommets.append(sommetC)
+        self.normale = (sommetB-sommetA)^(sommetC-sommetA)
     }
 }
