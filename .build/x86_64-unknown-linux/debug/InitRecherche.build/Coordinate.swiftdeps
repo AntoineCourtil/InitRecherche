@@ -8,9 +8,12 @@ provides-member:
 depends-top-level:
 - "AssignmentPrecedence"
 - "Bool"
+- !private "BooleanLiteralType"
 - "Coordinate"
 - "Double"
+- !private "FloatLiteralType"
 - "Int"
+- !private "IntegerLiteralType"
 - !private "NSString"
 - "String"
 depends-member:
@@ -130,4 +133,4 @@ depends-external:
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "0fe8c0b67df8dcf3518996d3fe3b355e"
+interface-hash: "e5a588557f48aa89a55dc7a5613de4b7"

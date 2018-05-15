@@ -296,6 +296,111 @@ class Maillage {
     }
 
 
+    func maillageObject(stringFile: String, fileName: String, typeExport: String) -> String {
+        var coordinates = parseSdp(stringFile: stringFile)
+        print(coordinates[0][0].X)
+        var triangles = [Triangle]()
+        for i in 0...(Maillage.HEIGHT-1) {
+            for j in 0...(Maillage.WIDTH-1) {
+//                /**
+//                *   Algorithme calculant la moyenne des coordonnées sur une grille 10x10
+//                *   et attribuant cette valeur au point (i,j) parcouru
+//                */
+//                let GRILLE = 10
+//                var sommeX: Double = 0
+//                var sommeY: Double = 0
+//                var sommeZ: Double = 0
+//                var nbPixel: Double = 0
+//                var c : Coordinate = Coordinate()
+//                for k in 1...(GRILLE / 2) {
+//                    if (j + k < Maillage.WIDTH) {
+//                        for h in 1...(GRILLE / 2) {
+//                            if (i + h < Maillage.HEIGHT) {
+//                                //T0D0 : peut être inverser
+//                                c = coordinates[i + h][j + k]
+//                            }
+//                            if (i - h >= 0) {
+//                                c = coordinates[i - h][j + k]
+//                            }
+//                            nbPixel = nbPixel + 1
+//                            sommeX = sommeX + c.X
+//                            sommeY = sommeY + c.Y
+//                            sommeZ = sommeZ + c.Z
+//                        }
+//                    }
+//                    if (j - k >= 0) {
+//                        for h in 1...(GRILLE / 2) {
+//                            if (i + h < Maillage.HEIGHT) {
+//                                c = coordinates[i + h][j - k]
+//                            }
+//                            if (i - h >= 0) {
+//                                c = coordinates[i - h][j - k]
+//                            }
+//                            nbPixel = nbPixel + 1
+//                            sommeX = sommeX + c.X
+//                            sommeY = sommeY + c.Y
+//                            sommeZ = sommeZ + c.Z
+//                        }
+//                    }
+//                }
+                var currentPoint = coordinates[i][j]
+//                currentPoint.X = sommeX / nbPixel
+//                currentPoint.Y = sommeY / nbPixel
+//                currentPoint.Z = sommeZ / nbPixel
+
+                /**
+                * Algorithme de tracé des faces (triangle)
+                *
+                */
+                let FILTRE = 5
+                var triangle : Triangle = Triangle()
+                // Si le Point est valide
+                // on supprime le bruit en ne prenant pas en compte les pixels
+                // de hauteur 0 ou > 0.3 && hauteur>0 && hauteur<0.3
+                if (currentPoint.isValid) {
+                    // Si les voisins de droite et d'en bas sont dans l'image
+                    if (((j + FILTRE) < Maillage.WIDTH) && ((i + FILTRE) < Maillage.HEIGHT)) {
+                        let right = coordinates[i][j + FILTRE]
+                        let down = coordinates[i + FILTRE][j]
+                        ////Si les voisins de droite et d'en bas sont valides
+                        if (right.isValid && down.isValid) {
+                            // Check difference de hauteurZ
+                            var diffDroiteZ, diffBasZ: Double
+                            diffDroiteZ = abs(currentPoint.Z - right.Z)
+                            diffBasZ = abs(currentPoint.Z - down.Z)
+                            if (diffDroiteZ < Maillage.MAX_DISTANCE && diffBasZ < Maillage.MAX_DISTANCE) {
+                                triangle = Triangle(sommetA: Vector3D(x: currentPoint.X, y: currentPoint.Y, z: currentPoint.Z, id: Maillage.getIdforXY(x: j, y: i)), sommetB: Vector3D(x: down.X, y: down.Y, z: down.Z, id: Maillage.getIdforXY(x: j, y: i + FILTRE)), sommetC: Vector3D(x: right.X, y: right.Y, z: right.Z, id: Maillage.getIdforXY(x: j + FILTRE, y: i)))
+                                triangles.append(triangle)
+                            }
+                        }
+                    }
+                    //Si les voisins de gauche et d'en haut sont dans l'image
+
+                    if (((j - FILTRE) >= 0) && ((i - FILTRE) >= 0)) {
+                        let left = coordinates[i][j - FILTRE]
+                        let up = coordinates[i - FILTRE][j]
+                        if (left.isValid && up.isValid) {
+                            // Check difference de hauteurZ
+                            var diffGaucheZ, diffHautZ: Double
+                            diffGaucheZ = abs(currentPoint.Z - left.Z)
+                            diffHautZ = abs(currentPoint.Z - up.Z)
+                            if (diffGaucheZ < Maillage.MAX_DISTANCE && diffHautZ < Maillage.MAX_DISTANCE) {
+                                triangle = Triangle(sommetA: Vector3D(x: currentPoint.X, y: currentPoint.Y, z: currentPoint.Z, id: Maillage.getIdforXY(x: j, y: i)), sommetB: Vector3D(x: up.X, y: up.Y, z: up.Z, id: Maillage.getIdforXY(x: j, y: i - FILTRE)), sommetC: Vector3D(x: left.X, y: left.Y, z: left.Z, id: Maillage.getIdforXY(x: j - FILTRE, y: i)))
+                                triangles.append(triangle)
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        // construction maillage objet
+        var maillageObjet = MaillageObject(coordinates:coordinates, faces:triangles)
+
+        return maillageObjet.toOff(fileName:fileName)
+    }
+
     /*
     * récupère un fichier SDP et effectue
     * un maillage en format OFF
@@ -334,53 +439,53 @@ class Maillage {
                 // On récupère la ligne du pixel dans le tableau
                 // On récupère les données du pixel (X Y Z HAUTEUR LARGEUR isValid)
                 var dataArr = line[Maillage.getIdforXY(x: pixelX, y: pixelY)].components(separatedBy: " ")
-                let GRILLE = 10
-                var sommeX : Double = 0
-                var sommeY : Double = 0
-                var sommeZ: Double = 0
-                var nbPixel : Double = 0
-                var c : [String]
-                for i in 1...(GRILLE/2) {
-                    if(pixelX + i < Maillage.WIDTH) {
-                        for j in 1...(GRILLE/2) {
-                            if(pixelY + j < Maillage.HEIGHT) {
-                                c = line[Maillage.getIdforXY(x: pixelX+i, y: pixelY+j)].components(separatedBy: " ")
-                                nbPixel = nbPixel + 1
-                                sommeX = sommeX + Double(c[0])!
-                                sommeY = sommeY + Double(c[1])!
-                                sommeZ = sommeZ + Double(c[2])!
-                            }
-                            if(pixelY - j >= 0) {
-                                c = line[Maillage.getIdforXY(x: pixelX+i, y: pixelY-j)].components(separatedBy: " ")
-                                nbPixel = nbPixel + 1
-                                sommeX = sommeX + Double(c[0])!
-                                sommeY = sommeY + Double(c[1])!
-                                sommeZ = sommeZ + Double(c[2])!
-                            }
-                        }
-                    }
-                    if(pixelX - i >= 0) {
-                        for j in 1...(GRILLE/2) {
-                            if(pixelY + j < Maillage.HEIGHT) {
-                                c = line[Maillage.getIdforXY(x: pixelX-i, y: pixelY+j)].components(separatedBy: " ")
-                                nbPixel = nbPixel + 1
-                                sommeX = sommeX + Double(c[0])!
-                                sommeY = sommeY + Double(c[1])!
-                                sommeZ = sommeZ + Double(c[2])!
-                            }
-                            if(pixelY - j >= 0) {
-                                c = line[Maillage.getIdforXY(x: pixelX-i, y: pixelY-j)].components(separatedBy: " ")
-                                nbPixel = nbPixel + 1
-                                sommeX = sommeX + Double(c[0])!
-                                sommeY = sommeY + Double(c[1])!
-                                sommeZ = sommeZ + Double(c[2])!
-                            }
-                        }
-                    }
-                }
-                dataArr[0] = String(sommeX / nbPixel)
-                dataArr[1] = String(sommeY / nbPixel)
-                dataArr[2] = String(sommeZ / nbPixel)
+//                let GRILLE = 10
+//                var sommeX : Double = 0
+//                var sommeY : Double = 0
+//                var sommeZ: Double = 0
+//                var nbPixel : Double = 0
+//                var c : [String]
+//                for i in 1...(GRILLE/2) {
+//                    if(pixelX + i < Maillage.WIDTH) {
+//                        for j in 1...(GRILLE/2) {
+//                            if(pixelY + j < Maillage.HEIGHT) {
+//                                c = line[Maillage.getIdforXY(x: pixelX+i, y: pixelY+j)].components(separatedBy: " ")
+//                                nbPixel = nbPixel + 1
+//                                sommeX = sommeX + Double(c[0])!
+//                                sommeY = sommeY + Double(c[1])!
+//                                sommeZ = sommeZ + Double(c[2])!
+//                            }
+//                            if(pixelY - j >= 0) {
+//                                c = line[Maillage.getIdforXY(x: pixelX+i, y: pixelY-j)].components(separatedBy: " ")
+//                                nbPixel = nbPixel + 1
+//                                sommeX = sommeX + Double(c[0])!
+//                                sommeY = sommeY + Double(c[1])!
+//                                sommeZ = sommeZ + Double(c[2])!
+//                            }
+//                        }
+//                    }
+//                    if(pixelX - i >= 0) {
+//                        for j in 1...(GRILLE/2) {
+//                            if(pixelY + j < Maillage.HEIGHT) {
+//                                c = line[Maillage.getIdforXY(x: pixelX-i, y: pixelY+j)].components(separatedBy: " ")
+//                                nbPixel = nbPixel + 1
+//                                sommeX = sommeX + Double(c[0])!
+//                                sommeY = sommeY + Double(c[1])!
+//                                sommeZ = sommeZ + Double(c[2])!
+//                            }
+//                            if(pixelY - j >= 0) {
+//                                c = line[Maillage.getIdforXY(x: pixelX-i, y: pixelY-j)].components(separatedBy: " ")
+//                                nbPixel = nbPixel + 1
+//                                sommeX = sommeX + Double(c[0])!
+//                                sommeY = sommeY + Double(c[1])!
+//                                sommeZ = sommeZ + Double(c[2])!
+//                            }
+//                        }
+//                    }
+//                }
+//                dataArr[0] = String(sommeX / nbPixel)
+//                dataArr[1] = String(sommeY / nbPixel)
+//                dataArr[2] = String(sommeZ / nbPixel)
 
                 // ajouts des coordonnées en x y z
                 switch (typeExport) {
@@ -735,11 +840,12 @@ class Maillage {
         let path = fileManager.currentDirectoryPath
         if let path = Bundle.main.path(forResource:"../../../ressource/\(fileName)", ofType:"sdp") {
             do {
-                let outputFileName = "result/\(fileName).\(type)"
+                let outputFileName = "../../../result/\(fileName).\(type)"
                 let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
                 let file = try String(contentsOfFile:path, encoding:.utf8)
-                let maillage = self.maillage(stringFile:file, fileName:fileName, typeExport:type, byNormale:byNormale)
-                print(url)
+//                let maillage = self.maillage(stringFile:file, fileName:fileName, typeExport:type, byNormale:byNormale)
+                //let maillage = self.maillage(stringFile:file, fileName:fileName+"2", typeExport:type, byNormale:false)
+                let maillage = self.maillageObject(stringFile:file, fileName:fileName, typeExport:type)
                 /*
                 * Write result in .type file
                 */

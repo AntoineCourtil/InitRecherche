@@ -33,6 +33,7 @@ depends-top-level:
 - "Int"
 - "IntegerLiteralType"
 - "Maillage"
+- !private "MaillageObject"
 - !private "NSString"
 - "String"
 - !private "StringLiteralType"
@@ -307,6 +308,8 @@ depends-member:
 - !private ["s8HashableP", "whitespaces"]
 - !private ["s8HashableP", "write"]
 - !private ["Si", "init"]
+- !private ["s22LazyCollectionProtocolP", "subscript"]
+- !private ["s20LazySequenceProtocolP", "subscript"]
 - !private ["s25LosslessStringConvertibleP", "_getBuiltinLogicValue"]
 - !private ["s25LosslessStringConvertibleP", "components"]
 - !private ["s25LosslessStringConvertibleP", "contains"]
@@ -325,6 +328,7 @@ depends-member:
 - ["13InitRecherche8MaillageC", "Int"]
 - ["13InitRecherche8MaillageC", "MAX_DISTANCE"]
 - !private ["13InitRecherche8MaillageC", "Maillage"]
+- !private ["13InitRecherche8MaillageC", "MaillageObject"]
 - !private ["13InitRecherche8MaillageC", "NSString"]
 - ["13InitRecherche8MaillageC", "String"]
 - !private ["13InitRecherche8MaillageC", "Triangle"]
@@ -343,11 +347,14 @@ depends-member:
 - ["13InitRecherche8MaillageC", "loopCalculerPourcentageDifferenceMedian"]
 - ["13InitRecherche8MaillageC", "loopSdpMaillageToType"]
 - ["13InitRecherche8MaillageC", "maillage"]
+- ["13InitRecherche8MaillageC", "maillageObject"]
 - ["13InitRecherche8MaillageC", "parseSdp"]
 - !private ["13InitRecherche8MaillageC", "print"]
 - ["13InitRecherche8MaillageC", "sdpMaillageExport"]
 - !private ["13InitRecherche8MaillageC", "sqrt"]
 - !private ["13InitRecherche8MaillageC", "stdout"]
+- !private ["13InitRecherche14MaillageObjectC", "init"]
+- !private ["13InitRecherche14MaillageObjectC", "toOff"]
 - !private ["s10MirrorPathP", "components"]
 - !private ["s10MirrorPathP", "contains"]
 - !private ["s10MirrorPathP", "init"]
@@ -438,6 +445,7 @@ depends-member:
 - !private ["s10SetAlgebraP", "whitespaces"]
 - !private ["s13SignedIntegerP", "init"]
 - !private ["s13SignedNumericP", "init"]
+- !private ["s5SliceV", "subscript"]
 - !private ["s10StrideableP", "init"]
 - !private ["SS", "components"]
 - !private ["SS", "contains"]
@@ -626,8 +634,11 @@ depends-nominal:
 - !private "s13FloatingPointP"
 - !private "s8HashableP"
 - !private "Si"
+- !private "s22LazyCollectionProtocolP"
+- !private "s20LazySequenceProtocolP"
 - !private "s25LosslessStringConvertibleP"
 - "13InitRecherche8MaillageC"
+- !private "13InitRecherche14MaillageObjectC"
 - !private "s10MirrorPathP"
 - !private "s17MutableCollectionP"
 - !private "10Foundation8NSCodingP"
@@ -647,6 +658,7 @@ depends-nominal:
 - !private "s10SetAlgebraP"
 - !private "s13SignedIntegerP"
 - !private "s13SignedNumericP"
+- !private "s5SliceV"
 - !private "s10StrideableP"
 - !private "SS"
 - !private "s14StringProtocolP"
@@ -686,4 +698,4 @@ depends-external:
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "13e4a4e2f49037581eebde2051171f00"
+interface-hash: "77aa633decfeb462ff217630d101c1f3"

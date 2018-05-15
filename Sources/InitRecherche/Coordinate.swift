@@ -6,6 +6,15 @@ class Coordinate {
     var hauteur, largeur: Int
     var isValid: Bool
 
+    init() {
+        self.X = 0
+        self.Y = 0
+        self.Z = 0
+        self.hauteur = 0
+        self.largeur = 0
+        self.isValid = false
+    }
+
     init(x: String, y: String, z: String, hauteur: String, largeur: String, isValid: Bool) {
         self.X = NSString(string: x).doubleValue
         self.Y = NSString(string: y).doubleValue
