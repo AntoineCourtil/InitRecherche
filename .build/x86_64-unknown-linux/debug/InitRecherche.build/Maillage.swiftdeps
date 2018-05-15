@@ -33,7 +33,7 @@ depends-top-level:
 - "Int"
 - "IntegerLiteralType"
 - "Maillage"
-- !private "MaillageObject"
+- "MaillageObject"
 - !private "NSString"
 - "String"
 - !private "StringLiteralType"
@@ -47,6 +47,7 @@ depends-top-level:
 - !private "print"
 - !private "sqrt"
 - !private "stdout"
+- !private "type"
 - !private "||"
 - !private "~="
 depends-member:
@@ -117,6 +118,7 @@ depends-member:
 - !private ["13InitRecherche10CoordinateC", "X"]
 - !private ["13InitRecherche10CoordinateC", "Y"]
 - !private ["13InitRecherche10CoordinateC", "Z"]
+- !private ["13InitRecherche10CoordinateC", "addTriangle"]
 - !private ["13InitRecherche10CoordinateC", "hauteur"]
 - !private ["13InitRecherche10CoordinateC", "init"]
 - !private ["13InitRecherche10CoordinateC", "isValid"]
@@ -328,7 +330,7 @@ depends-member:
 - ["13InitRecherche8MaillageC", "Int"]
 - ["13InitRecherche8MaillageC", "MAX_DISTANCE"]
 - !private ["13InitRecherche8MaillageC", "Maillage"]
-- !private ["13InitRecherche8MaillageC", "MaillageObject"]
+- ["13InitRecherche8MaillageC", "MaillageObject"]
 - !private ["13InitRecherche8MaillageC", "NSString"]
 - ["13InitRecherche8MaillageC", "String"]
 - !private ["13InitRecherche8MaillageC", "Triangle"]
@@ -342,17 +344,21 @@ depends-member:
 - !private ["13InitRecherche8MaillageC", "fflush"]
 - !private ["13InitRecherche8MaillageC", "fileName"]
 - ["13InitRecherche8MaillageC", "getIdforXY"]
+- ["13InitRecherche8MaillageC", "getStringFile"]
 - ["13InitRecherche8MaillageC", "getlistPtsByFile"]
 - ["13InitRecherche8MaillageC", "init"]
 - ["13InitRecherche8MaillageC", "loopCalculerPourcentageDifferenceMedian"]
 - ["13InitRecherche8MaillageC", "loopSdpMaillageToType"]
 - ["13InitRecherche8MaillageC", "maillage"]
+- ["13InitRecherche8MaillageC", "maillageLoopRectification"]
 - ["13InitRecherche8MaillageC", "maillageObject"]
 - ["13InitRecherche8MaillageC", "parseSdp"]
 - !private ["13InitRecherche8MaillageC", "print"]
 - ["13InitRecherche8MaillageC", "sdpMaillageExport"]
 - !private ["13InitRecherche8MaillageC", "sqrt"]
 - !private ["13InitRecherche8MaillageC", "stdout"]
+- !private ["13InitRecherche8MaillageC", "type"]
+- !private ["13InitRecherche14MaillageObjectC", "coordinates"]
 - !private ["13InitRecherche14MaillageObjectC", "init"]
 - !private ["13InitRecherche14MaillageObjectC", "toOff"]
 - !private ["s10MirrorPathP", "components"]
@@ -698,4 +704,4 @@ depends-external:
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "77aa633decfeb462ff217630d101c1f3"
+interface-hash: "fb199976029de6a1e7f7c762cde6180e"

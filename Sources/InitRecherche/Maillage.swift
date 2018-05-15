@@ -282,10 +282,6 @@ class Maillage {
         }
     }
 
-/**
- *
- *
- */
     func loopCalculerPourcentageDifferenceMedian(fileBaseName: String, medianFileName: String, nbFile: Int) {
         var currentFile: String? = nil
         for i in 1...nbFile {
@@ -295,58 +291,105 @@ class Maillage {
         }
     }
 
+    /**
+    * Parcours une série de captures similaires pour construire un maillage
+    * rectifié par le surplus de données
+    */
+    func maillageLoopRectification(fileBaseName: String, nbFile: Int) {
+        // on prend comme base le fichier 1
+        var stringFile = getStringFile(fileName: fileBaseName+"1")
+        // on fait un maillage triangle sur celui-ci
+        var maillageObj = self.maillageObject(stringFile: stringFile, fileName: fileBaseName+"1")
+        // on parse les autres fichiers
+        var cooFiles = [[[Coordinate]]]()
+        for i in 1...nbFile {
+            cooFiles[i] = self.parseSdp(stringFile: "\(fileBaseName)\(i+1)")
+            print("File \(fileBaseName)\(i+1) captured...")
+        }
 
-    func maillageObject(stringFile: String, fileName: String, typeExport: String) -> String {
+        var bInf : Double = 0.0
+        var bSup : Double = 0.0
+        // début de la rectification sur le maillage
+        var coordinates = maillageObj.coordinates
+        for i in 0...(Maillage.HEIGHT-1) {
+            for j in 0...(Maillage.WIDTH-1) {
+                // recupération bornes inf et sup
+                bInf = coordinates[i][j].Z
+                bSup = coordinates[i][j].Z
+                for k in 1...nbFile {
+                    var currentC = cooFiles[k][i][j]
+                    if(currentC.Z < bInf) {
+                        bInf = currentC.Z
+                    } else if(currentC.Z > bSup) {
+                        bSup = currentC.Z
+                    }
+                }
+                //T0D0 : diminuer ou augmenter les coordonnées des triangles associés en fonction
+                // puis recalculer les normales etc...
+            }
+        }
+    }
+
+
+    func maillageObject(stringFile: String, fileName: String) -> MaillageObject {
         var coordinates = parseSdp(stringFile: stringFile)
         print(coordinates[0][0].X)
         var triangles = [Triangle]()
         for i in 0...(Maillage.HEIGHT-1) {
             for j in 0...(Maillage.WIDTH-1) {
-//                /**
-//                *   Algorithme calculant la moyenne des coordonnées sur une grille 10x10
-//                *   et attribuant cette valeur au point (i,j) parcouru
-//                */
-//                let GRILLE = 10
-//                var sommeX: Double = 0
-//                var sommeY: Double = 0
-//                var sommeZ: Double = 0
-//                var nbPixel: Double = 0
-//                var c : Coordinate = Coordinate()
-//                for k in 1...(GRILLE / 2) {
-//                    if (j + k < Maillage.WIDTH) {
-//                        for h in 1...(GRILLE / 2) {
-//                            if (i + h < Maillage.HEIGHT) {
-//                                //T0D0 : peut être inverser
-//                                c = coordinates[i + h][j + k]
-//                            }
-//                            if (i - h >= 0) {
-//                                c = coordinates[i - h][j + k]
-//                            }
-//                            nbPixel = nbPixel + 1
-//                            sommeX = sommeX + c.X
-//                            sommeY = sommeY + c.Y
-//                            sommeZ = sommeZ + c.Z
-//                        }
-//                    }
-//                    if (j - k >= 0) {
-//                        for h in 1...(GRILLE / 2) {
-//                            if (i + h < Maillage.HEIGHT) {
-//                                c = coordinates[i + h][j - k]
-//                            }
-//                            if (i - h >= 0) {
-//                                c = coordinates[i - h][j - k]
-//                            }
-//                            nbPixel = nbPixel + 1
-//                            sommeX = sommeX + c.X
-//                            sommeY = sommeY + c.Y
-//                            sommeZ = sommeZ + c.Z
-//                        }
-//                    }
-//                }
+                /**
+                *   Algorithme calculant la moyenne des coordonnées sur une grille 10x10
+                *   et attribuant cette valeur au point (i,j) parcouru
+                */
+                let GRILLE = 10
+                var sommeX: Double = 0
+                var sommeY: Double = 0
+                var sommeZ: Double = 0
+                var nbPixel: Double = 0
+                var c : Coordinate = Coordinate()
+                for k in 1...(GRILLE / 2) {
+                    if (j + k < Maillage.WIDTH) {
+                        for h in 1...(GRILLE / 2) {
+                            if (i + h < Maillage.HEIGHT) {
+                                //T0D0 : peut être inverser
+                                c = coordinates[i + h][j + k]
+                                nbPixel = nbPixel + 1
+                                sommeX = sommeX + c.X
+                                sommeY = sommeY + c.Y
+                                sommeZ = sommeZ + c.Z
+                            }
+                            if (i - h >= 0) {
+                                c = coordinates[i - h][j + k]
+                                nbPixel = nbPixel + 1
+                                sommeX = sommeX + c.X
+                                sommeY = sommeY + c.Y
+                                sommeZ = sommeZ + c.Z
+                            }
+                        }
+                    }
+                    if (j - k >= 0) {
+                        for h in 1...(GRILLE / 2) {
+                            if (i + h < Maillage.HEIGHT) {
+                                c = coordinates[i + h][j - k]
+                                nbPixel = nbPixel + 1
+                                sommeX = sommeX + c.X
+                                sommeY = sommeY + c.Y
+                                sommeZ = sommeZ + c.Z
+                            }
+                            if (i - h >= 0) {
+                                c = coordinates[i - h][j - k]
+                                nbPixel = nbPixel + 1
+                                sommeX = sommeX + c.X
+                                sommeY = sommeY + c.Y
+                                sommeZ = sommeZ + c.Z
+                            }
+                        }
+                    }
+                }
                 var currentPoint = coordinates[i][j]
-//                currentPoint.X = sommeX / nbPixel
-//                currentPoint.Y = sommeY / nbPixel
-//                currentPoint.Z = sommeZ / nbPixel
+                currentPoint.X = sommeX / nbPixel
+                currentPoint.Y = sommeY / nbPixel
+                currentPoint.Z = sommeZ / nbPixel
 
                 /**
                 * Algorithme de tracé des faces (triangle)
@@ -371,6 +414,9 @@ class Maillage {
                             if (diffDroiteZ < Maillage.MAX_DISTANCE && diffBasZ < Maillage.MAX_DISTANCE) {
                                 triangle = Triangle(sommetA: Vector3D(x: currentPoint.X, y: currentPoint.Y, z: currentPoint.Z, id: Maillage.getIdforXY(x: j, y: i)), sommetB: Vector3D(x: down.X, y: down.Y, z: down.Z, id: Maillage.getIdforXY(x: j, y: i + FILTRE)), sommetC: Vector3D(x: right.X, y: right.Y, z: right.Z, id: Maillage.getIdforXY(x: j + FILTRE, y: i)))
                                 triangles.append(triangle)
+                                currentPoint.addTriangle(t: triangle)
+                                right.addTriangle(t: triangle)
+                                down.addTriangle(t: triangle)
                             }
                         }
                     }
@@ -387,6 +433,9 @@ class Maillage {
                             if (diffGaucheZ < Maillage.MAX_DISTANCE && diffHautZ < Maillage.MAX_DISTANCE) {
                                 triangle = Triangle(sommetA: Vector3D(x: currentPoint.X, y: currentPoint.Y, z: currentPoint.Z, id: Maillage.getIdforXY(x: j, y: i)), sommetB: Vector3D(x: up.X, y: up.Y, z: up.Z, id: Maillage.getIdforXY(x: j, y: i - FILTRE)), sommetC: Vector3D(x: left.X, y: left.Y, z: left.Z, id: Maillage.getIdforXY(x: j - FILTRE, y: i)))
                                 triangles.append(triangle)
+                                currentPoint.addTriangle(t: triangle)
+                                left.addTriangle(t:triangle)
+                                up.addTriangle(t:triangle)
                             }
                         }
 
@@ -398,7 +447,7 @@ class Maillage {
         // construction maillage objet
         var maillageObjet = MaillageObject(coordinates:coordinates, faces:triangles)
 
-        return maillageObjet.toOff(fileName:fileName)
+        return maillageObjet
     }
 
     /*
@@ -828,6 +877,28 @@ class Maillage {
         return outputText
     }
 
+    /**
+    * Retourne une chaine de caractère avec le contenu du fichier fileName
+    */
+    func getStringFile(fileName:String) -> String {
+        let fileManager = FileManager()
+        let path = fileManager.currentDirectoryPath
+        var file = ""
+        if let path = Bundle.main.path(forResource:"../../../ressource/\(fileName)", ofType:"sdp") {
+            do {
+                let outputFileName = "../../../result/\(fileName).\(type)"
+                let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
+                do {
+                    file = try String(contentsOfFile:path, encoding:.utf8)
+                } catch {
+                    print(error)
+                    print("ressource/\(fileName) n'est pas un fichier SDP.")
+                }
+            }
+        }
+        return file
+    }
+
     /*
     * Convertis une capture depuis Camera True-Depth
     * sous format SDP vers le format précisé (type)
@@ -835,41 +906,34 @@ class Maillage {
     *
     */
     func sdpMaillageExport(fileName:String, type:String, byNormale:Bool) {
-
-        let fileManager = FileManager()
-        let path = fileManager.currentDirectoryPath
-        if let path = Bundle.main.path(forResource:"../../../ressource/\(fileName)", ofType:"sdp") {
+        var stringFile = getStringFile(fileName: fileName)
+        if(stringFile != "") {
+            //let maillage = self.maillage(stringFile:file, fileName:fileName, typeExport:type, byNormale:byNormale)
+            //let maillage = self.maillage(stringFile:file, fileName:fileName+"2", typeExport:type, byNormale:false)
+            //// T0D0 : gestion des types d'export
+            let maillage = self.maillageObject(stringFile: stringFile, fileName: fileName).toOff(fileName: fileName)
+            /*
+            * Write result in .type file
+            */
+            let outputFileName = "../../../result/\(fileName).off"
+            print("Generating [\(outputFileName)]")
+            let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
+            let outputData = Data(maillage.utf8)
             do {
-                let outputFileName = "../../../result/\(fileName).\(type)"
-                let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
-                let file = try String(contentsOfFile:path, encoding:.utf8)
-//                let maillage = self.maillage(stringFile:file, fileName:fileName, typeExport:type, byNormale:byNormale)
-                //let maillage = self.maillage(stringFile:file, fileName:fileName+"2", typeExport:type, byNormale:false)
-                let maillage = self.maillageObject(stringFile:file, fileName:fileName, typeExport:type)
-                /*
-                * Write result in .type file
-                */
-                let outputData = Data(maillage.utf8)
-                do {
-                    try outputData.write(to:url, options:.atomic)
-                } catch {
-                    print(error)
-                }
-                //print(url)
+                try outputData.write(to: url, options: .atomic)
             } catch {
                 print(error)
-                print("ressource/\(fileName) n'est pas un fichier SDP.")
             }
         }
     }
 
-    /**
-     * Convertis les fichiers commençant par la valeur de
-     * fileBaseName (de 1 jusqu'à numberOfFiles) dans le type voulu
-     * avec un maillage triangle
-     *
-     * @type {[type]}
-     */
+/**
+ * Convertis les fichiers commençant par la valeur de
+ * fileBaseName (de 1 jusqu'à numberOfFiles) dans le type voulu
+ * avec un maillage triangle
+ *
+ * @type {[type]}
+ */
     func loopSdpMaillageToType(fileBaseName:String, numberOfFiles:Int, type:String, byNormale:Bool) {
 
         if (!fileBaseName.isEmpty && numberOfFiles > 0 && (type == "off" || type == "csv")) {
