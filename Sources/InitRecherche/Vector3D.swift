@@ -20,6 +20,14 @@ public struct Vector3D {
         self.z = z
         self.id = id
     }
+
+    func getNorme() -> Double {
+        return  (self.x*self.x+self.y*self.y+self.z*self.z).squareRoot()
+    }
+
+    func normalize() {
+        self = self/self.getNorme()
+    }
 }
 
 extension Vector3D {
@@ -36,8 +44,16 @@ extension Vector3D {
         return left.x*right.x + left.y*right.y + left.z*right.z
     }
 
+    static func /(left:Vector3D, right:Double) -> Vector3D{
+        return Vector3D(x:left.x/right, y: left.y/right, z: left.z/right)
+    }
+
     static func ^(left:Vector3D, right:Vector3D) -> Vector3D {
         return Vector3D(x:left.y * right.z - left.z * right.y, y:left.z * right.x - left.x * right.z, z:left.x * right.y - left.y * right.x)
+    }
+
+    static func ==(left:Vector3D, right:Vector3D) -> Bool {
+        return (left.x == right.x) && (left.y == right.y) && (left.z == right.z)
     }
 
 }

@@ -15,6 +15,6 @@ class Triangle {
         self.sommets.append(sommetA)
         self.sommets.append(sommetC)
         self.sommets.append(sommetB)
-        self.normale = (sommetB-sommetA)^(sommetC-sommetA)
+        self.normale = ((sommetB-sommetA)^(sommetC-sommetA)).normalize()
     }
 }

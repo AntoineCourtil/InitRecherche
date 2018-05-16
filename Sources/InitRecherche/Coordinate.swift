@@ -5,7 +5,8 @@ class Coordinate {
     var X, Y, Z: Double
     var hauteur, largeur: Int
     var isValid: Bool
-    var trianglesAssociated : [Triangle]
+    var trianglesHaut : [Triangle]
+    var trianglesBas : [Triangle]
 
     init() {
         self.X = 0
@@ -14,7 +15,8 @@ class Coordinate {
         self.hauteur = 0
         self.largeur = 0
         self.isValid = false
-        self.trianglesAssociated = [Triangle]()
+        self.trianglesHaut = [Triangle]()
+        self.trianglesBas = [Triangle]()
     }
 
     init(x: String, y: String, z: String, hauteur: String, largeur: String, isValid: Bool) {
@@ -24,7 +26,8 @@ class Coordinate {
         self.hauteur = Int(hauteur)!
         self.largeur = Int(largeur)!
         self.isValid = isValid
-        self.trianglesAssociated = [Triangle]()
+        self.trianglesHaut = [Triangle]()
+        self.trianglesBas = [Triangle]()
     }
 
     init(x: Double, y: Double, z: Double, hauteur: Int, largeur: Int, isValid: Bool) {
@@ -34,11 +37,16 @@ class Coordinate {
         self.hauteur = hauteur
         self.largeur = largeur
         self.isValid = isValid
-        self.trianglesAssociated = [Triangle]()
+        self.trianglesHaut = [Triangle]()
+        self.trianglesBas = [Triangle]()
     }
 
-    func addTriangle(t: Triangle) {
-        self.trianglesAssociated.append(t)
+    func addTriangleHaut(t: Triangle) {
+        self.trianglesHaut.append(t)
+    }
+
+    func addTriangleBas(t: Triangle) {
+        self.trianglesBas.append(t)
     }
 
 

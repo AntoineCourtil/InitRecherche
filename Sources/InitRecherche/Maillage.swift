@@ -307,15 +307,23 @@ class Maillage {
             print("File \(fileBaseName)\(i+1) captured...")
         }
 
+        // valeurs maximales et minimales d'une coordonnée
+        let constVector = Vector3D()
         var bInf : Double = 0.0
         var bSup : Double = 0.0
+        var e : Double = 0.001
+        var temp = Coordinate()
+        var refN = Coordinate()
+        var triangles = [Triangle]()
         // début de la rectification sur le maillage
         var coordinates = maillageObj.coordinates
         for i in 0...(Maillage.HEIGHT-1) {
             for j in 0...(Maillage.WIDTH-1) {
+                var cCoord = coordinates[i][j]
+                temp = cCoord.copy() as! Coordinate
                 // recupération bornes inf et sup
-                bInf = coordinates[i][j].Z
-                bSup = coordinates[i][j].Z
+                bInf = cCoord.Z
+                bSup = cCoord.Z
                 for k in 1...nbFile {
                     var currentC = cooFiles[k][i][j]
                     if(currentC.Z < bInf) {
@@ -323,6 +331,14 @@ class Maillage {
                     } else if(currentC.Z > bSup) {
                         bSup = currentC.Z
                     }
+                }
+                // on récupère les triangles du bas associé au point de coordonné
+                triangles = cCoord.trianglesBas
+                // normale de reference sur lequel on base la colinéarité
+                refN = triangles[0]
+                var diff = abs(bSup - bInf)
+                for i in stride(from:e, to:diff, by:e) {
+
                 }
                 //T0D0 : diminuer ou augmenter les coordonnées des triangles associés en fonction
                 // puis recalculer les normales etc...
@@ -414,9 +430,9 @@ class Maillage {
                             if (diffDroiteZ < Maillage.MAX_DISTANCE && diffBasZ < Maillage.MAX_DISTANCE) {
                                 triangle = Triangle(sommetA: Vector3D(x: currentPoint.X, y: currentPoint.Y, z: currentPoint.Z, id: Maillage.getIdforXY(x: j, y: i)), sommetB: Vector3D(x: down.X, y: down.Y, z: down.Z, id: Maillage.getIdforXY(x: j, y: i + FILTRE)), sommetC: Vector3D(x: right.X, y: right.Y, z: right.Z, id: Maillage.getIdforXY(x: j + FILTRE, y: i)))
                                 triangles.append(triangle)
-                                currentPoint.addTriangle(t: triangle)
-                                right.addTriangle(t: triangle)
-                                down.addTriangle(t: triangle)
+                                currentPoint.addTriangleBas(t: triangle)
+                                right.addTriangleBas(t: triangle)
+                                down.addTriangleHaut(t: triangle)
                             }
                         }
                     }
@@ -433,9 +449,9 @@ class Maillage {
                             if (diffGaucheZ < Maillage.MAX_DISTANCE && diffHautZ < Maillage.MAX_DISTANCE) {
                                 triangle = Triangle(sommetA: Vector3D(x: currentPoint.X, y: currentPoint.Y, z: currentPoint.Z, id: Maillage.getIdforXY(x: j, y: i)), sommetB: Vector3D(x: up.X, y: up.Y, z: up.Z, id: Maillage.getIdforXY(x: j, y: i - FILTRE)), sommetC: Vector3D(x: left.X, y: left.Y, z: left.Z, id: Maillage.getIdforXY(x: j - FILTRE, y: i)))
                                 triangles.append(triangle)
-                                currentPoint.addTriangle(t: triangle)
-                                left.addTriangle(t:triangle)
-                                up.addTriangle(t:triangle)
+                                currentPoint.addTriangleHaut(t: triangle)
+                                left.addTriangleHaut(t:triangle)
+                                up.addTriangleBas(t:triangle)
                             }
                         }
 
