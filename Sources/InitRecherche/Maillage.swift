@@ -313,14 +313,14 @@ class Maillage {
         var bSup : Double = 0.0
         var e : Double = 0.001
         var temp = Coordinate()
-        var refN = Coordinate()
+        var refN = Vector3D()
         var triangles = [Triangle]()
         // début de la rectification sur le maillage
         var coordinates = maillageObj.coordinates
         for i in 0...(Maillage.HEIGHT-1) {
             for j in 0...(Maillage.WIDTH-1) {
-                var cCoord = coordinates[i][j]
-                temp = cCoord.copy() as! Coordinate
+                var cCoord : Coordinate = coordinates[i][j]
+                temp = Coordinate(x: cCoord.X, y: cCoord.Y, z:cCoord.Z, hauteur:cCoord.hauteur, largeur:cCoord.largeur, isValid: cCoord.isValid, triangleH: cCoord.trianglesHaut, triangleB: cCoord.trianglesBas)
                 // recupération bornes inf et sup
                 bInf = cCoord.Z
                 bSup = cCoord.Z
@@ -335,7 +335,7 @@ class Maillage {
                 // on récupère les triangles du bas associé au point de coordonné
                 triangles = cCoord.trianglesBas
                 // normale de reference sur lequel on base la colinéarité
-                refN = triangles[0]
+                refN = triangles[0].normale
                 var diff = abs(bSup - bInf)
                 for i in stride(from:e, to:diff, by:e) {
 

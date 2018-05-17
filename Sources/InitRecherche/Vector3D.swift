@@ -2,10 +2,17 @@ import Foundation
 
 public struct Vector3D {
 
-    let x: Double
-    let y: Double
-    let z: Double
-    let id : Int
+    var x: Double
+    var y: Double
+    var z: Double
+    var id : Int
+
+    init() {
+        self.x = 0
+        self.y = 0
+        self.z = 0
+        self.id = 0
+    }
 
     init(x: Double, y:Double, z:Double) {
         self.x = x
@@ -25,8 +32,13 @@ public struct Vector3D {
         return  (self.x*self.x+self.y*self.y+self.z*self.z).squareRoot()
     }
 
-    func normalize() {
-        self = self/self.getNorme()
+    mutating func normalize() {
+        let norm = self.getNorme()
+        if(norm > 0) {
+            self.x = self.x / norm
+            self.y = self.y / norm
+            self.z = self.z / norm
+        }
     }
 }
 

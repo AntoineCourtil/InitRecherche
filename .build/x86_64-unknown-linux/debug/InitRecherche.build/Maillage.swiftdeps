@@ -47,6 +47,7 @@ depends-top-level:
 - !private "print"
 - !private "sqrt"
 - !private "stdout"
+- !private "stride"
 - !private "type"
 - !private "||"
 - !private "~="
@@ -118,11 +119,14 @@ depends-member:
 - !private ["13InitRecherche10CoordinateC", "X"]
 - !private ["13InitRecherche10CoordinateC", "Y"]
 - !private ["13InitRecherche10CoordinateC", "Z"]
-- !private ["13InitRecherche10CoordinateC", "addTriangle"]
+- !private ["13InitRecherche10CoordinateC", "addTriangleBas"]
+- !private ["13InitRecherche10CoordinateC", "addTriangleHaut"]
 - !private ["13InitRecherche10CoordinateC", "hauteur"]
 - !private ["13InitRecherche10CoordinateC", "init"]
 - !private ["13InitRecherche10CoordinateC", "isValid"]
 - !private ["13InitRecherche10CoordinateC", "largeur"]
+- !private ["13InitRecherche10CoordinateC", "trianglesBas"]
+- !private ["13InitRecherche10CoordinateC", "trianglesHaut"]
 - !private ["s28CustomDebugStringConvertibleP", "X"]
 - !private ["s28CustomDebugStringConvertibleP", "Y"]
 - !private ["s28CustomDebugStringConvertibleP", "Z"]
@@ -357,6 +361,7 @@ depends-member:
 - ["13InitRecherche8MaillageC", "sdpMaillageExport"]
 - !private ["13InitRecherche8MaillageC", "sqrt"]
 - !private ["13InitRecherche8MaillageC", "stdout"]
+- !private ["13InitRecherche8MaillageC", "stride"]
 - !private ["13InitRecherche8MaillageC", "type"]
 - !private ["13InitRecherche14MaillageObjectC", "coordinates"]
 - !private ["13InitRecherche14MaillageObjectC", "init"]
@@ -478,6 +483,7 @@ depends-member:
 - !private ["s20TextOutputStreamableP", "trimmingCharacters"]
 - !private ["s20TextOutputStreamableP", "utf8"]
 - !private ["13InitRecherche8TriangleC", "init"]
+- !private ["13InitRecherche8TriangleC", "normale"]
 - !private ["10Foundation3URLV", "appendingPathComponent"]
 - !private ["10Foundation3URLV", "init"]
 - !private ["13InitRecherche8Vector3DV", "init"]

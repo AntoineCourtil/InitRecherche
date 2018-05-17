@@ -38,12 +38,14 @@ depends-member:
 - ["13InitRecherche10CoordinateC", "X"]
 - ["13InitRecherche10CoordinateC", "Y"]
 - ["13InitRecherche10CoordinateC", "Z"]
-- ["13InitRecherche10CoordinateC", "addTriangle"]
+- ["13InitRecherche10CoordinateC", "addTriangleBas"]
+- ["13InitRecherche10CoordinateC", "addTriangleHaut"]
 - ["13InitRecherche10CoordinateC", "hauteur"]
 - ["13InitRecherche10CoordinateC", "init"]
 - ["13InitRecherche10CoordinateC", "isValid"]
 - ["13InitRecherche10CoordinateC", "largeur"]
-- ["13InitRecherche10CoordinateC", "trianglesAssociated"]
+- ["13InitRecherche10CoordinateC", "trianglesBas"]
+- ["13InitRecherche10CoordinateC", "trianglesHaut"]
 - !private ["s28CustomDebugStringConvertibleP", "append"]
 - !private ["s28CustomDebugStringConvertibleP", "doubleValue"]
 - !private ["s28CustomDebugStringConvertibleP", "init"]
@@ -180,4 +182,4 @@ depends-external:
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "f6ee26384c31ddbeefbb4921ba5b6fbe"
+interface-hash: "8b2a5b56430bac3bbff3afe251f79e6d"

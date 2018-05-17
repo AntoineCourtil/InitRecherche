@@ -41,6 +41,17 @@ class Coordinate {
         self.trianglesBas = [Triangle]()
     }
 
+    init(x: Double, y: Double, z: Double, hauteur: Int, largeur: Int, isValid: Bool, triangleH: [Triangle], triangleB: [Triangle]) {
+        self.X = x
+        self.Y = y
+        self.Z = z
+        self.hauteur = hauteur
+        self.largeur = largeur
+        self.isValid = isValid
+        self.trianglesHaut = triangleH
+        self.trianglesBas = triangleB
+    }
+
     func addTriangleHaut(t: Triangle) {
         self.trianglesHaut.append(t)
     }
