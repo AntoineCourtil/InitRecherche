@@ -5,8 +5,7 @@ class Coordinate {
     var X, Y, Z: Double
     var hauteur, largeur: Int
     var isValid: Bool
-    var trianglesHaut : [Triangle]
-    var trianglesBas : [Triangle]
+    var triangles: [Triangle]
 
     init() {
         self.X = 0
@@ -15,8 +14,7 @@ class Coordinate {
         self.hauteur = 0
         self.largeur = 0
         self.isValid = false
-        self.trianglesHaut = [Triangle]()
-        self.trianglesBas = [Triangle]()
+        self.triangles = [Triangle]()
     }
 
     init(x: String, y: String, z: String, hauteur: String, largeur: String, isValid: Bool) {
@@ -26,8 +24,7 @@ class Coordinate {
         self.hauteur = Int(hauteur)!
         self.largeur = Int(largeur)!
         self.isValid = isValid
-        self.trianglesHaut = [Triangle]()
-        self.trianglesBas = [Triangle]()
+        self.triangles = [Triangle]()
     }
 
     init(x: Double, y: Double, z: Double, hauteur: Int, largeur: Int, isValid: Bool) {
@@ -37,27 +34,52 @@ class Coordinate {
         self.hauteur = hauteur
         self.largeur = largeur
         self.isValid = isValid
-        self.trianglesHaut = [Triangle]()
-        self.trianglesBas = [Triangle]()
+        self.triangles = [Triangle]()
     }
 
-    init(x: Double, y: Double, z: Double, hauteur: Int, largeur: Int, isValid: Bool, triangleH: [Triangle], triangleB: [Triangle]) {
+    init(x: Double, y: Double, z: Double, hauteur: Int, largeur: Int, isValid: Bool, triangles: [Triangle]) {
         self.X = x
         self.Y = y
         self.Z = z
         self.hauteur = hauteur
         self.largeur = largeur
         self.isValid = isValid
-        self.trianglesHaut = triangleH
-        self.trianglesBas = triangleB
+        self.triangles = triangles
     }
 
-    func addTriangleHaut(t: Triangle) {
-        self.trianglesHaut.append(t)
+    func copy() -> Coordinate {
+        var copy = Coordinate()
+        copy.X = self.X
+        copy.Y = self.Y
+        copy.Z = self.Z
+        copy.hauteur = self.hauteur
+        copy.largeur = self.largeur
+        copy.isValid = self.isValid
+        var index = 0
+        for t in self.triangles {
+            copy.triangles.insert(Triangle(sommetA: Vector3D(v:t.sommetA), sommetB: Vector3D(v:t.sommetB), sommetC: Vector3D(v:t.sommetC)), at:index)
+            index = index + 1
+        }
+        return copy
     }
 
-    func addTriangleBas(t: Triangle) {
-        self.trianglesBas.append(t)
+    func setZ(z: Double, sommet: Vector3D) {
+        for t in self.triangles {
+            if(t.sommetA == sommet) {
+                t.sommetA.z = z
+            } else if (t.sommetB == sommet) {
+                t.sommetB.z = z
+            } else if(t.sommetC == sommet) {
+                t.sommetC.z = z
+            }
+
+        }
+    }
+
+
+
+    func nbTriangle() -> Int {
+        return self.triangles.count
     }
 
 

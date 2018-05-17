@@ -313,35 +313,78 @@ class Maillage {
         var bSup : Double = 0.0
         var e : Double = 0.001
         var temp = Coordinate()
+        var temp2 = Coordinate()
         var refN = Vector3D()
+        var s = Vector3D()
+        var vSommeMoins = Vector3D()
+        var vSommePlus = Vector3D()
+        var vCurrentSomme = Vector3D()
         var triangles = [Triangle]()
         // début de la rectification sur le maillage
         var coordinates = maillageObj.coordinates
         for i in 0...(Maillage.HEIGHT-1) {
             for j in 0...(Maillage.WIDTH-1) {
                 var cCoord : Coordinate = coordinates[i][j]
-                temp = Coordinate(x: cCoord.X, y: cCoord.Y, z:cCoord.Z, hauteur:cCoord.hauteur, largeur:cCoord.largeur, isValid: cCoord.isValid, triangleH: cCoord.trianglesHaut, triangleB: cCoord.trianglesBas)
-                // recupération bornes inf et sup
-                bInf = cCoord.Z
-                bSup = cCoord.Z
-                for k in 1...nbFile {
-                    var currentC = cooFiles[k][i][j]
-                    if(currentC.Z < bInf) {
-                        bInf = currentC.Z
-                    } else if(currentC.Z > bSup) {
-                        bSup = currentC.Z
+                // on n'effectue de changement que si les conditions sont bonnes (pas de bord, etc)
+                if(cCoord.nbTriangle() == 6 && cCoord.isValid) {
+                    temp = cCoord.copy()
+                    temp2 = cCoord.copy()
+                    // recupération bornes inf et sup
+                    bInf = cCoord.Z
+                    bSup = cCoord.Z
+                    for k in 1...nbFile {
+                        var currentC = cooFiles[k][i][j]
+                        if(currentC.Z < bInf) {
+                            bInf = currentC.Z
+                        } else if(currentC.Z > bSup) {
+                            bSup = currentC.Z
+                        }
                     }
-                }
-                // on récupère les triangles du bas associé au point de coordonné
-                triangles = cCoord.trianglesBas
-                // normale de reference sur lequel on base la colinéarité
-                refN = triangles[0].normale
-                var diff = abs(bSup - bInf)
-                for i in stride(from:e, to:diff, by:e) {
+                    // on récupère les triangles
+                    triangles = cCoord.triangles
+                    // normale de reference sur lequel on base la colinéarité
+                    refN = triangles[0].normale
+                    // on récupère le sommet qu'on module (par construction dans le maillage
+                    // on sait que c'est celui-ci le sommet au centre de l'ombrelle)
+                    s = triangles[4].sommetA
+                    var diff = abs(bSup - bInf)
+                    // on choisis un sens pour moduler la profondeur Z
+                    temp.setZ(z:temp.Z+e, sommet: s)
+                    temp2.setZ(z:temp.Z-e, sommet:s)
+                    for i in 0...6 {
+                        vSommePlus =  vSommePlus + (temp.triangles[i].normale^temp.triangles[i+1].normale)
+                        vSommeMoins = vSommeMoins + (temp2.triangles[i].normale^temp2.triangles[i+1].normale)
+                    }
+                    // si vSommePlus est inferieur à vSommeMoins, cela veut dire que la colinéarité est améliorée en augmentant Z
+                    if(vSommePlus >= vSommeMoins) {
+                        vCurrentSomme = vSommePlus
+                        while(temp.Z <= bSup) {
+                            if(vCurrentSomme > vSommePlus) {
+                                break
+                            }
+                            vCurrentSomme = vSommePlus
+                            temp.setZ(z:temp.Z+e, sommet: s)
+                            for i in 0...6 {
+                                vSommePlus = vSommePlus + (temp.triangles[i].normale^temp.triangles[i+1].normale)
+                            }
+                        }
+                        cCoord.setZ(z: temp.Z, sommet: s)
+                    } else {
+                        vCurrentSomme = vSommeMoins
+                        while(temp2.Z >= bInf) {
+                            if(vCurrentSomme > vSommeMoins) {
+                                break
+                            }
+                            vCurrentSomme = vSommeMoins
+                            temp2.setZ(z:temp2.Z+e, sommet: s)
+                            for i in 0...6 {
+                                vSommeMoins = vSommeMoins + (temp2.triangles[i].normale^temp.triangles[i+1].normale)
+                            }
+                        }
+                        cCoord.setZ(z: temp2.Z, sommet: s)
+                    }
 
                 }
-                //T0D0 : diminuer ou augmenter les coordonnées des triangles associés en fonction
-                // puis recalculer les normales etc...
             }
         }
     }
@@ -430,9 +473,9 @@ class Maillage {
                             if (diffDroiteZ < Maillage.MAX_DISTANCE && diffBasZ < Maillage.MAX_DISTANCE) {
                                 triangle = Triangle(sommetA: Vector3D(x: currentPoint.X, y: currentPoint.Y, z: currentPoint.Z, id: Maillage.getIdforXY(x: j, y: i)), sommetB: Vector3D(x: down.X, y: down.Y, z: down.Z, id: Maillage.getIdforXY(x: j, y: i + FILTRE)), sommetC: Vector3D(x: right.X, y: right.Y, z: right.Z, id: Maillage.getIdforXY(x: j + FILTRE, y: i)))
                                 triangles.append(triangle)
-                                currentPoint.addTriangleBas(t: triangle)
-                                right.addTriangleBas(t: triangle)
-                                down.addTriangleHaut(t: triangle)
+                                currentPoint.triangles.insert(triangle, at:3) // ajout à la pos 4
+                                right.triangles.insert(triangle, at:5)
+                                down.triangles.insert(triangle, at:1)
                             }
                         }
                     }
@@ -449,9 +492,9 @@ class Maillage {
                             if (diffGaucheZ < Maillage.MAX_DISTANCE && diffHautZ < Maillage.MAX_DISTANCE) {
                                 triangle = Triangle(sommetA: Vector3D(x: currentPoint.X, y: currentPoint.Y, z: currentPoint.Z, id: Maillage.getIdforXY(x: j, y: i)), sommetB: Vector3D(x: up.X, y: up.Y, z: up.Z, id: Maillage.getIdforXY(x: j, y: i - FILTRE)), sommetC: Vector3D(x: left.X, y: left.Y, z: left.Z, id: Maillage.getIdforXY(x: j - FILTRE, y: i)))
                                 triangles.append(triangle)
-                                currentPoint.addTriangleHaut(t: triangle)
-                                left.addTriangleHaut(t:triangle)
-                                up.addTriangleBas(t:triangle)
+                                currentPoint.triangles.insert(triangle, at:0)
+                                left.triangles.insert(triangle, at:2)
+                                up.triangles.insert(triangle, at:4)
                             }
                         }
 

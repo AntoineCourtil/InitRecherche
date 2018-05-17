@@ -30,16 +30,7 @@ class MaillageObject {
         }
         outputCoordinates += "\n"
         for t in faces {
-            outputTriangle += "3 "
-            for i in 0...2 {
-                outputTriangle += String(t.sommets[i].id)
-                if(i < 2) {
-                    outputTriangle += " "
-                } else {
-                    outputTriangle += "\n"
-                }
-
-            }
+            outputTriangle += "3 " + String(t.sommetA.id) + " " + String(t.sommetB.id) + " " + String(t.sommetC.id) + "\n"
         }
         return header + outputCoordinates + outputTriangle
     }
