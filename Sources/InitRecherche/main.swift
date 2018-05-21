@@ -1,5 +1,6 @@
 var fileName = ""
 var cpt = 0
+var rectif: Bool = false
 var loop: Bool = false
 var median: Bool = false
 var byNormale: Bool = false
@@ -15,6 +16,7 @@ if CommandLine.argc < 2 {
     print("Usage : \(firstArgument) loop fileName numberOfFiles (csv||off) byNormale")
     print("Usage : \(firstArgument) median fileName numberOfFiles (csv||sdp) byNormale")
     print("Usage : \(firstArgument) taux fileName medianFileName numberOfFiles byNormale")
+    print("Usage : \(firstArgument) rectif fileBaseName numberOfFiles")
 } else {
     let arguments = CommandLine.arguments
     for argument in arguments {
@@ -25,20 +27,22 @@ if CommandLine.argc < 2 {
                 median = true
             } else if (argument == "taux") {
                 taux = true
+            } else if (argument == "rectif") {
+                rectif = true
             } else {
                 simple = true
                 fileName = argument
             }
         }
         if (cpt == 2) {
-            if (loop || median || taux) {
+            if (loop || median || taux || rectif) {
                 fileName = argument
             } else {
                 type = argument
             }
         }
         if (cpt == 3) {
-            if (loop || median) {
+            if (loop || median || rectif) {
                 number = Int(argument)!
             } else if (taux) {
                 medianFileName = argument
@@ -71,6 +75,8 @@ if CommandLine.argc < 2 {
         maillageObjet.loopCalculerPourcentageDifferenceMedian(fileBaseName: fileName, medianFileName: medianFileName, nbFile: number)
     } else if (median) {
         maillageObjet.calculerMedianne(fileName: fileName, nbFile: number, type: type, byNormale: byNormale)
+    } else if (rectif) {
+        maillageObjet.sdpLoopMaillageRectificationExport(fileBaseName: fileName, nbFile: number)
     } else {
         maillageObjet.sdpMaillageExport(fileName: fileName, type: type, byNormale: byNormale)
     }

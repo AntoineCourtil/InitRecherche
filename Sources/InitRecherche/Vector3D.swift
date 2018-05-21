@@ -47,6 +47,11 @@ public struct Vector3D {
             self.z = self.z / norm
         }
     }
+
+    var description: String {
+        let string = "\(self.x);\(self.y);\(self.z)"
+        return string
+    }
 }
 
 extension Vector3D {
@@ -72,18 +77,25 @@ extension Vector3D {
     }
 
     static func ==(left:Vector3D, right:Vector3D) -> Bool {
-        return (left.x == right.x) && (left.y == right.y) && (left.z == right.z)
+        //return (left.x == right.x) && (left.y == right.y) && (left.z == right.z)
+        return left.id == right.id
     }
 
     static func <(left:Vector3D, right:Vector3D) -> Bool {
-        return (left.x < right.x) && (left.y < right.y) && (left.z < right.z)
+        var leftSum = (abs(left.x) + abs(left.y) + abs(left.z))
+        var rightSum = (abs(right.x) + abs(right.y) + abs(right.z))
+        return leftSum < rightSum
     }
 
     static func >(left:Vector3D, right:Vector3D) -> Bool {
-        return (left.x > right.x) && (left.y > right.y) && (left.z > right.z)
+        var leftSum = (abs(left.x) + abs(left.y) + abs(left.z))
+        var rightSum = (abs(right.x) + abs(right.y) + abs(right.z))
+        return leftSum > rightSum
     }
 
     static func >=(left:Vector3D, right:Vector3D) -> Bool {
-        return (left.x >= right.x) && (left.y >= right.y) && (left.z >= right.z)
+        var leftSum = (abs(left.x) + abs(left.y) + abs(left.z))
+        var rightSum = (abs(right.x) + abs(right.y) + abs(right.z))
+        return leftSum >= rightSum
     }
 }

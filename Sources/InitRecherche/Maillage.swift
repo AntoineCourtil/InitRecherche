@@ -30,7 +30,6 @@ class Maillage {
         var coordinatesByLine = [[Coordinate]]()
         //Chaque ligne dans un tableau line
         let line = stringFile.components(separatedBy: .newlines)
-
         for pixelY in 0...(Maillage.HEIGHT - 1) {
             var coordinates = [Coordinate]()
             for pixelX in 0...(Maillage.WIDTH - 1) {
@@ -171,7 +170,7 @@ class Maillage {
                 // lecture pixel par pixel par fichier
                 for inbFile in 0...nbFile - 1 {
                     let currentFilePixel = lineByFile[inbFile][currentColumn]
-//                    print("\(currentFilePixel.hauteur) \(currentFilePixel.largeur) | \(currentLine) \(currentColumn)")
+                    //print("\(currentFilePixel.hauteur) \(currentFilePixel.largeur) | \(currentLine) \(currentColumn)")
 
                     if (currentFilePixel.isValid) {
 
@@ -199,6 +198,7 @@ class Maillage {
                     mediannePointCoordinate = Coordinate(x: 0, y: 0, z: 0, hauteur: currentLine, largeur: currentColumn, isValid: false)
                 }
                 medianneLine.append(mediannePointCoordinate!)
+                print("endloop")
             }
             if (currentLine % ((Maillage.HEIGHT - 1) / 10) == 0) {
                 pourcentage += 10
@@ -295,15 +295,16 @@ class Maillage {
     * Parcours une série de captures similaires pour construire un maillage
     * rectifié par le surplus de données
     */
-    func maillageLoopRectification(fileBaseName: String, nbFile: Int) {
+    func maillageLoopRectification(fileBaseName: String, nbFile: Int) -> MaillageObject {
         // on prend comme base le fichier 1
         var stringFile = getStringFile(fileName: fileBaseName+"1")
+        //print("after stringfile")
         // on fait un maillage triangle sur celui-ci
-        var maillageObj = self.maillageObject(stringFile: stringFile, fileName: fileBaseName+"1")
+        var maillageObj = self.maillageObject(stringFile: stringFile, fileName: fileBaseName+"_median")
         // on parse les autres fichiers
         var cooFiles = [[[Coordinate]]]()
-        for i in 1...nbFile {
-            cooFiles[i] = self.parseSdp(stringFile: "\(fileBaseName)\(i+1)")
+        for i in 0...(nbFile-1) {
+            cooFiles.append(self.parseSdp(stringFile: getStringFile(fileName:"\(fileBaseName)\(i+1)")))
             print("File \(fileBaseName)\(i+1) captured...")
         }
 
@@ -311,7 +312,7 @@ class Maillage {
         let constVector = Vector3D()
         var bInf : Double = 0.0
         var bSup : Double = 0.0
-        var e : Double = 0.001
+        var e : Double = 0.0005
         var temp = Coordinate()
         var temp2 = Coordinate()
         var refN = Vector3D()
@@ -322,17 +323,21 @@ class Maillage {
         var triangles = [Triangle]()
         // début de la rectification sur le maillage
         var coordinates = maillageObj.coordinates
-        for i in 0...(Maillage.HEIGHT-1) {
-            for j in 0...(Maillage.WIDTH-1) {
+        for i in stride(from:0, to:(Maillage.HEIGHT-1), by:1) {
+            for j in stride(from:0, to:(Maillage.WIDTH-1), by:1) {
+                vSommeMoins = Vector3D()
+                vSommePlus = Vector3D()
+                vCurrentSomme = Vector3D()
+                //print("on passe sur \(i);\(j)")
                 var cCoord : Coordinate = coordinates[i][j]
                 // on n'effectue de changement que si les conditions sont bonnes (pas de bord, etc)
-                if(cCoord.nbTriangle() == 6 && cCoord.isValid) {
+                if(cCoord.getNbTriangle() == 6 && cCoord.isValid) {
                     temp = cCoord.copy()
                     temp2 = cCoord.copy()
                     // recupération bornes inf et sup
                     bInf = cCoord.Z
                     bSup = cCoord.Z
-                    for k in 1...nbFile {
+                    for k in 0...(nbFile-1) {
                         var currentC = cooFiles[k][i][j]
                         if(currentC.Z < bInf) {
                             bInf = currentC.Z
@@ -346,47 +351,63 @@ class Maillage {
                     refN = triangles[0].normale
                     // on récupère le sommet qu'on module (par construction dans le maillage
                     // on sait que c'est celui-ci le sommet au centre de l'ombrelle)
-                    s = triangles[4].sommetA
+                    s = triangles[3].sommetA
                     var diff = abs(bSup - bInf)
                     // on choisis un sens pour moduler la profondeur Z
                     temp.setZ(z:temp.Z+e, sommet: s)
                     temp2.setZ(z:temp.Z-e, sommet:s)
-                    for i in 0...6 {
+                    for i in 0...4 {
                         vSommePlus =  vSommePlus + (temp.triangles[i].normale^temp.triangles[i+1].normale)
                         vSommeMoins = vSommeMoins + (temp2.triangles[i].normale^temp2.triangles[i+1].normale)
                     }
                     // si vSommePlus est inferieur à vSommeMoins, cela veut dire que la colinéarité est améliorée en augmentant Z
-                    if(vSommePlus >= vSommeMoins) {
-                        vCurrentSomme = vSommePlus
-                        while(temp.Z <= bSup) {
+                    if(vSommePlus < vSommeMoins) {
+                        vCurrentSomme.x = vSommePlus.x
+                        vCurrentSomme.y = vSommePlus.y
+                        vCurrentSomme.z = vSommePlus.z
+                        while(temp.Z < bSup) {
                             if(vCurrentSomme > vSommePlus) {
                                 break
                             }
-                            vCurrentSomme = vSommePlus
-                            temp.setZ(z:temp.Z+e, sommet: s)
-                            for i in 0...6 {
-                                vSommePlus = vSommePlus + (temp.triangles[i].normale^temp.triangles[i+1].normale)
+                            vCurrentSomme.x  = vSommePlus.x
+                            vCurrentSomme.y  = vSommePlus.y
+                            vCurrentSomme.z  = vSommePlus.z
+                            var newZ = temp.Z + e
+                            temp.setZ(z:newZ, sommet: s)
+                            vSommePlus = Vector3D()
+                            for i in 0...4 {
+                                vSommePlus = vSommePlus + ((temp.triangles[i].normale)^(temp.triangles[i+1].normale))
                             }
                         }
-                        cCoord.setZ(z: temp.Z, sommet: s)
+                        coordinates[i][j].setZ(z: temp.Z-e, sommet: s)
                     } else {
-                        vCurrentSomme = vSommeMoins
-                        while(temp2.Z >= bInf) {
+                        vCurrentSomme.x = vSommeMoins.x
+                        vCurrentSomme.y = vSommeMoins.y
+                        vCurrentSomme.z = vSommeMoins.z
+                        while(temp2.Z > bInf) {
                             if(vCurrentSomme > vSommeMoins) {
                                 break
                             }
-                            vCurrentSomme = vSommeMoins
-                            temp2.setZ(z:temp2.Z+e, sommet: s)
-                            for i in 0...6 {
-                                vSommeMoins = vSommeMoins + (temp2.triangles[i].normale^temp.triangles[i+1].normale)
+                            vCurrentSomme.x  = vSommeMoins.x
+                            vCurrentSomme.y  = vSommeMoins.y
+                            vCurrentSomme.z  = vSommeMoins.z
+                            var newZ = temp2.Z - e
+                            temp2.setZ(z:newZ, sommet: s)
+                            vSommeMoins = Vector3D()
+                            for i in 0...4 {
+                                vSommeMoins = vSommeMoins + (temp2.triangles[i].normale^temp2.triangles[i+1].normale)
                             }
                         }
-                        cCoord.setZ(z: temp2.Z, sommet: s)
+                        //print("z avant : \(coordinates[i][j].Z)")
+                        coordinates[i][j].setZ(z: temp2.Z-e, sommet: s)
+                        //print("z apres : \(coordinates[i][j].Z)")
                     }
 
                 }
             }
         }
+        maillageObj.coordinates = coordinates
+        return maillageObj
     }
 
 
@@ -396,59 +417,59 @@ class Maillage {
         var triangles = [Triangle]()
         for i in 0...(Maillage.HEIGHT-1) {
             for j in 0...(Maillage.WIDTH-1) {
-                /**
-                *   Algorithme calculant la moyenne des coordonnées sur une grille 10x10
-                *   et attribuant cette valeur au point (i,j) parcouru
-                */
-                let GRILLE = 10
-                var sommeX: Double = 0
-                var sommeY: Double = 0
-                var sommeZ: Double = 0
-                var nbPixel: Double = 0
-                var c : Coordinate = Coordinate()
-                for k in 1...(GRILLE / 2) {
-                    if (j + k < Maillage.WIDTH) {
-                        for h in 1...(GRILLE / 2) {
-                            if (i + h < Maillage.HEIGHT) {
-                                //T0D0 : peut être inverser
-                                c = coordinates[i + h][j + k]
-                                nbPixel = nbPixel + 1
-                                sommeX = sommeX + c.X
-                                sommeY = sommeY + c.Y
-                                sommeZ = sommeZ + c.Z
-                            }
-                            if (i - h >= 0) {
-                                c = coordinates[i - h][j + k]
-                                nbPixel = nbPixel + 1
-                                sommeX = sommeX + c.X
-                                sommeY = sommeY + c.Y
-                                sommeZ = sommeZ + c.Z
-                            }
-                        }
-                    }
-                    if (j - k >= 0) {
-                        for h in 1...(GRILLE / 2) {
-                            if (i + h < Maillage.HEIGHT) {
-                                c = coordinates[i + h][j - k]
-                                nbPixel = nbPixel + 1
-                                sommeX = sommeX + c.X
-                                sommeY = sommeY + c.Y
-                                sommeZ = sommeZ + c.Z
-                            }
-                            if (i - h >= 0) {
-                                c = coordinates[i - h][j - k]
-                                nbPixel = nbPixel + 1
-                                sommeX = sommeX + c.X
-                                sommeY = sommeY + c.Y
-                                sommeZ = sommeZ + c.Z
-                            }
-                        }
-                    }
-                }
+//                /**
+//                *   Algorithme calculant la moyenne des coordonnées sur une grille 10x10
+//                *   et attribuant cette valeur au point (i,j) parcouru
+//                */
+//                let GRILLE = 10
+//                var sommeX: Double = 0
+//                var sommeY: Double = 0
+//                var sommeZ: Double = 0
+//                var nbPixel: Double = 0
+//                var c : Coordinate = Coordinate()
+//                for k in 1...(GRILLE / 2) {
+//                    if (j + k < Maillage.WIDTH) {
+//                        for h in 1...(GRILLE / 2) {
+//                            if (i + h < Maillage.HEIGHT) {
+//                                //T0D0 : peut être inverser
+//                                c = coordinates[i + h][j + k]
+//                                nbPixel = nbPixel + 1
+//                                sommeX = sommeX + c.X
+//                                sommeY = sommeY + c.Y
+//                                sommeZ = sommeZ + c.Z
+//                            }
+//                            if (i - h >= 0) {
+//                                c = coordinates[i - h][j + k]
+//                                nbPixel = nbPixel + 1
+//                                sommeX = sommeX + c.X
+//                                sommeY = sommeY + c.Y
+//                                sommeZ = sommeZ + c.Z
+//                            }
+//                        }
+//                    }
+//                    if (j - k >= 0) {
+//                        for h in 1...(GRILLE / 2) {
+//                            if (i + h < Maillage.HEIGHT) {
+//                                c = coordinates[i + h][j - k]
+//                                nbPixel = nbPixel + 1
+//                                sommeX = sommeX + c.X
+//                                sommeY = sommeY + c.Y
+//                                sommeZ = sommeZ + c.Z
+//                            }
+//                            if (i - h >= 0) {
+//                                c = coordinates[i - h][j - k]
+//                                nbPixel = nbPixel + 1
+//                                sommeX = sommeX + c.X
+//                                sommeY = sommeY + c.Y
+//                                sommeZ = sommeZ + c.Z
+//                            }
+//                        }
+//                    }
+//                }
                 var currentPoint = coordinates[i][j]
-                currentPoint.X = sommeX / nbPixel
-                currentPoint.Y = sommeY / nbPixel
-                currentPoint.Z = sommeZ / nbPixel
+//                currentPoint.X = sommeX / nbPixel
+//                currentPoint.Y = sommeY / nbPixel
+//                currentPoint.Z = sommeZ / nbPixel
 
                 /**
                 * Algorithme de tracé des faces (triangle)
@@ -473,14 +494,17 @@ class Maillage {
                             if (diffDroiteZ < Maillage.MAX_DISTANCE && diffBasZ < Maillage.MAX_DISTANCE) {
                                 triangle = Triangle(sommetA: Vector3D(x: currentPoint.X, y: currentPoint.Y, z: currentPoint.Z, id: Maillage.getIdforXY(x: j, y: i)), sommetB: Vector3D(x: down.X, y: down.Y, z: down.Z, id: Maillage.getIdforXY(x: j, y: i + FILTRE)), sommetC: Vector3D(x: right.X, y: right.Y, z: right.Z, id: Maillage.getIdforXY(x: j + FILTRE, y: i)))
                                 triangles.append(triangle)
-                                currentPoint.triangles.insert(triangle, at:3) // ajout à la pos 4
-                                right.triangles.insert(triangle, at:5)
-                                down.triangles.insert(triangle, at:1)
+                                currentPoint.triangles[3] = triangle // ajout à la pos 4
+                                currentPoint.nbTriangle += 1
+                                right.triangles[5] = triangle
+                                right.nbTriangle += 1
+                                down.triangles[1] = triangle
+                                down.nbTriangle += 1
+                                //print("apres ajout triangle")
                             }
                         }
                     }
                     //Si les voisins de gauche et d'en haut sont dans l'image
-
                     if (((j - FILTRE) >= 0) && ((i - FILTRE) >= 0)) {
                         let left = coordinates[i][j - FILTRE]
                         let up = coordinates[i - FILTRE][j]
@@ -492,17 +516,20 @@ class Maillage {
                             if (diffGaucheZ < Maillage.MAX_DISTANCE && diffHautZ < Maillage.MAX_DISTANCE) {
                                 triangle = Triangle(sommetA: Vector3D(x: currentPoint.X, y: currentPoint.Y, z: currentPoint.Z, id: Maillage.getIdforXY(x: j, y: i)), sommetB: Vector3D(x: up.X, y: up.Y, z: up.Z, id: Maillage.getIdforXY(x: j, y: i - FILTRE)), sommetC: Vector3D(x: left.X, y: left.Y, z: left.Z, id: Maillage.getIdforXY(x: j - FILTRE, y: i)))
                                 triangles.append(triangle)
-                                currentPoint.triangles.insert(triangle, at:0)
-                                left.triangles.insert(triangle, at:2)
-                                up.triangles.insert(triangle, at:4)
+                                //print("avant ajout triangle")
+                                currentPoint.triangles[0] = triangle
+                                currentPoint.nbTriangle += 1
+                                left.triangles[2] = triangle
+                                left.nbTriangle += 1
+                                up.triangles[4] = triangle
+                                up.nbTriangle += 1
+                                //print("apres ajout triangle")
                             }
                         }
-
                     }
                 }
             }
         }
-
         // construction maillage objet
         var maillageObjet = MaillageObject(coordinates:coordinates, faces:triangles)
 
@@ -983,6 +1010,28 @@ class Maillage {
             } catch {
                 print(error)
             }
+        }
+    }
+
+    /*
+    * Prend une série de n captures et renvoi un maillage
+    * basé sur une rectification des normales (on essaye d'avoir les normales les
+    * plus colinéaires possibles entre chaque ombrelle de triangle autour d'un point de coordonnées)
+    *
+    */
+    func sdpLoopMaillageRectificationExport(fileBaseName : String, nbFile: Int) {
+        let maillage = self.maillageLoopRectification(fileBaseName: fileBaseName, nbFile: nbFile).toOff(fileName:fileName)
+        /*
+        * Write result in .type file
+        */
+        let outputFileName = "../../../result/\(fileName)_rect.off"
+        print("Generating [\(outputFileName)]")
+        let url = URL(fileURLWithPath:"").appendingPathComponent(outputFileName)
+        let outputData = Data(maillage.utf8)
+        do {
+            try outputData.write(to: url, options: .atomic)
+        } catch {
+            print(error)
         }
     }
 

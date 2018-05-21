@@ -2,6 +2,7 @@
 provides-top-level:
 - "fileName"
 - "cpt"
+- "rectif"
 - "loop"
 - "median"
 - "byNormale"
@@ -36,6 +37,7 @@ depends-top-level:
 - "medianFileName"
 - "number"
 - "print"
+- "rectif"
 - "simple"
 - "taux"
 - "type"
@@ -90,6 +92,7 @@ depends-member:
 - ["13InitRecherche8MaillageC", "init"]
 - ["13InitRecherche8MaillageC", "loopCalculerPourcentageDifferenceMedian"]
 - ["13InitRecherche8MaillageC", "loopSdpMaillageToType"]
+- ["13InitRecherche8MaillageC", "sdpLoopMaillageRectificationExport"]
 - ["13InitRecherche8MaillageC", "sdpMaillageExport"]
 - ["s10MirrorPathP", "init"]
 - ["s17MutableCollectionP", "subscript"]
@@ -190,4 +193,4 @@ depends-external:
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/Swift.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/SwiftOnoneSupport.swiftmodule"
 - "/home/xnr/.swiftenv/versions/4.1.1-RELEASE/usr/lib/swift/linux/x86_64/glibc.modulemap"
-interface-hash: "ec1db195b46524fd220057e6f71a2f1e"
+interface-hash: "b124b8afe89e655d4fb87fe4d6e65aa6"

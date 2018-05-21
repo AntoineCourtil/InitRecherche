@@ -23,7 +23,10 @@ class Triangle {
     }
 
     func computeNormal() {
+        //print("ancienne normale : \(self.normale)")
         self.normale = ((sommetB-sommetA)^(sommetC-sommetA))
         self.normale.normalize()
+
+        //print("nouvelle normale : \(self.normale)")
     }
 }
