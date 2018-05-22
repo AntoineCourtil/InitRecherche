@@ -297,7 +297,7 @@ class Maillage {
     */
     func maillageLoopRectification(fileBaseName: String, nbFile: Int) -> MaillageObject {
         // on prend comme base le fichier 1
-        var stringFile = getStringFile(fileName: fileBaseName+"1")
+        var stringFile = getStringFile(fileName: fileBaseName+"_median")
         //print("after stringfile")
         // on fait un maillage triangle sur celui-ci
         var maillageObj = self.maillageObject(stringFile: stringFile, fileName: fileBaseName+"_median")
@@ -323,8 +323,8 @@ class Maillage {
         var triangles = [Triangle]()
         // début de la rectification sur le maillage
         var coordinates = maillageObj.coordinates
-        for i in stride(from:0, to:(Maillage.HEIGHT-1), by:1) {
-            for j in stride(from:0, to:(Maillage.WIDTH-1), by:1) {
+        for i in stride(from:0, to:(Maillage.HEIGHT-1), by:2) {
+            for j in stride(from:0, to:(Maillage.WIDTH-1), by:2) {
                 vSommeMoins = Vector3D()
                 vSommePlus = Vector3D()
                 vCurrentSomme = Vector3D()
